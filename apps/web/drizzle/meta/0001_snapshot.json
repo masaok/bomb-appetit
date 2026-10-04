@@ -71,10 +71,7 @@
       "compositePrimaryKeys": {
         "mission_progress_player_id_mission_id_pk": {
           "name": "mission_progress_player_id_mission_id_pk",
-          "columns": [
-            "player_id",
-            "mission_id"
-          ]
+          "columns": ["player_id", "mission_id"]
         }
       },
       "uniqueConstraints": {},
@@ -267,12 +264,8 @@
           "name": "room_players_room_id_rooms_id_fk",
           "tableFrom": "room_players",
           "tableTo": "rooms",
-          "columnsFrom": [
-            "room_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["room_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -280,10 +273,7 @@
       "compositePrimaryKeys": {
         "room_players_room_id_player_id_pk": {
           "name": "room_players_room_id_player_id_pk",
-          "columns": [
-            "room_id",
-            "player_id"
-          ]
+          "columns": ["room_id", "player_id"]
         }
       },
       "uniqueConstraints": {},
@@ -402,9 +392,7 @@
         "rooms_code_unique": {
           "name": "rooms_code_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "code"
-          ]
+          "columns": ["code"]
         }
       },
       "policies": {},
@@ -569,12 +557,8 @@
           "name": "runs_room_id_rooms_id_fk",
           "tableFrom": "runs",
           "tableTo": "rooms",
-          "columnsFrom": [
-            "room_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["room_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -584,9 +568,7 @@
         "runs_ticket_id_unique": {
           "name": "runs_ticket_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "ticket_id"
-          ]
+          "columns": ["ticket_id"]
         }
       },
       "policies": {},
@@ -679,16 +661,12 @@
         "users_github_id_unique": {
           "name": "users_github_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "github_id"
-          ]
+          "columns": ["github_id"]
         },
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},

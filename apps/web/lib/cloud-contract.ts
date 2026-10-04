@@ -24,9 +24,30 @@ export interface PlausibilityInput {
   serverSeed: boolean;
   /** Wall-clock ms between the server issuing the run ticket and receiving the log. */
   serverElapsedMs: number;
+  /** The Defuser plus the Experts in the room. 1 is a solo run. */
+  teamSize: number;
+  /**
+   * Where the run would land on its leaderboard. Null when it cannot be ranked: freeplay,
+   * a guest, a run that was not a defusal, or a server with no database.
+   */
+  board: {
+    /** The rank the run would take if it were listed. */
+    rank: number;
+    /** Players on the board, counting this one. */
+    size: number;
+    /** The player's best time left on this board before this run. Null if they had none. */
+    priorBestMs: number | null;
+    /** Runs the player had already saved on this mission, with any result. */
+    priorAttempts: number;
+  } | null;
 }
 
-export type PlausibilityVerdict = { plausible: true } | { plausible: false; reasons: string[] };
+/**
+ * `review` lists reasons an admin should look at a run that still counts. A run that is
+ * not plausible is saved with its reasons and kept off the leaderboards.
+ */
+export type PlausibilityVerdict =
+  { plausible: true; review?: string[] } | { plausible: false; reasons: string[] };
 
 export interface AdminRunRow {
   id: string;
@@ -39,6 +60,12 @@ export interface AdminRunRow {
   strikes: number;
   verified: boolean;
   flags: string[];
+  /** Reasons the plausibility checks asked for a look. Empty once an admin has cleared them. */
+  review: string[];
+  /** The names of the Experts, as saved with the run. */
+  expertNames: string[];
+  /** The mission's board epoch when the run was played. */
+  boardEpoch: number;
   engineVersion: string;
   bombSeed: number;
   ruleSeed: number;
@@ -70,6 +97,8 @@ export interface AdminUserRow {
   email: string | null;
   avatarUrl: string | null;
   role: string;
+  /** False when an admin has taken the user off every leaderboard. */
+  ranked: boolean;
   createdAt: string;
   lastLoginAt: string | null;
   /** Runs this user saved as the Defuser. */
@@ -82,6 +111,25 @@ export interface AdminRunFilter {
   search?: string;
   result?: "defused" | "exploded" | "abandoned";
   verified?: boolean;
+  /** True keeps only the runs waiting for an admin's review. */
+  review?: boolean;
+}
+
+/** One leaderboard, as the admin pages list it. */
+export interface AdminBoard {
+  missionId: string;
+  title: string;
+  /** The epoch new runs go on. Earlier epochs are archived. */
+  epoch: number;
+  /** Players on the current board. */
+  players: number;
+}
+
+/** A leaderboard row with its run, so the admin page can show and moderate it. */
+export interface AdminBoardRow extends AdminRunRow {
+  rank: number;
+  /** The ranked user's id, for taking them off the boards. */
+  playerId: string;
 }
 
 export interface AdminRoomFilter {
@@ -110,6 +158,8 @@ export interface AdminStore {
     runs: number;
     verifiedRuns: number;
     flaggedRuns: number;
+    /** Runs waiting for an admin's review. */
+    reviewRuns: number;
   }>;
   runs(options: { flaggedOnly: boolean; limit: number } & AdminRunFilter & AdminPage): Promise<AdminRunRow[]>;
   rooms(limit: number, filter?: AdminRoomFilter & AdminPage): Promise<AdminRoomRow[]>;
@@ -118,6 +168,10 @@ export interface AdminStore {
   countRuns(options: { flaggedOnly: boolean } & AdminRunFilter): Promise<number>;
   countRooms(filter?: AdminRoomFilter): Promise<number>;
   countUsers(filter?: AdminUserFilter): Promise<number>;
+  /** Every mission's current leaderboard, in mission order. */
+  boards(): Promise<AdminBoard[]>;
+  /** The top of one mission's current leaderboard, best first. */
+  board(missionId: string, limit: number): Promise<AdminBoardRow[]>;
 }
 
 export interface AdminAppProps {

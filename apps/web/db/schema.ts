@@ -34,6 +34,8 @@ export const users = pgTable(
       .default("player"),
     /** Null for users who last signed in before this column existed. */
     lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
+    /** False keeps the user off every leaderboard. They can still play and save runs. */
+    ranked: boolean("ranked").notNull().default(true),
     createdAt,
   },
   // "There is only one admin" is a database fact: a second grant fails instead of succeeding quietly.
@@ -66,6 +68,7 @@ export const missions = pgTable("missions", {
   needyCount: integer("needy_count").notNull().default(0),
   fixedBombSeed: bigint("fixed_bomb_seed", { mode: "number" }),
   ruleSeed: integer("rule_seed").notNull().default(1),
+  boardEpoch: integer("board_epoch").notNull().default(1),
 });
 
 export const rooms = pgTable(
@@ -125,6 +128,17 @@ export const runs = pgTable(
       .array()
       .notNull()
       .default(sql`'{}'::uuid[]`),
+    /** Copied from the room when the run is saved, because the room row is deleted later. */
+    expertNames: text("expert_names")
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
+    /** The Defuser plus the Experts. 1 is a solo run. */
+    teamSize: integer("team_size")
+      .notNull()
+      .generatedAlwaysAs(sql`1 + cardinality(expert_ids)`),
+    /** The mission's board epoch when the run was played. Boards only compare runs of one epoch. */
+    boardEpoch: integer("board_epoch").notNull().default(1),
     bombSeed: bigint("bomb_seed", { mode: "number" }).notNull(),
     ruleSeed: integer("rule_seed").notNull(),
     engineVersion: text("engine_version").notNull(),
@@ -139,9 +153,16 @@ export const runs = pgTable(
     verified: boolean("verified").notNull().default(false),
     /** Why the plausibility checks objected. Shown to admins only. */
     flags: jsonb("flags").$type<string[]>().notNull().default([]),
+    /** Why the plausibility checks want an admin to look. The run still counts. */
+    review: jsonb("review").$type<string[]>().notNull().default([]),
     createdAt,
   },
-  (t) => [index("runs_leaderboard_idx").on(t.missionId, t.verified, t.timeRemainingMs.desc())],
+  (t) => [
+    // Matches the filter and the ordering in lib/server/leaderboard.ts.
+    index("runs_board_idx")
+      .on(t.missionId, t.boardEpoch, t.timeRemainingMs.desc(), t.strikes, t.createdAt)
+      .where(sql`${t.verified} and ${t.result} = 'defused'`),
+  ],
 );
 
 export const missionProgress = pgTable(

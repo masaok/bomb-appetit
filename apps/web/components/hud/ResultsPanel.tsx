@@ -7,7 +7,13 @@ import { formatDuration } from "./format";
 
 export type SaveState =
   | { kind: "saving" }
-  | { kind: "saved"; runId: string | null; verified: boolean }
+  | {
+      kind: "saved";
+      runId: string | null;
+      verified: boolean;
+      /** The run's place on its leaderboard. "guest" means it would be ranked after signing in. */
+      standing: { rank: number; total: number; topPercent: number } | "guest" | null;
+    }
   | { kind: "failed"; message: string };
 
 function Stat({ label, value }: { label: string; value: string }) {
@@ -80,6 +86,13 @@ export function ResultsPanel({
             {save.verified
               ? "Run verified by server replay. "
               : "Run saved. It did not pass verification, so it will not appear on leaderboards. "}
+            {save.standing === "guest" && "Sign in before your next run to rank it on the leaderboard. "}
+            {save.standing && save.standing !== "guest" && (
+              <strong className="text-ink">
+                You are #{save.standing.rank} of {save.standing.total} on this mission, in the top{" "}
+                {save.standing.topPercent}%.{" "}
+              </strong>
+            )}
             <Link href={`/results/${save.runId}`} className="font-bold underline">
               Shareable result
             </Link>

@@ -8,6 +8,7 @@ import { getDb } from "@/db/client";
 import { missionProgress, users } from "@/db/schema";
 import { signOutToHome } from "@/lib/actions/auth";
 import { MISSIONS } from "@/lib/missions";
+import { standings } from "@/lib/server/leaderboard";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -29,11 +30,15 @@ export default async function DashboardPage() {
   // The page is the security boundary: without a stored user there is nothing to show.
   if (!db || !session?.userId) redirect("/");
 
-  const [[user], [progress]] = await Promise.all([
+  const [[user], [progress], ranks] = await Promise.all([
     db.select().from(users).where(eq(users.id, session.userId)),
     db.select({ done: count() }).from(missionProgress).where(eq(missionProgress.playerId, session.userId)),
+    standings(db, session.userId),
   ]);
   if (!user) redirect("/");
+  // The board where the player stands highest, as a share of that board.
+  const best = [...ranks].sort(([, a], [, b]) => a.topPercent - b.topPercent || a.rank - b.rank)[0];
+  const bestMission = best && MISSIONS.find((m) => m.id === best[0]);
 
   const joined = new Intl.DateTimeFormat("en", { dateStyle: "long" }).format(user.createdAt);
 
@@ -58,6 +63,26 @@ export default async function DashboardPage() {
           <div className="sticker rounded-3xl bg-card p-5">
             <dt className="text-sm font-bold text-muted">Role</dt>
             <dd className="font-display text-3xl font-semibold capitalize">{user.role}</dd>
+          </div>
+          <div className="sticker rounded-3xl bg-card p-5 sm:col-span-3">
+            <dt className="text-sm font-bold text-muted">Best leaderboard rank</dt>
+            <dd className="font-display text-3xl font-semibold">
+              {!user.ranked ? (
+                "Not ranked"
+              ) : best && bestMission ? (
+                <Link href={`/leaderboard?mission=${bestMission.id}`} className="underline">
+                  Top {best[1].topPercent}% on {bestMission.title}
+                </Link>
+              ) : (
+                "Defuse a mission to be ranked"
+              )}
+            </dd>
+            {best && user.ranked && (
+              <p className="mt-1 text-muted">
+                #{best[1].rank} of {best[1].total}. You are ranked on {ranks.size} of {MISSIONS.length}{" "}
+                missions.
+              </p>
+            )}
           </div>
         </dl>
         <ul className="grid gap-4 sm:grid-cols-3">

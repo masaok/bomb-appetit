@@ -15,6 +15,13 @@
       "when": 1791081820779,
       "tag": "0001_cuddly_texas_twister",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791084333243,
+      "tag": "0002_leaderboard",
+      "breakpoints": true
     }
   ]
 }

@@ -13,7 +13,8 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "word-salad",
@@ -29,7 +30,8 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "second-helpings",
@@ -45,7 +47,8 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "mixed-plate",
@@ -61,7 +64,8 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "rush-hour",
@@ -77,6 +81,7 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   }
 ]

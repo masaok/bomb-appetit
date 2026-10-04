@@ -13,7 +13,8 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "the-works",
@@ -41,7 +42,8 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "two-strikes",
@@ -69,7 +71,8 @@
     "needyPool": ["pressure-vent", "discharge-lever", "dial-alignment"],
     "needyCount": 1,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "double-shift",
@@ -97,7 +100,8 @@
     "needyPool": ["pressure-vent", "discharge-lever", "dial-alignment"],
     "needyCount": 3,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "bomb-appetit",
@@ -125,6 +129,7 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 2026
+    "ruleSeed": 2026,
+    "boardEpoch": 1
   }
 ]

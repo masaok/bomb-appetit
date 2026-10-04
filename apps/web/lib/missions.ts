@@ -23,6 +23,11 @@ const missionSchema = z.object({
   /** A fixed seed makes a mission the same bomb for everyone (used for the tutorial). */
   fixedBombSeed: z.int().nonnegative().nullable(),
   ruleSeed: z.int().min(1),
+  /**
+   * Which leaderboard the mission's runs go on. Bump it when a change makes old times
+   * incomparable with new ones; the old board is kept as an archive.
+   */
+  boardEpoch: z.int().min(1),
 });
 
 export type Mission = z.infer<typeof missionSchema>;

@@ -15,5 +15,10 @@ export async function POST(request: Request) {
 
   const result = await submitRun(body.ticket, body.log, await currentPlayer());
   if (!result.ok) return fail(result.status, result.error);
-  return json({ summary: result.summary, verified: result.verified, runId: result.runId });
+  return json({
+    summary: result.summary,
+    verified: result.verified,
+    runId: result.runId,
+    standing: result.standing,
+  });
 }

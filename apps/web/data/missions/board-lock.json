@@ -1,0 +1,350 @@
+{
+  "first-bite": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 300000,
+      "strikeLimit": 3,
+      "modulePool": ["wires"],
+      "moduleCount": 1,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": 101,
+      "ruleSeed": 1
+    }
+  },
+  "button-up": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 300000,
+      "strikeLimit": 3,
+      "modulePool": ["wires", "big-button"],
+      "moduleCount": 2,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": 102,
+      "ruleSeed": 1
+    }
+  },
+  "strange-symbols": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 300000,
+      "strikeLimit": 3,
+      "modulePool": ["wires", "big-button", "glyph-keypad"],
+      "moduleCount": 3,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "table-for-three": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 240000,
+      "strikeLimit": 3,
+      "modulePool": ["wires", "big-button", "glyph-keypad"],
+      "moduleCount": 3,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "quick-snack": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 240000,
+      "strikeLimit": 3,
+      "modulePool": ["wires", "big-button", "glyph-keypad"],
+      "moduleCount": 4,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "echo-chamber": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 300000,
+      "strikeLimit": 3,
+      "modulePool": ["color-echo", "wires", "big-button"],
+      "moduleCount": 3,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "word-salad": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 300000,
+      "strikeLimit": 3,
+      "modulePool": ["word-grid", "glyph-keypad", "wires"],
+      "moduleCount": 3,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "second-helpings": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 300000,
+      "strikeLimit": 3,
+      "modulePool": ["recall", "color-echo", "word-grid"],
+      "moduleCount": 3,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "mixed-plate": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 420000,
+      "strikeLimit": 3,
+      "modulePool": ["wires", "big-button", "glyph-keypad", "color-echo", "word-grid", "recall"],
+      "moduleCount": 5,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "rush-hour": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 360000,
+      "strikeLimit": 3,
+      "modulePool": ["wires", "big-button", "glyph-keypad", "color-echo", "word-grid", "recall"],
+      "moduleCount": 6,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "signal-fire": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 360000,
+      "strikeLimit": 3,
+      "modulePool": ["blinker", "wires", "big-button"],
+      "moduleCount": 3,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "spaghetti": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 360000,
+      "strikeLimit": 3,
+      "modulePool": ["tangled-wires", "wire-panels", "glyph-keypad"],
+      "moduleCount": 3,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "pressure-cooker": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 360000,
+      "strikeLimit": 3,
+      "modulePool": ["wires", "big-button", "glyph-keypad", "color-echo", "word-grid", "recall"],
+      "moduleCount": 4,
+      "needyPool": ["pressure-vent"],
+      "needyCount": 1,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "full-boil": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 420000,
+      "strikeLimit": 3,
+      "modulePool": [
+        "wires",
+        "big-button",
+        "glyph-keypad",
+        "color-echo",
+        "word-grid",
+        "recall",
+        "blinker",
+        "tangled-wires",
+        "wire-panels"
+      ],
+      "moduleCount": 6,
+      "needyPool": ["discharge-lever", "pressure-vent"],
+      "needyCount": 1,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "back-of-house": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 540000,
+      "strikeLimit": 3,
+      "modulePool": [
+        "wires",
+        "big-button",
+        "glyph-keypad",
+        "color-echo",
+        "word-grid",
+        "recall",
+        "blinker",
+        "tangled-wires",
+        "wire-panels"
+      ],
+      "moduleCount": 8,
+      "needyPool": ["pressure-vent", "discharge-lever", "dial-alignment"],
+      "needyCount": 2,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "lost-in-the-sauce": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 360000,
+      "strikeLimit": 3,
+      "modulePool": ["labyrinth", "passcode", "blinker", "tangled-wires"],
+      "moduleCount": 4,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "the-works": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 660000,
+      "strikeLimit": 3,
+      "modulePool": [
+        "wires",
+        "big-button",
+        "glyph-keypad",
+        "color-echo",
+        "word-grid",
+        "recall",
+        "blinker",
+        "tangled-wires",
+        "wire-panels",
+        "labyrinth",
+        "passcode"
+      ],
+      "moduleCount": 11,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "two-strikes": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 600000,
+      "strikeLimit": 2,
+      "modulePool": [
+        "wires",
+        "big-button",
+        "glyph-keypad",
+        "color-echo",
+        "word-grid",
+        "recall",
+        "blinker",
+        "tangled-wires",
+        "wire-panels",
+        "labyrinth",
+        "passcode"
+      ],
+      "moduleCount": 10,
+      "needyPool": ["pressure-vent", "discharge-lever", "dial-alignment"],
+      "needyCount": 1,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "double-shift": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "4x3",
+      "timeLimitMs": 900000,
+      "strikeLimit": 3,
+      "modulePool": [
+        "wires",
+        "big-button",
+        "glyph-keypad",
+        "color-echo",
+        "word-grid",
+        "recall",
+        "blinker",
+        "tangled-wires",
+        "wire-panels",
+        "labyrinth",
+        "passcode"
+      ],
+      "moduleCount": 14,
+      "needyPool": ["pressure-vent", "discharge-lever", "dial-alignment"],
+      "needyCount": 3,
+      "fixedBombSeed": null,
+      "ruleSeed": 1
+    }
+  },
+  "bomb-appetit": {
+    "epoch": 1,
+    "fields": {
+      "caseSize": "3x2",
+      "timeLimitMs": 600000,
+      "strikeLimit": 1,
+      "modulePool": [
+        "wires",
+        "big-button",
+        "glyph-keypad",
+        "color-echo",
+        "word-grid",
+        "recall",
+        "blinker",
+        "tangled-wires",
+        "wire-panels",
+        "labyrinth",
+        "passcode"
+      ],
+      "moduleCount": 11,
+      "needyPool": [],
+      "needyCount": 0,
+      "fixedBombSeed": null,
+      "ruleSeed": 2026
+    }
+  }
+}

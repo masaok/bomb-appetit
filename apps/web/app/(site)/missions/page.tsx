@@ -6,6 +6,7 @@ import { missionProgress } from "@/db/schema";
 import { formatDuration } from "@/components/hud/format";
 import { PageIntro } from "@/components/marketing/page-intro";
 import { MISSIONS, moduleNames, SECTION_TITLES } from "@/lib/missions";
+import { standings, type Standing } from "@/lib/server/leaderboard";
 import { currentPlayer } from "@/lib/server/player";
 
 export const metadata: Metadata = {
@@ -15,16 +16,20 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-async function bestTimes(): Promise<Map<string, number>> {
+/** The viewer's best time on each mission they have defused, and their rank where they are ranked. */
+async function progress(): Promise<{ best: Map<string, number>; ranks: Map<string, Standing> }> {
   const db = getDb();
   const player = db ? await currentPlayer() : null;
-  if (!db || !player) return new Map();
-  const rows = await db.select().from(missionProgress).where(eq(missionProgress.playerId, player.id));
-  return new Map(rows.map((r) => [r.missionId, r.bestTimeMs]));
+  if (!db || !player) return { best: new Map(), ranks: new Map() };
+  const [rows, ranks] = await Promise.all([
+    db.select().from(missionProgress).where(eq(missionProgress.playerId, player.id)),
+    player.kind === "user" ? standings(db, player.id) : new Map<string, Standing>(),
+  ]);
+  return { best: new Map(rows.map((r) => [r.missionId, r.bestTimeMs])), ranks };
 }
 
 export default async function MissionsPage() {
-  const best = await bestTimes();
+  const { best, ranks } = await progress();
   const sections = [1, 2, 3, 4].map((section) => ({
     section,
     missions: MISSIONS.filter((m) => m.section === section),
@@ -44,6 +49,7 @@ export default async function MissionsPage() {
             <ol className="mt-4 grid gap-4 sm:grid-cols-2">
               {missions.map((mission) => {
                 const done = best.get(mission.id);
+                const rank = ranks.get(mission.id);
                 return (
                   <li key={mission.id} className="sticker flex flex-col rounded-3xl bg-card p-5">
                     <div className="flex items-start justify-between gap-3">
@@ -51,6 +57,7 @@ export default async function MissionsPage() {
                       {done !== undefined && (
                         <span className="sticker shrink-0 rounded-full bg-mint px-3 py-0.5 text-sm font-extrabold text-night">
                           Defused · {formatDuration(done)} left
+                          {rank && ` · Top ${rank.topPercent}%`}
                         </span>
                       )}
                     </div>

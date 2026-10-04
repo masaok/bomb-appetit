@@ -16,6 +16,7 @@
     "db:generate": "pnpm --filter web db:generate",
     "db:migrate": "pnpm --filter web db:migrate",
     "db:seed": "pnpm --filter web db:seed",
+    "boards:lock": "pnpm --filter web boards:lock",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"

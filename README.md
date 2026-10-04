@@ -60,6 +60,19 @@ log. The server replays the log with the same engine on the bomb it issued, and 
 what the replay says. A run is `verified` only if the replay matches and the
 plausibility checks pass. Leaderboards read verified runs only.
 
+**A rank has one definition.** `apps/web/lib/server/leaderboard.ts` holds the only
+ranking query. A board is one mission at one board epoch. It lists each signed-in player
+once, by their best verified defusal: most time left, then fewest strikes, then the
+earlier run. The public board, the percentile shown to a player and the admin view all
+read it. Its tests run the real SQL against an in-process Postgres built from the
+migration files.
+
+**Times on one board are comparable.** Each mission has a `boardEpoch`. A change to a
+mission's time limit, strike limit, module pool or seeds must raise it, which starts a
+new board and archives the old one. `data/missions/board-lock.json` records what each
+epoch was opened with, and a test fails when a mission changes without a new epoch.
+After raising an epoch, run `pnpm boards:lock`.
+
 **Rules are data.** Each module generates its manual rules from the rule seed and
 accepts a rule set only after `checkModuleSolvable` plays 1,000 random bombs against
 it. Rule seed 1 is the standard manual. It is frozen as JSON in
