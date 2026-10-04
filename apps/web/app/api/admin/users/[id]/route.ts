@@ -1,10 +1,8 @@
-import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { getDb } from "@/db/client";
-import { users } from "@/db/schema";
 import { currentAdmin } from "@/lib/server/admin";
-import { expireAllBoards } from "@/lib/server/board-cache";
 import { fail, json, readBody } from "@/lib/server/http";
+import { setRanked } from "@/lib/server/moderation";
 
 /**
  * Moderation: take a user off every leaderboard, or put them back. Their runs and their
@@ -20,12 +18,6 @@ export async function PATCH(request: Request, ctx: RouteContext<"/api/admin/user
   const body = await readBody(request, z.object({ ranked: z.boolean() }), 1_000);
   if (body instanceof Response) return body;
 
-  const [row] = await db
-    .update(users)
-    .set({ ranked: body.ranked })
-    .where(eq(users.id, id.data))
-    .returning({ id: users.id, ranked: users.ranked });
-  if (!row) return fail(404, "No such user.");
-  expireAllBoards();
-  return json(row);
+  const [row] = await setRanked(db, [id.data], body.ranked);
+  return row ? json(row) : fail(404, "No such user.");
 }
