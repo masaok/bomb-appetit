@@ -22,7 +22,7 @@ jobs:
       NEXT_PUBLIC_PUSHER_KEY: ${{ secrets.PUSHER_KEY }}
       NEXT_PUBLIC_PUSHER_CLUSTER: ${{ secrets.PUSHER_CLUSTER }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - run: pnpm --filter web exec playwright install --with-deps chromium
       - run: pnpm e2e
