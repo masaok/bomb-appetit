@@ -15,7 +15,7 @@
     "rules:freeze": "tsx scripts/freeze-rules.ts"
   },
   "devDependencies": {
-    "@types/node": "^22",
+    "@types/node": "^26",
     "eslint": "^9",
     "fast-check": "^4",
     "tsx": "^4",
