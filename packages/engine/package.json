@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@types/node": "^22",
-    "eslint": "^9",
+    "eslint": "^10",
     "fast-check": "^4",
     "tsx": "^4",
     "typescript": "^5",
