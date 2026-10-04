@@ -75,8 +75,11 @@ export default async function DashboardPage() {
             Sign out
           </button>
           {user.role === "admin" && (
-            <Link href="/admin" className="font-bold underline">
-              Admin
+            <Link
+              href="/admin"
+              className="sticker sticker-press rounded-full bg-sun px-5 py-1.5 font-bold text-night"
+            >
+              Admin dashboard
             </Link>
           )}
         </form>
