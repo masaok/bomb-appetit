@@ -33,6 +33,8 @@ const nextConfig: NextConfig = {
     root: path.join(process.cwd(), "..", ".."),
   },
   poweredByHeader: false,
+  // The dev tools bubble sits over the bomb's corner. Compile and runtime errors still show.
+  devIndicators: false,
   async headers() {
     return [
       {
