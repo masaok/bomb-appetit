@@ -1,0 +1,143 @@
+[
+  {
+    "id": "lost-in-the-sauce",
+    "title": "Lost in the sauce",
+    "blurb": "A maze only the Experts can see, and a passcode to spin.",
+    "section": 4,
+    "order": 1,
+    "caseSize": "3x2",
+    "timeLimitMs": 360000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "labyrinth",
+      "passcode",
+      "blinker",
+      "tangled-wires"
+    ],
+    "moduleCount": 4,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "the-works",
+    "title": "The works",
+    "blurb": "One of everything.",
+    "section": 4,
+    "order": 2,
+    "caseSize": "3x2",
+    "timeLimitMs": 660000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "wires",
+      "big-button",
+      "glyph-keypad",
+      "color-echo",
+      "word-grid",
+      "recall",
+      "blinker",
+      "tangled-wires",
+      "wire-panels",
+      "labyrinth",
+      "passcode"
+    ],
+    "moduleCount": 11,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "two-strikes",
+    "title": "No substitutions",
+    "blurb": "Eleven modules and only two strikes.",
+    "section": 4,
+    "order": 3,
+    "caseSize": "3x2",
+    "timeLimitMs": 600000,
+    "strikeLimit": 2,
+    "modulePool": [
+      "wires",
+      "big-button",
+      "glyph-keypad",
+      "color-echo",
+      "word-grid",
+      "recall",
+      "blinker",
+      "tangled-wires",
+      "wire-panels",
+      "labyrinth",
+      "passcode"
+    ],
+    "moduleCount": 10,
+    "needyPool": [
+      "pressure-vent",
+      "discharge-lever",
+      "dial-alignment"
+    ],
+    "needyCount": 1,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "double-shift",
+    "title": "Double shift",
+    "blurb": "A bigger case. Fourteen modules and three needy ones.",
+    "section": 4,
+    "order": 4,
+    "caseSize": "4x3",
+    "timeLimitMs": 900000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "wires",
+      "big-button",
+      "glyph-keypad",
+      "color-echo",
+      "word-grid",
+      "recall",
+      "blinker",
+      "tangled-wires",
+      "wire-panels",
+      "labyrinth",
+      "passcode"
+    ],
+    "moduleCount": 14,
+    "needyPool": [
+      "pressure-vent",
+      "discharge-lever",
+      "dial-alignment"
+    ],
+    "needyCount": 3,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "bomb-appetit",
+    "title": "Bomb Appetit",
+    "blurb": "Eleven modules, one strike, a manual nobody has seen before.",
+    "section": 4,
+    "order": 5,
+    "caseSize": "3x2",
+    "timeLimitMs": 600000,
+    "strikeLimit": 1,
+    "modulePool": [
+      "wires",
+      "big-button",
+      "glyph-keypad",
+      "color-echo",
+      "word-grid",
+      "recall",
+      "blinker",
+      "tangled-wires",
+      "wire-panels",
+      "labyrinth",
+      "passcode"
+    ],
+    "moduleCount": 11,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 2026
+  }
+]

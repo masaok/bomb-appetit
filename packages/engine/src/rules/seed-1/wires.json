@@ -1,0 +1,219 @@
+{
+  "clauses": [
+    {
+      "count": 3,
+      "rules": [
+        {
+          "when": [
+            {
+              "kind": "count",
+              "color": "white",
+              "cmp": "exactly",
+              "n": 2
+            }
+          ],
+          "cut": {
+            "kind": "lastOf",
+            "color": "white"
+          }
+        },
+        {
+          "when": [
+            {
+              "kind": "lastIs",
+              "color": "white"
+            }
+          ],
+          "cut": {
+            "kind": "position",
+            "index": 2
+          }
+        },
+        {
+          "when": [
+            {
+              "kind": "count",
+              "color": "white",
+              "cmp": "moreThan",
+              "n": 0
+            }
+          ],
+          "cut": {
+            "kind": "position",
+            "index": 1
+          }
+        },
+        {
+          "when": [
+            {
+              "kind": "count",
+              "color": "white",
+              "cmp": "moreThan",
+              "n": 0
+            }
+          ],
+          "cut": {
+            "kind": "firstOf",
+            "color": "white"
+          }
+        }
+      ],
+      "otherwise": {
+        "kind": "position",
+        "index": 0
+      }
+    },
+    {
+      "count": 4,
+      "rules": [
+        {
+          "when": [
+            {
+              "kind": "count",
+              "color": "blue",
+              "cmp": "exactly",
+              "n": 2
+            }
+          ],
+          "cut": {
+            "kind": "lastOf",
+            "color": "blue"
+          }
+        },
+        {
+          "when": [
+            {
+              "kind": "count",
+              "color": "black",
+              "cmp": "exactly",
+              "n": 1
+            }
+          ],
+          "cut": {
+            "kind": "last"
+          }
+        },
+        {
+          "when": [
+            {
+              "kind": "count",
+              "color": "white",
+              "cmp": "moreThan",
+              "n": 1
+            },
+            {
+              "kind": "count",
+              "color": "yellow",
+              "cmp": "exactly",
+              "n": 2
+            }
+          ],
+          "cut": {
+            "kind": "position",
+            "index": 3
+          }
+        }
+      ],
+      "otherwise": {
+        "kind": "last"
+      }
+    },
+    {
+      "count": 5,
+      "rules": [
+        {
+          "when": [
+            {
+              "kind": "serial",
+              "parity": "even"
+            }
+          ],
+          "cut": {
+            "kind": "position",
+            "index": 3
+          }
+        },
+        {
+          "when": [
+            {
+              "kind": "serial",
+              "parity": "odd"
+            }
+          ],
+          "cut": {
+            "kind": "position",
+            "index": 2
+          }
+        },
+        {
+          "when": [
+            {
+              "kind": "count",
+              "color": "black",
+              "cmp": "moreThan",
+              "n": 2
+            }
+          ],
+          "cut": {
+            "kind": "firstOf",
+            "color": "black"
+          }
+        }
+      ],
+      "otherwise": {
+        "kind": "position",
+        "index": 2
+      }
+    },
+    {
+      "count": 6,
+      "rules": [
+        {
+          "when": [
+            {
+              "kind": "count",
+              "color": "white",
+              "cmp": "moreThan",
+              "n": 0
+            },
+            {
+              "kind": "serial",
+              "parity": "even"
+            }
+          ],
+          "cut": {
+            "kind": "position",
+            "index": 5
+          }
+        },
+        {
+          "when": [
+            {
+              "kind": "lastIs",
+              "color": "blue"
+            }
+          ],
+          "cut": {
+            "kind": "position",
+            "index": 1
+          }
+        },
+        {
+          "when": [
+            {
+              "kind": "lastIs",
+              "color": "yellow"
+            }
+          ],
+          "cut": {
+            "kind": "firstOf",
+            "color": "yellow"
+          }
+        }
+      ],
+      "otherwise": {
+        "kind": "last"
+      }
+    }
+  ]
+}

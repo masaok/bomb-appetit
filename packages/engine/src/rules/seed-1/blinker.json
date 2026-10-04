@@ -1,0 +1,286 @@
+{
+  "code": [
+    {
+      "letter": "A",
+      "pulses": [
+        "short",
+        "short",
+        "short",
+        "long"
+      ]
+    },
+    {
+      "letter": "B",
+      "pulses": [
+        "short",
+        "short",
+        "long",
+        "long"
+      ]
+    },
+    {
+      "letter": "C",
+      "pulses": [
+        "short",
+        "short",
+        "short"
+      ]
+    },
+    {
+      "letter": "D",
+      "pulses": [
+        "short",
+        "short",
+        "long"
+      ]
+    },
+    {
+      "letter": "E",
+      "pulses": [
+        "long",
+        "long",
+        "long",
+        "short"
+      ]
+    },
+    {
+      "letter": "F",
+      "pulses": [
+        "long",
+        "short",
+        "long",
+        "short"
+      ]
+    },
+    {
+      "letter": "G",
+      "pulses": [
+        "long",
+        "long",
+        "short",
+        "short"
+      ]
+    },
+    {
+      "letter": "H",
+      "pulses": [
+        "short",
+        "long",
+        "short",
+        "long"
+      ]
+    },
+    {
+      "letter": "I",
+      "pulses": [
+        "long",
+        "short",
+        "short"
+      ]
+    },
+    {
+      "letter": "J",
+      "pulses": [
+        "short",
+        "short",
+        "short",
+        "short"
+      ]
+    },
+    {
+      "letter": "K",
+      "pulses": [
+        "short",
+        "long"
+      ]
+    },
+    {
+      "letter": "L",
+      "pulses": [
+        "long",
+        "short",
+        "short",
+        "short"
+      ]
+    },
+    {
+      "letter": "M",
+      "pulses": [
+        "short",
+        "long",
+        "long",
+        "short"
+      ]
+    },
+    {
+      "letter": "N",
+      "pulses": [
+        "long",
+        "short",
+        "short",
+        "long"
+      ]
+    },
+    {
+      "letter": "O",
+      "pulses": [
+        "long",
+        "long",
+        "short",
+        "long"
+      ]
+    },
+    {
+      "letter": "P",
+      "pulses": [
+        "long",
+        "long",
+        "long",
+        "long"
+      ]
+    },
+    {
+      "letter": "Q",
+      "pulses": [
+        "long"
+      ]
+    },
+    {
+      "letter": "R",
+      "pulses": [
+        "short",
+        "long",
+        "short"
+      ]
+    },
+    {
+      "letter": "S",
+      "pulses": [
+        "short",
+        "long",
+        "long"
+      ]
+    },
+    {
+      "letter": "T",
+      "pulses": [
+        "long",
+        "short"
+      ]
+    },
+    {
+      "letter": "U",
+      "pulses": [
+        "long",
+        "short",
+        "long",
+        "long"
+      ]
+    },
+    {
+      "letter": "V",
+      "pulses": [
+        "long",
+        "long",
+        "short"
+      ]
+    },
+    {
+      "letter": "W",
+      "pulses": [
+        "short"
+      ]
+    },
+    {
+      "letter": "X",
+      "pulses": [
+        "long",
+        "long",
+        "long"
+      ]
+    },
+    {
+      "letter": "Y",
+      "pulses": [
+        "short",
+        "short",
+        "long",
+        "short"
+      ]
+    },
+    {
+      "letter": "Z",
+      "pulses": [
+        "long",
+        "short",
+        "long"
+      ]
+    }
+  ],
+  "words": [
+    {
+      "word": "BAGEL",
+      "frequency": 11
+    },
+    {
+      "word": "BASIL",
+      "frequency": 8
+    },
+    {
+      "word": "BRINE",
+      "frequency": 14
+    },
+    {
+      "word": "BROTH",
+      "frequency": 1
+    },
+    {
+      "word": "CREPE",
+      "frequency": 15
+    },
+    {
+      "word": "CRUST",
+      "frequency": 13
+    },
+    {
+      "word": "GARLIC",
+      "frequency": 2
+    },
+    {
+      "word": "GRAVY",
+      "frequency": 4
+    },
+    {
+      "word": "SALSA",
+      "frequency": 5
+    },
+    {
+      "word": "SAUTE",
+      "frequency": 6
+    },
+    {
+      "word": "SPICE",
+      "frequency": 3
+    },
+    {
+      "word": "STEW",
+      "frequency": 7
+    },
+    {
+      "word": "TANGY",
+      "frequency": 9
+    },
+    {
+      "word": "TOAST",
+      "frequency": 10
+    },
+    {
+      "word": "WAFFLE",
+      "frequency": 0
+    },
+    {
+      "word": "WHISK",
+      "frequency": 12
+    }
+  ]
+}

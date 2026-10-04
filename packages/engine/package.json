@@ -1,0 +1,26 @@
+{
+  "name": "@bombappetit/engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./modules/*": "./src/modules/*/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:rules": "FULL_RULES=1 vitest run test/rules.test.ts",
+    "rules:freeze": "tsx scripts/freeze-rules.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "eslint": "^9",
+    "fast-check": "^4",
+    "tsx": "^4",
+    "typescript": "^5",
+    "typescript-eslint": "^8",
+    "vitest": "^4"
+  }
+}

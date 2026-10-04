@@ -1,0 +1,28 @@
+{
+  "prompts": [
+    {
+      "text": "Simmer the sparks?",
+      "yes": false
+    },
+    {
+      "text": "Preheat the detonator?",
+      "yes": false
+    },
+    {
+      "text": "Salt the fuse?",
+      "yes": true
+    },
+    {
+      "text": "Vent the gravy?",
+      "yes": false
+    },
+    {
+      "text": "Is the souffle ticking?",
+      "yes": true
+    },
+    {
+      "text": "Whisk the wick?",
+      "yes": false
+    }
+  ]
+}

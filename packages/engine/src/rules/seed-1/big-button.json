@@ -1,0 +1,72 @@
+{
+  "rules": [
+    {
+      "when": [
+        {
+          "kind": "batteries",
+          "cmp": "moreThan",
+          "n": 1
+        }
+      ],
+      "then": "hold"
+    },
+    {
+      "when": [
+        {
+          "kind": "litIndicator",
+          "label": "JAM"
+        },
+        {
+          "kind": "batteries",
+          "cmp": "fewerThan",
+          "n": 2
+        }
+      ],
+      "then": "tap"
+    },
+    {
+      "when": [
+        {
+          "kind": "color",
+          "color": "red"
+        },
+        {
+          "kind": "litIndicator",
+          "label": "MSG"
+        }
+      ],
+      "then": "tap"
+    },
+    {
+      "when": [
+        {
+          "kind": "litIndicator",
+          "label": "HOT"
+        },
+        {
+          "kind": "batteries",
+          "cmp": "moreThan",
+          "n": 2
+        }
+      ],
+      "then": "tap"
+    },
+    {
+      "when": [
+        {
+          "kind": "litIndicator",
+          "label": "ICE"
+        }
+      ],
+      "then": "hold"
+    }
+  ],
+  "otherwise": "tap",
+  "stripDigits": {
+    "red": 5,
+    "blue": 0,
+    "yellow": 2,
+    "white": 9,
+    "green": 3
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "vowel": [
+    {
+      "red": "green",
+      "blue": "yellow",
+      "green": "blue",
+      "yellow": "red"
+    },
+    {
+      "red": "yellow",
+      "blue": "red",
+      "green": "blue",
+      "yellow": "green"
+    },
+    {
+      "red": "red",
+      "blue": "blue",
+      "green": "yellow",
+      "yellow": "green"
+    }
+  ],
+  "noVowel": [
+    {
+      "red": "blue",
+      "blue": "red",
+      "green": "green",
+      "yellow": "yellow"
+    },
+    {
+      "red": "green",
+      "blue": "red",
+      "green": "blue",
+      "yellow": "yellow"
+    },
+    {
+      "red": "red",
+      "blue": "yellow",
+      "green": "blue",
+      "yellow": "green"
+    }
+  ]
+}

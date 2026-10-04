@@ -1,0 +1,99 @@
+[
+  {
+    "id": "first-bite",
+    "title": "First bite",
+    "blurb": "One module, plenty of time. Learn to describe what you see.",
+    "section": 1,
+    "order": 1,
+    "caseSize": "3x2",
+    "timeLimitMs": 300000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "wires"
+    ],
+    "moduleCount": 1,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": 101,
+    "ruleSeed": 1
+  },
+  {
+    "id": "button-up",
+    "title": "Button up",
+    "blurb": "A button joins the wires. Tap or hold? Ask the Experts.",
+    "section": 1,
+    "order": 2,
+    "caseSize": "3x2",
+    "timeLimitMs": 300000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "wires",
+      "big-button"
+    ],
+    "moduleCount": 2,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": 102,
+    "ruleSeed": 1
+  },
+  {
+    "id": "strange-symbols",
+    "title": "Strange symbols",
+    "blurb": "Three modules and your first glyphs. Agree on names for them.",
+    "section": 1,
+    "order": 3,
+    "caseSize": "3x2",
+    "timeLimitMs": 300000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "wires",
+      "big-button",
+      "glyph-keypad"
+    ],
+    "moduleCount": 3,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "table-for-three",
+    "title": "Table for three",
+    "blurb": "Three random starters from the first three modules.",
+    "section": 1,
+    "order": 4,
+    "caseSize": "3x2",
+    "timeLimitMs": 240000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "wires",
+      "big-button",
+      "glyph-keypad"
+    ],
+    "moduleCount": 3,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "quick-snack",
+    "title": "Quick snack",
+    "blurb": "Four modules, four minutes. Keep it moving.",
+    "section": 1,
+    "order": 5,
+    "caseSize": "3x2",
+    "timeLimitMs": 240000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "wires",
+      "big-button",
+      "glyph-keypad"
+    ],
+    "moduleCount": 4,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  }
+]

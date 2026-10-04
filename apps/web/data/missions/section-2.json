@@ -1,0 +1,108 @@
+[
+  {
+    "id": "echo-chamber",
+    "title": "Echo chamber",
+    "blurb": "The pads flash, you answer. The mapping changes when you strike.",
+    "section": 2,
+    "order": 1,
+    "caseSize": "3x2",
+    "timeLimitMs": 300000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "color-echo",
+      "wires",
+      "big-button"
+    ],
+    "moduleCount": 3,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "word-salad",
+    "title": "Word salad",
+    "blurb": "Words that sound alike. Spell them out.",
+    "section": 2,
+    "order": 2,
+    "caseSize": "3x2",
+    "timeLimitMs": 300000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "word-grid",
+      "glyph-keypad",
+      "wires"
+    ],
+    "moduleCount": 3,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "second-helpings",
+    "title": "Second helpings",
+    "blurb": "Remember what you pressed. Five stages, no notes on the bomb.",
+    "section": 2,
+    "order": 3,
+    "caseSize": "3x2",
+    "timeLimitMs": 300000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "recall",
+      "color-echo",
+      "word-grid"
+    ],
+    "moduleCount": 3,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "mixed-plate",
+    "title": "Mixed plate",
+    "blurb": "Five modules from the first six.",
+    "section": 2,
+    "order": 4,
+    "caseSize": "3x2",
+    "timeLimitMs": 420000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "wires",
+      "big-button",
+      "glyph-keypad",
+      "color-echo",
+      "word-grid",
+      "recall"
+    ],
+    "moduleCount": 5,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "rush-hour",
+    "title": "Rush hour",
+    "blurb": "Six modules, six minutes. Split the manual between Experts.",
+    "section": 2,
+    "order": 5,
+    "caseSize": "3x2",
+    "timeLimitMs": 360000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "wires",
+      "big-button",
+      "glyph-keypad",
+      "color-echo",
+      "word-grid",
+      "recall"
+    ],
+    "moduleCount": 6,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  }
+]

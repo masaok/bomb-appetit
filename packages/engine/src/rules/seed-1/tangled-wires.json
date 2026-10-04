@@ -1,0 +1,21 @@
+{
+  "port": "hex",
+  "table": [
+    "serial",
+    "port",
+    "cut",
+    "battery",
+    "port",
+    "cut",
+    "port",
+    "serial",
+    "skip",
+    "cut",
+    "cut",
+    "serial",
+    "battery",
+    "battery",
+    "skip",
+    "skip"
+  ]
+}

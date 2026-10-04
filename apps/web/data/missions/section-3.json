@@ -1,0 +1,126 @@
+[
+  {
+    "id": "signal-fire",
+    "title": "Signal fire",
+    "blurb": "A blinking light is spelling a word. Count the pulses.",
+    "section": 3,
+    "order": 1,
+    "caseSize": "3x2",
+    "timeLimitMs": 360000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "blinker",
+      "wires",
+      "big-button"
+    ],
+    "moduleCount": 3,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "spaghetti",
+    "title": "Spaghetti",
+    "blurb": "Tangled wires and wire panels. Keep count out loud.",
+    "section": 3,
+    "order": 2,
+    "caseSize": "3x2",
+    "timeLimitMs": 360000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "tangled-wires",
+      "wire-panels",
+      "glyph-keypad"
+    ],
+    "moduleCount": 3,
+    "needyPool": [],
+    "needyCount": 0,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "pressure-cooker",
+    "title": "Pressure cooker",
+    "blurb": "Your first needy module. It will not wait for you.",
+    "section": 3,
+    "order": 3,
+    "caseSize": "3x2",
+    "timeLimitMs": 360000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "wires",
+      "big-button",
+      "glyph-keypad",
+      "color-echo",
+      "word-grid",
+      "recall"
+    ],
+    "moduleCount": 4,
+    "needyPool": [
+      "pressure-vent"
+    ],
+    "needyCount": 1,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "full-boil",
+    "title": "Full boil",
+    "blurb": "Six modules and a lever that needs holding.",
+    "section": 3,
+    "order": 4,
+    "caseSize": "3x2",
+    "timeLimitMs": 420000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "wires",
+      "big-button",
+      "glyph-keypad",
+      "color-echo",
+      "word-grid",
+      "recall",
+      "blinker",
+      "tangled-wires",
+      "wire-panels"
+    ],
+    "moduleCount": 6,
+    "needyPool": [
+      "discharge-lever",
+      "pressure-vent"
+    ],
+    "needyCount": 1,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  },
+  {
+    "id": "back-of-house",
+    "title": "Back of house",
+    "blurb": "Eight modules and two needy ones. Check the back of the bomb.",
+    "section": 3,
+    "order": 5,
+    "caseSize": "3x2",
+    "timeLimitMs": 540000,
+    "strikeLimit": 3,
+    "modulePool": [
+      "wires",
+      "big-button",
+      "glyph-keypad",
+      "color-echo",
+      "word-grid",
+      "recall",
+      "blinker",
+      "tangled-wires",
+      "wire-panels"
+    ],
+    "moduleCount": 8,
+    "needyPool": [
+      "pressure-vent",
+      "discharge-lever",
+      "dial-alignment"
+    ],
+    "needyCount": 2,
+    "fixedBombSeed": null,
+    "ruleSeed": 1
+  }
+]

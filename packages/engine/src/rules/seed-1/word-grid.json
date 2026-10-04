@@ -1,0 +1,462 @@
+{
+  "read": [
+    {
+      "display": "FLOUR",
+      "position": 3
+    },
+    {
+      "display": "FLOWER",
+      "position": 4
+    },
+    {
+      "display": "THYME",
+      "position": 2
+    },
+    {
+      "display": "TIME",
+      "position": 1
+    },
+    {
+      "display": "MEAT",
+      "position": 4
+    },
+    {
+      "display": "MEET",
+      "position": 2
+    },
+    {
+      "display": "STEAK",
+      "position": 4
+    },
+    {
+      "display": "STAKE",
+      "position": 1
+    },
+    {
+      "display": "PEAR",
+      "position": 4
+    },
+    {
+      "display": "PAIR",
+      "position": 0
+    },
+    {
+      "display": "PARE",
+      "position": 0
+    },
+    {
+      "display": "BREAD",
+      "position": 0
+    },
+    {
+      "display": "BRED",
+      "position": 5
+    },
+    {
+      "display": "DOUGH",
+      "position": 4
+    },
+    {
+      "display": "DOH",
+      "position": 1
+    },
+    {
+      "display": "ROLL",
+      "position": 5
+    },
+    {
+      "display": "ROLE",
+      "position": 0
+    },
+    {
+      "display": "LEEK",
+      "position": 2
+    },
+    {
+      "display": "LEAK",
+      "position": 0
+    },
+    {
+      "display": "MOUSSE",
+      "position": 0
+    },
+    {
+      "display": "MOOSE",
+      "position": 5
+    },
+    {
+      "display": "CHILI",
+      "position": 4
+    },
+    {
+      "display": "CHILLY",
+      "position": 0
+    },
+    {
+      "display": "WHISK",
+      "position": 5
+    }
+  ],
+  "priority": [
+    {
+      "word": "WAIT",
+      "order": [
+        "NOW",
+        "HANG ON",
+        "WHAT",
+        "GOT IT",
+        "WITCH",
+        "AGAIN",
+        "KNOT",
+        "RIGHT",
+        "WAIT",
+        "STOP"
+      ]
+    },
+    {
+      "word": "WEIGHT",
+      "order": [
+        "RIGHT",
+        "WATT",
+        "NOT",
+        "WITCH",
+        "OWE",
+        "KNOW",
+        "AGAIN",
+        "WEIGHT",
+        "WHICH",
+        "KNOT"
+      ]
+    },
+    {
+      "word": "WHAT",
+      "order": [
+        "RITE",
+        "WHICH",
+        "GO ON",
+        "WRITE",
+        "WHAT",
+        "OH",
+        "SAY AGAIN",
+        "RIGHT",
+        "KNOT",
+        "UH OH"
+      ]
+    },
+    {
+      "word": "WATT",
+      "order": [
+        "WATT",
+        "OWE",
+        "GO ON",
+        "WEIGHT",
+        "WHAT",
+        "KNOW",
+        "AGAIN",
+        "NOT",
+        "NOW",
+        "RITE"
+      ]
+    },
+    {
+      "word": "RIGHT",
+      "order": [
+        "AGAIN",
+        "WRITE",
+        "WATT",
+        "UH OH",
+        "HMM",
+        "RIGHT",
+        "GOT IT",
+        "WEIGHT",
+        "WHAT",
+        "OH"
+      ]
+    },
+    {
+      "word": "WRITE",
+      "order": [
+        "UH OH",
+        "WHAT",
+        "NOW",
+        "KNOT",
+        "KNOW",
+        "WRITE",
+        "OH",
+        "HANG ON",
+        "RIGHT",
+        "GOT IT"
+      ]
+    },
+    {
+      "word": "RITE",
+      "order": [
+        "GOT IT",
+        "WEIGHT",
+        "AGAIN",
+        "STOP",
+        "KNOT",
+        "HUH",
+        "SAY AGAIN",
+        "RITE",
+        "NOW",
+        "UH OH"
+      ]
+    },
+    {
+      "word": "NOT",
+      "order": [
+        "KNOW",
+        "RIGHT",
+        "WEIGHT",
+        "WHAT",
+        "AGAIN",
+        "WITCH",
+        "UH OH",
+        "OH",
+        "WRITE",
+        "NOT"
+      ]
+    },
+    {
+      "word": "KNOT",
+      "order": [
+        "OWE",
+        "WATT",
+        "NOW",
+        "GO ON",
+        "KNOT",
+        "RITE",
+        "OH",
+        "HMM",
+        "WHAT",
+        "AGAIN"
+      ]
+    },
+    {
+      "word": "NOW",
+      "order": [
+        "AGAIN",
+        "NOW",
+        "RIGHT",
+        "HANG ON",
+        "OWE",
+        "KNOT",
+        "HUH",
+        "OH",
+        "NOT",
+        "KNOW"
+      ]
+    },
+    {
+      "word": "KNOW",
+      "order": [
+        "WATT",
+        "RIGHT",
+        "WEIGHT",
+        "KNOW",
+        "OWE",
+        "HANG ON",
+        "RITE",
+        "WRITE",
+        "GO ON",
+        "KNOT"
+      ]
+    },
+    {
+      "word": "WHICH",
+      "order": [
+        "SAY AGAIN",
+        "WHICH",
+        "WRITE",
+        "WHAT",
+        "UH OH",
+        "WITCH",
+        "HANG ON",
+        "NOT",
+        "GO ON",
+        "KNOW"
+      ]
+    },
+    {
+      "word": "WITCH",
+      "order": [
+        "KNOT",
+        "NOT",
+        "WRITE",
+        "WATT",
+        "GO ON",
+        "AGAIN",
+        "UH OH",
+        "WITCH",
+        "KNOW",
+        "GOT IT"
+      ]
+    },
+    {
+      "word": "HANG ON",
+      "order": [
+        "WRITE",
+        "WAIT",
+        "HANG ON",
+        "KNOW",
+        "RIGHT",
+        "WHAT",
+        "RITE",
+        "WHICH",
+        "NOW",
+        "WATT"
+      ]
+    },
+    {
+      "word": "HMM",
+      "order": [
+        "RITE",
+        "RIGHT",
+        "STOP",
+        "GO ON",
+        "OH",
+        "WRITE",
+        "HMM",
+        "KNOW",
+        "OWE",
+        "NOT"
+      ]
+    },
+    {
+      "word": "HUH",
+      "order": [
+        "HMM",
+        "WHICH",
+        "KNOT",
+        "HUH",
+        "WHAT",
+        "HANG ON",
+        "RITE",
+        "WAIT",
+        "NOW",
+        "GO ON"
+      ]
+    },
+    {
+      "word": "UH OH",
+      "order": [
+        "GO ON",
+        "UH OH",
+        "KNOW",
+        "SAY AGAIN",
+        "WATT",
+        "WEIGHT",
+        "NOT",
+        "WAIT",
+        "WHAT",
+        "RITE"
+      ]
+    },
+    {
+      "word": "OH",
+      "order": [
+        "HMM",
+        "WATT",
+        "WAIT",
+        "HUH",
+        "WEIGHT",
+        "KNOW",
+        "OH",
+        "WRITE",
+        "HANG ON",
+        "AGAIN"
+      ]
+    },
+    {
+      "word": "OWE",
+      "order": [
+        "WRITE",
+        "WATT",
+        "RIGHT",
+        "NOW",
+        "WHAT",
+        "STOP",
+        "WITCH",
+        "WHICH",
+        "OWE",
+        "HUH"
+      ]
+    },
+    {
+      "word": "GO ON",
+      "order": [
+        "WEIGHT",
+        "WITCH",
+        "GOT IT",
+        "WHAT",
+        "UH OH",
+        "WRITE",
+        "RIGHT",
+        "SAY AGAIN",
+        "AGAIN",
+        "GO ON"
+      ]
+    },
+    {
+      "word": "GOT IT",
+      "order": [
+        "AGAIN",
+        "OH",
+        "WHICH",
+        "GOT IT",
+        "HUH",
+        "KNOT",
+        "HMM",
+        "GO ON",
+        "WEIGHT",
+        "NOT"
+      ]
+    },
+    {
+      "word": "AGAIN",
+      "order": [
+        "NOW",
+        "GO ON",
+        "HUH",
+        "AGAIN",
+        "WHICH",
+        "NOT",
+        "OWE",
+        "RIGHT",
+        "KNOT",
+        "RITE"
+      ]
+    },
+    {
+      "word": "SAY AGAIN",
+      "order": [
+        "HMM",
+        "HANG ON",
+        "STOP",
+        "WITCH",
+        "KNOT",
+        "UH OH",
+        "HUH",
+        "SAY AGAIN",
+        "GO ON",
+        "OWE"
+      ]
+    },
+    {
+      "word": "STOP",
+      "order": [
+        "AGAIN",
+        "RIGHT",
+        "STOP",
+        "SAY AGAIN",
+        "WATT",
+        "WEIGHT",
+        "UH OH",
+        "NOT",
+        "OWE",
+        "WHICH"
+      ]
+    }
+  ]
+}

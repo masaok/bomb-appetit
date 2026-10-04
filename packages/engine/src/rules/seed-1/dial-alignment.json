@@ -1,0 +1,140 @@
+{
+  "patterns": [
+    {
+      "leds": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        false,
+        false,
+        true,
+        false,
+        false,
+        true
+      ],
+      "direction": "up"
+    },
+    {
+      "leds": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        false
+      ],
+      "direction": "down"
+    },
+    {
+      "leds": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "direction": "right"
+    },
+    {
+      "leds": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "direction": "right"
+    },
+    {
+      "leds": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "direction": "up"
+    },
+    {
+      "leds": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "direction": "down"
+    },
+    {
+      "leds": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        false
+      ],
+      "direction": "left"
+    },
+    {
+      "leds": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "direction": "left"
+    }
+  ]
+}
