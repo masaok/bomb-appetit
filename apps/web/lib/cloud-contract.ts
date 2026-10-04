@@ -39,6 +39,14 @@ export interface AdminRunRow {
   strikes: number;
   verified: boolean;
   flags: string[];
+  engineVersion: string;
+  bombSeed: number;
+  ruleSeed: number;
+  /** Number of actions in the saved log. */
+  actionCount: number;
+  expertCount: number;
+  /** The room the run was played in. Null for solo runs and for rooms since deleted. */
+  roomCode: string | null;
 }
 
 export interface AdminRoomRow {
@@ -47,10 +55,15 @@ export interface AdminRoomRow {
   players: number;
   createdAt: string;
   expiresAt: string;
+  missionId: string | null;
+  startedAt: string | null;
+  /** Everyone in the room, in the order they joined. */
+  roster: { name: string; role: string }[];
 }
 
 export interface AdminUserRow {
   id: string;
+  githubId: string;
   name: string;
   /** GitHub username. Null until the user signs in again after it started being stored. */
   login: string | null;
