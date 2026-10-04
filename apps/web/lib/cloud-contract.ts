@@ -96,6 +96,11 @@ export interface AdminUserFilter {
   role?: "player" | "admin";
 }
 
+export interface AdminPage {
+  /** Rows to skip before the first one returned. */
+  offset?: number;
+}
+
 /** Read access the public app hands to the admin pages. Mutations go through `/api/admin/*`. */
 export interface AdminStore {
   stats(): Promise<{
@@ -106,9 +111,13 @@ export interface AdminStore {
     verifiedRuns: number;
     flaggedRuns: number;
   }>;
-  runs(options: { flaggedOnly: boolean; limit: number } & AdminRunFilter): Promise<AdminRunRow[]>;
-  rooms(limit: number, filter?: AdminRoomFilter): Promise<AdminRoomRow[]>;
-  users(limit: number, filter?: AdminUserFilter): Promise<AdminUserRow[]>;
+  runs(options: { flaggedOnly: boolean; limit: number } & AdminRunFilter & AdminPage): Promise<AdminRunRow[]>;
+  rooms(limit: number, filter?: AdminRoomFilter & AdminPage): Promise<AdminRoomRow[]>;
+  users(limit: number, filter?: AdminUserFilter & AdminPage): Promise<AdminUserRow[]>;
+  /** How many rows match, ignoring `limit` and `offset`. The admin tables page with these. */
+  countRuns(options: { flaggedOnly: boolean } & AdminRunFilter): Promise<number>;
+  countRooms(filter?: AdminRoomFilter): Promise<number>;
+  countUsers(filter?: AdminUserFilter): Promise<number>;
 }
 
 export interface AdminAppProps {
