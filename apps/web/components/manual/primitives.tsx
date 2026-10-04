@@ -42,13 +42,16 @@ export function ManualTable({ head, rows }: { head: ReactNode[]; rows: ReactNode
   );
 }
 
-/** A color named in words with a swatch beside it, so it still reads in black and white. */
+/**
+ * A color named in words with a swatch beside it, so it still reads in black and white.
+ * `color-swatch` keeps the swatch's color in print and in a saved PDF.
+ */
 export function ColorWord({ name, hex }: { name: string; hex: string }) {
   return (
     <span className="inline-flex items-center gap-1 font-bold whitespace-nowrap">
       <span
         aria-hidden
-        className="inline-block size-3 rounded-full border border-current"
+        className="color-swatch inline-block size-3 rounded-full border border-current"
         style={{ background: hex }}
       />
       {name.toLowerCase()}
