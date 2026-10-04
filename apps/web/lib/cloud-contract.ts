@@ -149,6 +149,15 @@ export interface AdminPage {
   offset?: number;
 }
 
+/** Column to order a table by. Without one, the newest rows come first. */
+export interface AdminSort<Key extends string> {
+  sort?: { by: Key; dir: "asc" | "desc" };
+}
+
+export type AdminRunSortKey = "created" | "defuser" | "mission" | "result" | "timeLeft" | "strikes";
+export type AdminRoomSortKey = "created" | "code" | "status" | "players" | "expires";
+export type AdminUserSortKey = "joined" | "name" | "role" | "runs" | "lastLogin";
+
 /** Read access the public app hands to the admin pages. Mutations go through `/api/admin/*`. */
 export interface AdminStore {
   stats(): Promise<{
@@ -161,9 +170,19 @@ export interface AdminStore {
     /** Runs waiting for an admin's review. */
     reviewRuns: number;
   }>;
-  runs(options: { flaggedOnly: boolean; limit: number } & AdminRunFilter & AdminPage): Promise<AdminRunRow[]>;
-  rooms(limit: number, filter?: AdminRoomFilter & AdminPage): Promise<AdminRoomRow[]>;
-  users(limit: number, filter?: AdminUserFilter & AdminPage): Promise<AdminUserRow[]>;
+  runs(
+    options: { flaggedOnly: boolean; limit: number } & AdminRunFilter &
+      AdminPage &
+      AdminSort<AdminRunSortKey>,
+  ): Promise<AdminRunRow[]>;
+  rooms(
+    limit: number,
+    filter?: AdminRoomFilter & AdminPage & AdminSort<AdminRoomSortKey>,
+  ): Promise<AdminRoomRow[]>;
+  users(
+    limit: number,
+    filter?: AdminUserFilter & AdminPage & AdminSort<AdminUserSortKey>,
+  ): Promise<AdminUserRow[]>;
   /** How many rows match, ignoring `limit` and `offset`. The admin tables page with these. */
   countRuns(options: { flaggedOnly: boolean } & AdminRunFilter): Promise<number>;
   countRooms(filter?: AdminRoomFilter): Promise<number>;
