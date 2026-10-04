@@ -14,6 +14,18 @@ export function authSecret(): string {
   return devSecret;
 }
 
+/**
+ * Lets a developer open the admin pages without signing in. It needs all three: a
+ * development server (`next dev`), not running on Vercel, and `DEV_ADMIN_BYPASS=1`.
+ * A production build ignores the variable, so setting it on a deployment does nothing.
+ * Read at call time, so the test can show each condition switching it off.
+ */
+export function devAdminBypass(): boolean {
+  return (
+    process.env.NODE_ENV === "development" && !process.env.VERCEL && process.env.DEV_ADMIN_BYPASS === "1"
+  );
+}
+
 export const env = {
   isProduction,
   databaseUrl: process.env.DATABASE_URL || null,

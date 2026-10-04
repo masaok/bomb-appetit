@@ -27,6 +27,11 @@ pnpm db:migrate
 pnpm db:seed
 ```
 
+To open `/admin` without signing in, add `DEV_ADMIN_BYPASS=1` to `apps/web/.env.local`.
+It works only under `pnpm dev`: a production build and anything on Vercel ignore it, and
+`lib/server/admin.test.ts` shows each condition switching it off. The bypass acts on
+whatever database `DATABASE_URL` points at, so its buttons change real rows.
+
 `.env.example` lists every variable and what turns on when you set it.
 
 ## Checks
