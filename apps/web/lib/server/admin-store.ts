@@ -1,8 +1,16 @@
 import "server-only";
-import { count, desc, eq, sql } from "drizzle-orm";
+import { and, count, desc, eq, ilike, or, sql, type SQL } from "drizzle-orm";
 import type { Db } from "@/db/client";
 import { guests, roomPlayers, rooms, runs, users } from "@/db/schema";
 import type { AdminStore } from "@/lib/cloud-contract";
+
+/** A case-insensitive "contains" test. The term is escaped, so `%` and `_` match themselves. */
+function contains(term: string | undefined, ...columns: Parameters<typeof ilike>[0][]): SQL | undefined {
+  const text = term?.trim();
+  if (!text) return undefined;
+  const pattern = `%${text.replace(/[\\%_]/g, "\\$&")}%`;
+  return or(...columns.map((column) => ilike(column, pattern)));
+}
 
 /** The read side handed to the private admin pages. Writes go through /api/admin/*. */
 export function adminStore(db: Db): AdminStore {
@@ -26,11 +34,18 @@ export function adminStore(db: Db): AdminStore {
       };
     },
 
-    async runs({ flaggedOnly, limit }) {
+    async runs({ flaggedOnly, limit, search, result, verified }) {
       const rows = await db
         .select()
         .from(runs)
-        .where(flaggedOnly ? sql`jsonb_array_length(${runs.flags}) > 0` : undefined)
+        .where(
+          and(
+            flaggedOnly ? sql`jsonb_array_length(${runs.flags}) > 0` : undefined,
+            contains(search, runs.defuserName, runs.missionId),
+            result ? eq(runs.result, result) : undefined,
+            verified === undefined ? undefined : eq(runs.verified, verified),
+          ),
+        )
         .orderBy(desc(runs.createdAt))
         .limit(limit);
       return rows.map((r) => ({
@@ -47,7 +62,7 @@ export function adminStore(db: Db): AdminStore {
       }));
     },
 
-    async rooms(limit) {
+    async rooms(limit, filter = {}) {
       const rows = await db
         .select({
           code: rooms.code,
@@ -58,6 +73,12 @@ export function adminStore(db: Db): AdminStore {
         })
         .from(rooms)
         .leftJoin(roomPlayers, eq(roomPlayers.roomId, rooms.id))
+        .where(
+          and(
+            contains(filter.search, rooms.code),
+            filter.status ? eq(rooms.status, filter.status) : undefined,
+          ),
+        )
         .groupBy(rooms.id)
         .orderBy(desc(rooms.createdAt))
         .limit(limit);
@@ -68,11 +89,17 @@ export function adminStore(db: Db): AdminStore {
       }));
     },
 
-    async users(limit) {
+    async users(limit, filter = {}) {
       const rows = await db
         .select({ user: users, runs: count(runs.id) })
         .from(users)
         .leftJoin(runs, eq(runs.defuserId, users.id))
+        .where(
+          and(
+            contains(filter.search, users.name, users.login, users.email),
+            filter.role ? eq(users.role, filter.role) : undefined,
+          ),
+        )
         .groupBy(users.id)
         .orderBy(desc(users.createdAt))
         .limit(limit);

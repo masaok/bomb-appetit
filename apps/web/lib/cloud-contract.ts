@@ -63,6 +63,26 @@ export interface AdminUserRow {
   runs: number;
 }
 
+/** Narrowing for the admin tables. `search` is matched as text, never as a pattern. */
+export interface AdminRunFilter {
+  /** Matches the Defuser's name or the mission id. */
+  search?: string;
+  result?: "defused" | "exploded" | "abandoned";
+  verified?: boolean;
+}
+
+export interface AdminRoomFilter {
+  /** Matches the room code. */
+  search?: string;
+  status?: "lobby" | "armed" | "ended";
+}
+
+export interface AdminUserFilter {
+  /** Matches the name, GitHub username or email. */
+  search?: string;
+  role?: "player" | "admin";
+}
+
 /** Read access the public app hands to the admin pages. Mutations go through `/api/admin/*`. */
 export interface AdminStore {
   stats(): Promise<{
@@ -73,14 +93,16 @@ export interface AdminStore {
     verifiedRuns: number;
     flaggedRuns: number;
   }>;
-  runs(options: { flaggedOnly: boolean; limit: number }): Promise<AdminRunRow[]>;
-  rooms(limit: number): Promise<AdminRoomRow[]>;
-  users(limit: number): Promise<AdminUserRow[]>;
+  runs(options: { flaggedOnly: boolean; limit: number } & AdminRunFilter): Promise<AdminRunRow[]>;
+  rooms(limit: number, filter?: AdminRoomFilter): Promise<AdminRoomRow[]>;
+  users(limit: number, filter?: AdminUserFilter): Promise<AdminUserRow[]>;
 }
 
 export interface AdminAppProps {
   /** Path segments after `/admin`. */
   path: string[];
+  /** The page's query string, one value per key. The admin tables keep their search and filters here. */
+  query?: Record<string, string>;
   store: AdminStore;
   adminName: string;
 }

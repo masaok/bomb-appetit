@@ -12,10 +12,16 @@ export const dynamic = "force-dynamic";
  * Mount point for the admin pages, which ship in the private cloud package.
  * A visitor who is not an admin gets the same 404 as any unknown page.
  */
-export default async function AdminPage({ params }: PageProps<"/admin/[[...path]]">) {
+export default async function AdminPage({ params, searchParams }: PageProps<"/admin/[[...path]]">) {
   const admin = await currentAdmin();
   const db = getDb();
   if (!admin || !db) notFound();
   const { path } = await params;
-  return <cloud.AdminApp path={path ?? []} store={adminStore(db)} adminName={admin.name} />;
+  // One short value per key: the admin tables read their search box and filters from here.
+  const query: Record<string, string> = {};
+  for (const [key, value] of Object.entries(await searchParams)) {
+    const first = Array.isArray(value) ? value[0] : value;
+    if (first) query[key] = first.slice(0, 100);
+  }
+  return <cloud.AdminApp path={path ?? []} query={query} store={adminStore(db)} adminName={admin.name} />;
 }
