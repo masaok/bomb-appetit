@@ -1,8 +1,17 @@
 import "server-only";
-import { and, count, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
+import type { PgColumn } from "drizzle-orm/pg-core";
 import type { Db } from "@/db/client";
 import { guests, roomPlayers, rooms, runs, users } from "@/db/schema";
-import type { AdminRoomFilter, AdminRunFilter, AdminStore, AdminUserFilter } from "@/lib/cloud-contract";
+import type {
+  AdminRoomFilter,
+  AdminRoomSortKey,
+  AdminRunFilter,
+  AdminRunSortKey,
+  AdminStore,
+  AdminUserFilter,
+  AdminUserSortKey,
+} from "@/lib/cloud-contract";
 import { missionById, MISSIONS } from "@/lib/missions";
 import { boardPage, boardSizes } from "./leaderboard";
 
@@ -37,6 +46,44 @@ const usersWhere = (filter: AdminUserFilter) =>
     contains(filter.search, users.name, users.login, users.email),
     filter.role ? eq(users.role, filter.role) : undefined,
   );
+
+// The sort keys the admin tables may ask for. A key maps to a column here and nowhere else,
+// so nothing from the address bar reaches ORDER BY.
+const RUN_ORDER: Record<AdminRunSortKey, PgColumn | SQL> = {
+  created: runs.createdAt,
+  defuser: sql`lower(${runs.defuserName})`,
+  mission: runs.missionId,
+  result: runs.result,
+  timeLeft: runs.timeRemainingMs,
+  strikes: runs.strikes,
+};
+const ROOM_ORDER: Record<AdminRoomSortKey, PgColumn | SQL> = {
+  created: rooms.createdAt,
+  code: rooms.code,
+  status: rooms.status,
+  players: count(roomPlayers.playerId),
+  expires: rooms.expiresAt,
+};
+const USER_ORDER: Record<AdminUserSortKey, PgColumn | SQL> = {
+  joined: users.createdAt,
+  name: sql`lower(${users.name})`,
+  role: users.role,
+  runs: count(runs.id),
+  lastLogin: users.lastLoginAt,
+};
+
+/** ORDER BY for a sort, with nulls at the end either way and the id as the tie-break. */
+function order<Key extends string>(
+  columns: Record<Key, PgColumn | SQL>,
+  sort: { by: Key; dir: "asc" | "desc" } | undefined,
+  newest: Key,
+  id: PgColumn,
+): SQL[] {
+  const { by, dir } = sort ?? { by: newest, dir: "desc" as const };
+  const column = columns[by] ?? columns[newest];
+  // The id breaks ties, so a row cannot appear on two pages.
+  return [sql`${dir === "asc" ? asc(column) : desc(column)} nulls last`, asc(id)];
+}
 
 /** The read side handed to the private admin pages. Writes go through /api/admin/*. */
 export function adminStore(db: Db): AdminStore {
@@ -98,11 +145,10 @@ export function adminStore(db: Db): AdminStore {
       };
     },
 
-    async runs({ limit, offset = 0, ...filter }) {
+    async runs({ limit, offset = 0, sort, ...filter }) {
       const rows = await runRows()
         .where(runsWhere(filter))
-        // The id breaks ties, so a row cannot appear on two pages.
-        .orderBy(desc(runs.createdAt), runs.id)
+        .orderBy(...order(RUN_ORDER, sort, "created", runs.id))
         .limit(limit)
         .offset(offset);
       return rows.map(toRunRow);
@@ -127,7 +173,7 @@ export function adminStore(db: Db): AdminStore {
         .leftJoin(roomPlayers, eq(roomPlayers.roomId, rooms.id))
         .where(roomsWhere(filter))
         .groupBy(rooms.id)
-        .orderBy(desc(rooms.createdAt), rooms.id)
+        .orderBy(...order(ROOM_ORDER, filter.sort, "created", rooms.id))
         .limit(limit)
         .offset(filter.offset ?? 0);
       return rows.map((r) => ({
@@ -145,7 +191,7 @@ export function adminStore(db: Db): AdminStore {
         .leftJoin(runs, eq(runs.defuserId, users.id))
         .where(usersWhere(filter))
         .groupBy(users.id)
-        .orderBy(desc(users.createdAt), users.id)
+        .orderBy(...order(USER_ORDER, filter.sort, "joined", users.id))
         .limit(limit)
         .offset(filter.offset ?? 0);
       return rows.map(({ user: u, runs: saved }) => ({
