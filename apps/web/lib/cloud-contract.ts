@@ -52,9 +52,15 @@ export interface AdminRoomRow {
 export interface AdminUserRow {
   id: string;
   name: string;
+  /** GitHub username. Null until the user signs in again after it started being stored. */
+  login: string | null;
   email: string | null;
+  avatarUrl: string | null;
   role: string;
   createdAt: string;
+  lastLoginAt: string | null;
+  /** Runs this user saved as the Defuser. */
+  runs: number;
 }
 
 /** Read access the public app hands to the admin pages. Mutations go through `/api/admin/*`. */
