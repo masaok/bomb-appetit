@@ -10,7 +10,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Engineering practices
 
-This repo and `bomb-appetit-cloud` follow [Engineering practices that survive the stack](https://www.expeditionlabs.co/resources/engineering-practices): 31 techniques across gates, boundaries, single sources of truth, honest checks, state, adoption and trust. Read it before adding or changing a check, hook, CI job, migration or config file, and start with the P0 items. Never bypass a hook or weaken a check to get green.
+This repo and `bomb-appetit-cloud` follow [Engineering practices that survive the stack](https://www.expeditionlabs.co/resources/engineering-practices): 33 techniques across gates, boundaries, single sources of truth, honest checks, state, adoption and trust. Read it before adding or changing a check, hook, CI job, migration or config file, and start with the P0 items. Never bypass a hook or weaken a check to get green.
 
 ## This repository
 

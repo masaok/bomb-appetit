@@ -17,7 +17,8 @@ pnpm build
 ```
 
 A pre-commit hook formats the files you staged with Prettier. It does nothing else, so
-it stays fast. Lint, types, tests and the build run in CI. Do not skip the hook and do
+it stays fast. A pre-push hook runs `pnpm run build`, so a push that would not build
+never leaves your machine. Lint, types, tests and the build also run in CI. Do not skip the hook and do
 not weaken a check to make it pass.
 
 ## Rules for code
