@@ -26,10 +26,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth(() => ({
       if (account?.provider === "github" && profile && db) {
         const githubId = String(profile.id);
         const name = String(profile.name ?? profile.login ?? "Player").slice(0, 40);
+        const seen = {
+          name,
+          login: typeof profile.login === "string" ? profile.login : null,
+          email: typeof profile.email === "string" ? profile.email.toLowerCase() : null,
+          avatarUrl: typeof profile.avatar_url === "string" ? profile.avatar_url : null,
+          lastLoginAt: new Date(),
+        };
         const [user] = await db
           .insert(users)
-          .values({ githubId, name })
-          .onConflictDoUpdate({ target: users.githubId, set: { name } })
+          .values({ githubId, ...seen })
+          .onConflictDoUpdate({ target: users.githubId, set: seen })
           .returning({ id: users.id });
         token.uid = user?.id;
       }

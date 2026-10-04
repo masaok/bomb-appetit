@@ -69,13 +69,23 @@ export function adminStore(db: Db): AdminStore {
     },
 
     async users(limit) {
-      const rows = await db.select().from(users).orderBy(desc(users.createdAt)).limit(limit);
-      return rows.map((u) => ({
+      const rows = await db
+        .select({ user: users, runs: count(runs.id) })
+        .from(users)
+        .leftJoin(runs, eq(runs.defuserId, users.id))
+        .groupBy(users.id)
+        .orderBy(desc(users.createdAt))
+        .limit(limit);
+      return rows.map(({ user: u, runs: saved }) => ({
         id: u.id,
         name: u.name,
+        login: u.login,
         email: u.email,
+        avatarUrl: u.avatarUrl,
         role: u.role,
         createdAt: u.createdAt.toISOString(),
+        lastLoginAt: u.lastLoginAt?.toISOString() ?? null,
+        runs: saved,
       }));
     },
   };

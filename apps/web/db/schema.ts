@@ -19,16 +19,30 @@ import type { GameStatus } from "@/lib/realtime/adapter";
 
 const createdAt = timestamp("created_at", { withTimezone: true }).notNull().defaultNow();
 
-export const users = pgTable("users", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  githubId: text("github_id").notNull().unique(),
-  name: text("name").notNull(),
-  email: text("email").unique(),
-  role: text("role", { enum: ["player", "admin"] })
-    .notNull()
-    .default("player"),
-  createdAt,
-});
+export const users = pgTable(
+  "users",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    githubId: text("github_id").notNull().unique(),
+    /** The GitHub username. It can be renamed, so `githubId` stays the identity. */
+    login: text("login"),
+    name: text("name").notNull(),
+    email: text("email").unique(),
+    avatarUrl: text("avatar_url"),
+    role: text("role", { enum: ["player", "admin"] })
+      .notNull()
+      .default("player"),
+    /** Null for users who last signed in before this column existed. */
+    lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
+    createdAt,
+  },
+  // "There is only one admin" is a database fact: a second grant fails instead of succeeding quietly.
+  (t) => [
+    uniqueIndex("users_one_admin_idx")
+      .on(t.role)
+      .where(sql`${t.role} = 'admin'`),
+  ],
+);
 
 /** Cookie-backed players who never signed in. */
 export const guests = pgTable("guests", {
