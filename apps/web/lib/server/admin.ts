@@ -1,8 +1,13 @@
 import "server-only";
 import { auth, isAdmin, signInAvailable } from "@/auth";
+import { devAdminBypass } from "./env";
+
+/** Who the admin pages see under the development bypass. It is no row in `users`. */
+const DEV_ADMIN = { id: "00000000-0000-4000-8000-000000000000", name: "Dev admin (bypass)" };
 
 /** The signed-in admin, or null. Every admin page and admin API route calls this itself. */
 export async function currentAdmin(): Promise<{ id: string; name: string } | null> {
+  if (devAdminBypass()) return DEV_ADMIN;
   if (!signInAvailable()) return null;
   const session = await auth();
   if (!session?.userId || !(await isAdmin(session.userId))) return null;
