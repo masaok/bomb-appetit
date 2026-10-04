@@ -48,6 +48,18 @@ test("printing hides the tools and starts each module on its own page", async ({
   expect(breakBefore).toBe("page");
 });
 
+test("printing keeps the color of the swatches", async ({ page }) => {
+  await page.goto("/manual/1");
+  await page.emulateMedia({ media: "print" });
+  const swatch = page.locator("#wires .color-swatch").first();
+  const style = await swatch.evaluate((el) => {
+    const computed = getComputedStyle(el);
+    return { adjust: computed.getPropertyValue("print-color-adjust"), background: computed.backgroundColor };
+  });
+  expect(style.adjust).toBe("exact");
+  expect(style.background).not.toBe("rgba(0, 0, 0, 0)");
+});
+
 test("an out-of-range rule seed is a 404", async ({ page }) => {
   const response = await page.goto("/manual/0");
   expect(response?.status()).toBe(404);

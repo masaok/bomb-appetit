@@ -245,7 +245,8 @@ body {
   }
 }
 
-/* The manual prints one module per page, in black on white. */
+/* The manual prints one module per page, in black on white. Color swatches keep
+   their color: browsers drop backgrounds in print unless told otherwise. */
 @media print {
   :root {
     --page: #ffffff;
@@ -258,6 +259,11 @@ body {
 
   .no-print {
     display: none !important;
+  }
+
+  .color-swatch {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .manual-page {
