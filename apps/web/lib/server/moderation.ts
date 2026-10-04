@@ -2,7 +2,8 @@ import "server-only";
 import { inArray } from "drizzle-orm";
 import { z } from "zod";
 import type { Db } from "@/db/client";
-import { runs, users } from "@/db/schema";
+import { rooms, runs, users } from "@/db/schema";
+import { roomCodeSchema } from "@/lib/rooms";
 import { expireAllBoards, expireBoard } from "./board-cache";
 import { refreshProgress } from "./progress";
 
@@ -15,6 +16,8 @@ import { refreshProgress } from "./progress";
 /** The most rows one request may change. An admin table shows at most 100 at a time. */
 export const MAX_BULK = 200;
 export const idsSchema = z.array(z.uuid()).min(1).max(MAX_BULK);
+/** Rooms are known to the admin pages by their code, so a selection of rooms is a list of codes. */
+export const roomCodesSchema = z.array(roomCodeSchema).min(1).max(MAX_BULK);
 
 const runChange = {
   /** Puts the runs on, or takes them off, the leaderboards. */
@@ -83,4 +86,14 @@ export async function setRanked(db: Db, ids: string[], ranked: boolean) {
     .returning({ id: users.id, ranked: users.ranked });
   if (rows.length > 0) expireAllBoards();
   return rows;
+}
+
+/**
+ * Deletes the rooms that exist among `codes` and returns their codes. Their players go
+ * with them. Runs keep their history: `runs.room_id` is set to null when its room goes,
+ * as it is when the nightly cleanup removes an expired room.
+ */
+export async function deleteRooms(db: Db, codes: string[]): Promise<string[]> {
+  const rows = await db.delete(rooms).where(inArray(rooms.code, codes)).returning({ code: rooms.code });
+  return rows.map((row) => row.code);
 }
