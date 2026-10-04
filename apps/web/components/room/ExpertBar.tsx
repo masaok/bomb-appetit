@@ -1,7 +1,9 @@
 "use client";
 
 import { timerText } from "@bombappetit/engine";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AudioControls } from "@/components/hud/AudioControls";
+import { initAudio, playSfx } from "@/lib/audio/player";
 import type { GameStatus } from "@/lib/realtime/adapter";
 
 /**
@@ -17,7 +19,30 @@ export function ExpertBar({ live }: { live: { status: GameStatus; at: number } |
     return () => clearInterval(timer);
   }, []);
 
-  if (!live) {
+  const status = live?.status ?? null;
+  const speed = status ? (4 + status.strikes) / 4 : 1;
+  const remaining =
+    live && status ? Math.max(0, status.remainingMs - Math.max(0, now - live.at) * speed) : null;
+  const second = remaining === null ? null : Math.ceil(remaining / 1000);
+
+  // Experts hear the same cues as the Defuser: the countdown, strikes, solves and a
+  // needy module waking. Everything is derived from the status line they already get.
+  const heard = useRef<{ status: GameStatus | null; second: number | null }>({ status: null, second: null });
+  useEffect(() => {
+    void initAudio();
+  }, []);
+  useEffect(() => {
+    const before = heard.current;
+    heard.current = { status, second };
+    if (!status || !before.status) return;
+    if (status.strikes > before.status.strikes) playSfx("strike");
+    else if (status.solved > before.status.solved) playSfx("solved");
+    else if (status.needyActive && !before.status.needyActive) playSfx("needy");
+    else if (second !== null && second !== before.second && second > 0)
+      playSfx(second < 60 ? "tickFast" : "tick");
+  }, [status, second]);
+
+  if (!live || !status || remaining === null) {
     return (
       <div
         className="sticky top-0 z-20 bg-night px-4 py-3 text-center font-bold text-[#fff6e9]"
@@ -27,10 +52,6 @@ export function ExpertBar({ live }: { live: { status: GameStatus; at: number } |
       </div>
     );
   }
-
-  const { status, at } = live;
-  const speed = (4 + status.strikes) / 4;
-  const remaining = Math.max(0, status.remainingMs - Math.max(0, now - at) * speed);
 
   return (
     <div
@@ -52,6 +73,7 @@ export function ExpertBar({ live }: { live: { status: GameStatus; at: number } |
           Needy module awake
         </span>
       )}
+      <AudioControls />
     </div>
   );
 }

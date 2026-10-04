@@ -21,6 +21,16 @@ test("a Defuser and two Experts on separate devices play a room game to a verifi
   for (const name of ["Ex Pert", "Second Opinion"]) {
     const context = await browser.newContext();
     const page = await context.newPage();
+    // Count real playback calls, so the test can tell that Experts hear the bomb too.
+    await page.addInitScript(() => {
+      const played: number[] = [];
+      (window as unknown as { __played: number[] }).__played = played;
+      const start = AudioBufferSourceNode.prototype.start;
+      AudioBufferSourceNode.prototype.start = function (when?: number, offset?: number, duration?: number) {
+        played.push(Math.round((offset ?? 0) * 1000));
+        return start.call(this, when, offset, duration);
+      };
+    });
     await page.goto(`/r/${code}`);
     await page.getByLabel("Your name").fill(name);
     await page.getByRole("button", { name: "Join" }).click();
@@ -50,6 +60,14 @@ test("a Defuser and two Experts on separate devices play a room game to a verifi
   }
 
   await defuser.waitForTimeout(3_500);
+  for (const { page } of experts) {
+    const played = await page.evaluate(() => (window as unknown as { __played: number[] }).__played);
+    // The countdown tick is the first sprite in the sound file, at offset 0.
+    expect(
+      played.filter((offset) => offset === 0).length,
+      "Experts hear the countdown",
+    ).toBeGreaterThanOrEqual(2);
+  }
   await solveWires(defuser, 1);
 
   for (const page of [defuser, ...experts.map((e) => e.page)]) {

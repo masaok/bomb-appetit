@@ -73,24 +73,27 @@ function chimeNote(t, start, freq, tau) {
 }
 
 const SOUNDS = {
+  // The countdown beep has to carry over laptop speakers and a voice call, so it is a
+  // short tone at full level, not a soft click.
+  // Durations keep every later sprite on a whole sample at 22050 Hz.
   tick: {
-    ms: 40,
-    peak: 0.45,
+    ms: 80,
+    peak: 0.85,
     make(ms) {
       const noise = noiseSource("tick");
       const lp = lowpass();
-      return render(ms, (t) => decay(t, 0.006) * sine(950 * t) + 0.3 * decay(t, 0.002) * lp(noise(), 3000));
+      return render(ms, (t) => decay(t, 0.03) * sine(880 * t) + 0.3 * decay(t, 0.002) * lp(noise(), 3000));
     },
   },
   tickFast: {
-    ms: 45,
-    peak: 0.7,
+    ms: 85,
+    peak: 0.9,
     make(ms) {
       const noise = noiseSource("tickFast");
       return render(
         ms,
         (t) =>
-          decay(t, 0.007) * (0.6 * square(1900 * t) + 0.6 * sine(1900 * t)) +
+          decay(t, 0.022) * (0.6 * square(1320 * t) + 0.6 * sine(1320 * t)) +
           0.5 * decay(t, 0.0015) * noise(),
       );
     },
