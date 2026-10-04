@@ -36,8 +36,29 @@ export function adminStore(db: Db): AdminStore {
 
     async runs({ flaggedOnly, limit, search, result, verified }) {
       const rows = await db
-        .select()
+        .select({
+          r: {
+            id: runs.id,
+            createdAt: runs.createdAt,
+            missionId: runs.missionId,
+            defuserName: runs.defuserName,
+            result: runs.result,
+            reason: runs.reason,
+            timeRemainingMs: runs.timeRemainingMs,
+            strikes: runs.strikes,
+            verified: runs.verified,
+            flags: runs.flags,
+            engineVersion: runs.engineVersion,
+            bombSeed: runs.bombSeed,
+            ruleSeed: runs.ruleSeed,
+          },
+          // Counted in SQL so a page of runs does not pull every action log across the wire.
+          actionCount: sql<number>`jsonb_array_length(${runs.actionLog} -> 'actions')`.mapWith(Number),
+          expertCount: sql<number>`cardinality(${runs.expertIds})`.mapWith(Number),
+          roomCode: rooms.code,
+        })
         .from(runs)
+        .leftJoin(rooms, eq(rooms.id, runs.roomId))
         .where(
           and(
             flaggedOnly ? sql`jsonb_array_length(${runs.flags}) > 0` : undefined,
@@ -48,18 +69,7 @@ export function adminStore(db: Db): AdminStore {
         )
         .orderBy(desc(runs.createdAt))
         .limit(limit);
-      return rows.map((r) => ({
-        id: r.id,
-        createdAt: r.createdAt.toISOString(),
-        missionId: r.missionId,
-        defuserName: r.defuserName,
-        result: r.result,
-        reason: r.reason,
-        timeRemainingMs: r.timeRemainingMs,
-        strikes: r.strikes,
-        verified: r.verified,
-        flags: r.flags,
-      }));
+      return rows.map(({ r, ...counts }) => ({ ...r, ...counts, createdAt: r.createdAt.toISOString() }));
     },
 
     async rooms(limit, filter = {}) {
@@ -70,6 +80,12 @@ export function adminStore(db: Db): AdminStore {
           createdAt: rooms.createdAt,
           expiresAt: rooms.expiresAt,
           players: count(roomPlayers.playerId),
+          missionId: rooms.missionId,
+          startedAt: rooms.startedAt,
+          roster: sql<{ name: string; role: string }[]>`coalesce(
+            json_agg(json_build_object('name', ${roomPlayers.displayName}, 'role', ${roomPlayers.role})
+              order by ${roomPlayers.joinedAt}) filter (where ${roomPlayers.playerId} is not null),
+            '[]'::json)`,
         })
         .from(rooms)
         .leftJoin(roomPlayers, eq(roomPlayers.roomId, rooms.id))
@@ -86,6 +102,7 @@ export function adminStore(db: Db): AdminStore {
         ...r,
         createdAt: r.createdAt.toISOString(),
         expiresAt: r.expiresAt.toISOString(),
+        startedAt: r.startedAt?.toISOString() ?? null,
       }));
     },
 
@@ -105,6 +122,7 @@ export function adminStore(db: Db): AdminStore {
         .limit(limit);
       return rows.map(({ user: u, runs: saved }) => ({
         id: u.id,
+        githubId: u.githubId,
         name: u.name,
         login: u.login,
         email: u.email,
