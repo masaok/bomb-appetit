@@ -57,7 +57,7 @@
     "jsdom": "^30",
     "tailwindcss": "^4",
     "tsx": "^4",
-    "typescript": "^5",
+    "typescript": "^6",
     "vitest": "^5"
   }
 }
