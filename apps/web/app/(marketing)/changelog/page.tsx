@@ -35,10 +35,8 @@ export default function ChangelogPage() {
                   {formatDate(entry.date)}
                 </time>
               </div>
-              <h2 className="mt-3 font-display text-2xl font-semibold">
-                {entry.title}
-              </h2>
-              <ul className="mt-3 list-disc space-y-1.5 pl-5 text-muted marker:text-tomato">
+              <h2 className="mt-3 font-display text-2xl font-semibold">{entry.title}</h2>
+              <ul className="mt-3 list-disc space-y-1.5 pl-5 text-muted marker:text-tomato-text">
                 {entry.items.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -49,7 +47,7 @@ export default function ChangelogPage() {
       </section>
       <p className="px-6 pb-24 text-center text-muted">
         Want the fine print? Every commit is on{" "}
-        <a href={GITHUB_URL} className="font-bold text-ink underline hover:text-tomato">
+        <a href={GITHUB_URL} className="font-bold text-ink underline hover:text-tomato-text">
           GitHub
         </a>
         .

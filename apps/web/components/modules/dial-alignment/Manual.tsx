@@ -53,14 +53,14 @@ export function Manual({ rules }: ModuleManualProps<DialAlignmentRules>) {
   return (
     <>
       <ManualLead>
-        This module cannot be solved. It sleeps, then wakes up showing twelve lights in two rows of
-        six, with a 40 second countdown. A filled circle below is a lit light. A hollow circle is a
-        dark light. Have the Defuser read out both rows, left to right. Find the matching picture.
+        This module cannot be solved. It sleeps, then wakes up showing twelve lights in two rows of six, with
+        a 40 second countdown. A filled circle below is a lit light. A hollow circle is a dark light. Have the
+        Defuser read out both rows, left to right. Find the matching picture.
       </ManualLead>
       <ManualLead>
-        The dial must point the way the table says when the countdown reaches zero. The turn button
-        moves the dial one step clockwise. If the dial points the wrong way at zero, that is a
-        strike. Then it sleeps and wakes later with new lights. The dial stays where it was left.
+        The dial must point the way the table says when the countdown reaches zero. The turn button moves the
+        dial one step clockwise. If the dial points the wrong way at zero, that is a strike. Then it sleeps
+        and wakes later with new lights. The dial stays where it was left.
       </ManualLead>
       <ManualTable
         head={["Lights", "Point the dial"]}

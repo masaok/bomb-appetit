@@ -55,16 +55,10 @@ export function FaqList({ items }: { items: Faq[] }) {
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       {items.map((faq) => (
-        <details
-          key={faq.q}
-          className="sticker group rounded-2xl bg-card px-6 py-4"
-        >
+        <details key={faq.q} className="sticker group rounded-2xl bg-card px-6 py-4">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-xl font-semibold [&::-webkit-details-marker]:hidden">
             {faq.q}
-            <span
-              aria-hidden
-              className="text-2xl text-tomato transition-transform group-open:rotate-45"
-            >
+            <span aria-hidden className="text-2xl text-tomato-text transition-transform group-open:rotate-45">
               +
             </span>
           </summary>

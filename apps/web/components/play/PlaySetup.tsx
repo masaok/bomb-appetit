@@ -42,7 +42,8 @@ export function PlaySetup({ roomsAvailable }: { roomsAvailable: boolean }) {
           Play online with a room code
         </h2>
         <p className="mt-1 text-muted">
-          The host creates a room and shares the five-letter code. Experts see the timer and strikes, never the bomb.
+          The host creates a room and shares the five-letter code. Experts see the timer and strikes, never
+          the bomb.
         </p>
         {roomsAvailable ? (
           <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -64,7 +65,11 @@ export function PlaySetup({ roomsAvailable }: { roomsAvailable: boolean }) {
                   autoComplete="nickname"
                 />
               </label>
-              <button type="submit" disabled={busy} className={`${button} bg-tomato text-white disabled:opacity-60`}>
+              <button
+                type="submit"
+                disabled={busy}
+                className={`${button} bg-tomato text-white disabled:opacity-60`}
+              >
                 Create a room
               </button>
             </form>
@@ -94,10 +99,12 @@ export function PlaySetup({ roomsAvailable }: { roomsAvailable: boolean }) {
             </form>
           </div>
         ) : (
-          <p className="mt-3 font-bold">Rooms are off on this server because it has no database. Solo and same-room play work.</p>
+          <p className="mt-3 font-bold">
+            Rooms are off on this server because it has no database. Solo and same-room play work.
+          </p>
         )}
         {error && (
-          <p role="alert" className="mt-3 font-bold text-tomato">
+          <p role="alert" className="mt-3 font-bold text-tomato-text">
             {error}
           </p>
         )}
@@ -108,7 +115,8 @@ export function PlaySetup({ roomsAvailable }: { roomsAvailable: boolean }) {
           Freeplay on this device
         </h2>
         <p className="mt-1 text-muted">
-          You are the Defuser. Hand the Experts a phone with the manual open, or a printout, and start talking.
+          You are the Defuser. Hand the Experts a phone with the manual open, or a printout, and start
+          talking.
         </p>
         <div className="mt-5">
           <FreeplayFields config={config} onChange={setConfig} />

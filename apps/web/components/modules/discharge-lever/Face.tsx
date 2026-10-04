@@ -24,7 +24,7 @@ export function Face({ state, bomb, dispatch }: ModuleFaceProps<DischargeLeverSt
     <div
       role="group"
       aria-label="Discharge Lever"
-      className={`flex size-full items-stretch gap-4 p-4 text-[#fff6e9] ${running ? "" : "opacity-45 saturate-50"}`}
+      className={`flex size-full items-stretch gap-4 p-4 text-[#fff6e9] ${running ? "" : "opacity-60 saturate-50"}`}
     >
       <div className="flex w-[104px] flex-col items-center gap-2">
         <div
@@ -37,7 +37,10 @@ export function Face({ state, bomb, dispatch }: ModuleFaceProps<DischargeLeverSt
         >
           <div
             className="absolute inset-x-0 bottom-0"
-            style={{ height: `${(level * 100) / DISCHARGE_LEVER_FULL}%`, background: high ? "#f04a3a" : "#ffc94a" }}
+            style={{
+              height: `${(level * 100) / DISCHARGE_LEVER_FULL}%`,
+              background: high ? "#f04a3a" : "#ffc94a",
+            }}
           />
           {/* the danger line sits where the fill changes color, so the threshold reads without color */}
           <div
@@ -45,7 +48,11 @@ export function Face({ state, bomb, dispatch }: ModuleFaceProps<DischargeLeverSt
             style={{ bottom: `${WARN_AT}%` }}
           />
           {[25, 50, 75].map((mark) => (
-            <div key={mark} className="absolute left-0 h-[2px] w-3 bg-[#fff6e9]/60" style={{ bottom: `${mark}%` }} />
+            <div
+              key={mark}
+              className="absolute left-0 h-[2px] w-3 bg-[#fff6e9]/60"
+              style={{ bottom: `${mark}%` }}
+            />
           ))}
         </div>
         <div className="w-full rounded-lg border-[3px] border-[#15101f] bg-[#15101f] py-1 text-center font-mono text-2xl leading-none font-bold tabular-nums">
@@ -65,7 +72,10 @@ export function Face({ state, bomb, dispatch }: ModuleFaceProps<DischargeLeverSt
           onRelease={() => dispatch({ type: "release" })}
           className="relative w-full flex-1 rounded-2xl border-[3px] border-[#15101f] bg-[#3a2f5c] select-none enabled:cursor-grab enabled:active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fff6e9]"
         >
-          <span aria-hidden className="absolute inset-y-4 left-1/2 w-5 -translate-x-1/2 rounded-full bg-[#15101f]" />
+          <span
+            aria-hidden
+            className="absolute inset-y-4 left-1/2 w-5 -translate-x-1/2 rounded-full bg-[#15101f]"
+          />
           <span
             aria-hidden
             className="absolute inset-x-3 flex h-14 items-center justify-center rounded-xl border-[3px] border-[#15101f] bg-[#f04a3a] font-display text-lg font-bold text-white uppercase shadow-[0_5px_0_#15101f] motion-safe:transition-[top] motion-safe:duration-100"

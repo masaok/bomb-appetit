@@ -4,7 +4,13 @@ import type { PressureVentState } from "@bombappetit/engine/modules/pressure-ven
 import { Face } from "./Face";
 
 const bomb = { elapsedMs: 45_500, strikes: 0, timerText: "4:14" };
-const active: PressureVentState = { kind: "active", key: "k", cycle: 0, prompt: "Salt the fuse?", deadlineMs: 70_000 };
+const active: PressureVentState = {
+  kind: "active",
+  key: "k",
+  cycle: 0,
+  prompt: "Salt the fuse?",
+  deadlineMs: 70_000,
+};
 const asleep: PressureVentState = { kind: "asleep", key: "k", cycle: 1, wakeAtMs: 90_000 };
 
 it("answers with the button that was clicked", () => {

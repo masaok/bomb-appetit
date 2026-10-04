@@ -43,5 +43,7 @@ it("shows only the current panel and its number", () => {
 
 it("marks a cut wire as disabled", () => {
   render(<Face state={state} solved={false} bomb={bomb} dispatch={() => {}} />);
-  expect(screen.getByRole("button", { name: "Wire 3, Black, to A, cut" }).getAttribute("aria-disabled")).toBe("true");
+  expect(screen.getByRole("button", { name: "Wire 3, Black, to A, cut" }).getAttribute("aria-disabled")).toBe(
+    "true",
+  );
 });

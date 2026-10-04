@@ -14,13 +14,13 @@ implementation. Read it before you write a module:
 
 For a module with id `my-module`:
 
-| File | Holds |
-| --- | --- |
-| `packages/engine/src/modules/my-module/index.ts` | `ModuleDef`, its State, Action and Rules types, the rule generator |
-| `packages/engine/test/modules/my-module.test.ts` | Engine tests |
-| `apps/web/components/modules/my-module/Face.tsx` | Defuser view, exports `Face` |
-| `apps/web/components/modules/my-module/Manual.tsx` | Expert view, exports `Manual` |
-| `apps/web/components/modules/my-module/Face.test.tsx` | Face test |
+| File                                                  | Holds                                                              |
+| ----------------------------------------------------- | ------------------------------------------------------------------ |
+| `packages/engine/src/modules/my-module/index.ts`      | `ModuleDef`, its State, Action and Rules types, the rule generator |
+| `packages/engine/test/modules/my-module.test.ts`      | Engine tests                                                       |
+| `apps/web/components/modules/my-module/Face.tsx`      | Defuser view, exports `Face`                                       |
+| `apps/web/components/modules/my-module/Manual.tsx`    | Expert view, exports `Manual`                                      |
+| `apps/web/components/modules/my-module/Face.test.tsx` | Face test                                                          |
 
 Then register it in `packages/engine/src/modules/registry.ts`,
 `apps/web/components/modules/faces.tsx` and `apps/web/components/modules/manuals.tsx`.

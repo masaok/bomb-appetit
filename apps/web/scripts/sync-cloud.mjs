@@ -22,7 +22,12 @@ function fromEnvFile(name) {
   const line = readFileSync(file, "utf8")
     .split("\n")
     .find((l) => l.startsWith(`${name}=`));
-  return line?.slice(name.length + 1).trim().replace(/^["']|["']$/g, "") || undefined;
+  return (
+    line
+      ?.slice(name.length + 1)
+      .trim()
+      .replace(/^["']|["']$/g, "") || undefined
+  );
 }
 
 const setting = (name) => process.env[name] || fromEnvFile(name);

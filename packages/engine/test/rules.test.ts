@@ -24,7 +24,9 @@ describe("standard manual (rule seed 1)", () => {
   });
 
   it.each(MODULE_IDS)("%s: the frozen rules are solvable", (id) => {
-    expect(checkModuleSolvable(moduleDef(id), ruleBook(STANDARD_RULE_SEED)[id], { samples: 300, seed: "audit" })).toEqual({ ok: true });
+    expect(
+      checkModuleSolvable(moduleDef(id), ruleBook(STANDARD_RULE_SEED)[id], { samples: 300, seed: "audit" }),
+    ).toEqual({ ok: true });
   });
 });
 
@@ -33,7 +35,10 @@ describe(`generated manuals (rule seeds 2 to ${lastSeed})`, () => {
     const failures: string[] = [];
     for (let seed = 2; seed <= lastSeed; seed++) {
       for (const id of MODULE_IDS) {
-        const verdict = checkModuleSolvable(moduleDef(id), ruleBook(seed)[id], { samples: 40, seed: `audit:${seed}` });
+        const verdict = checkModuleSolvable(moduleDef(id), ruleBook(seed)[id], {
+          samples: 40,
+          seed: `audit:${seed}`,
+        });
         if (!verdict.ok) failures.push(`seed ${seed} ${id}: ${verdict.reason}`);
       }
     }

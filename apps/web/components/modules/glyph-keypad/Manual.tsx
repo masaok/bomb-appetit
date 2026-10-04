@@ -8,9 +8,9 @@ export function Manual({ rules }: ModuleManualProps<GlyphKeypadRules>) {
   return (
     <>
       <ManualLead>
-        Four keys, each with a glyph. A glyph is an outer shape with a mark inside, such as a
-        circle with a dot. Only one column below has all four glyphs. Find that column. Press the
-        four keys in the order their glyphs appear in that column, from top to bottom.
+        Four keys, each with a glyph. A glyph is an outer shape with a mark inside, such as a circle with a
+        dot. Only one column below has all four glyphs. Find that column. Press the four keys in the order
+        their glyphs appear in that column, from top to bottom.
       </ManualLead>
       <ManualTable
         head={rules.columns.map((_, i) => `Column ${i + 1}`)}

@@ -19,7 +19,14 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<BigButtonState
       <div
         aria-hidden
         className="absolute rounded-full"
-        style={{ left: 14, top: 44, width: 212, height: 220, background: "#3a2f5c", border: `4px solid ${OUTLINE}` }}
+        style={{
+          left: 14,
+          top: 44,
+          width: 212,
+          height: 220,
+          background: "#3a2f5c",
+          border: `4px solid ${OUTLINE}`,
+        }}
       />
       <HoldButton
         aria-label={`Big button, ${button.name}, ${state.label}`}
@@ -35,7 +42,9 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<BigButtonState
           color: button.ink,
           background: `radial-gradient(circle at 35% 28%, color-mix(in srgb, ${button.hex} 70%, #ffffff), ${button.hex} 55%)`,
           border: `5px solid ${OUTLINE}`,
-          boxShadow: held ? `0 3px 0 ${side}, 0 3px 0 5px ${OUTLINE}` : `0 14px 0 ${side}, 0 14px 0 5px ${OUTLINE}`,
+          boxShadow: held
+            ? `0 3px 0 ${side}, 0 3px 0 5px ${OUTLINE}`
+            : `0 14px 0 ${side}, 0 14px 0 5px ${OUTLINE}`,
           transform: held ? "translateY(11px)" : "none",
         }}
       >

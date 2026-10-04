@@ -1,17 +1,10 @@
-import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import type { NextConfig } from "next";
+import { assertProductionHasCloud, cloudSource } from "./scripts/cloud-source.mjs";
 
 // scripts/sync-cloud.mjs fills `.cloud/` before every dev and build run and records
 // whether it holds the private package or the public stub.
-const marker = path.join(process.cwd(), ".cloud", "source.json");
-const hasCloud = existsSync(marker) && JSON.parse(readFileSync(marker, "utf8")).source !== "stub";
-
-// Anti-cheat runs inside /api/runs, so a production deploy on the stub would accept
-// any valid replay onto the leaderboards. Fail the build instead.
-if (process.env.VERCEL_ENV === "production" && !hasCloud) {
-  throw new Error("Production must build with @bombappetit/cloud. Set BOMBAPPETIT_CLOUD_TOKEN.");
-}
+assertProductionHasCloud(process.env.VERCEL_ENV, cloudSource(process.cwd()));
 
 const isDev = process.env.NODE_ENV !== "production";
 
@@ -28,7 +21,9 @@ const csp = [
   "worker-src 'self' blob:",
   "connect-src 'self' https://*.pusher.com wss://*.pusher.com",
   "form-action 'self' https://github.com",
-  "frame-ancestors 'none'",
+  "frame-src 'self'",
+  // The room page shows the manual to Experts in a same-origin frame.
+  "frame-ancestors 'self'",
   "base-uri 'self'",
   "object-src 'none'",
 ].join("; ");

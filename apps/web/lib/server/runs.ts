@@ -18,12 +18,17 @@ export type SubmitResult =
  * server replays the action log on the bomb its own ticket describes and stores what
  * the replay says. `verified` additionally needs the private plausibility checks to pass.
  */
-export async function submitRun(ticketToken: string, log: unknown, player: Player | null): Promise<SubmitResult> {
+export async function submitRun(
+  ticketToken: string,
+  log: unknown,
+  player: Player | null,
+): Promise<SubmitResult> {
   const ticket = readTicket(ticketToken);
   if (!ticket) return { ok: false, status: 400, error: "This run ticket is not valid." };
 
   const replayed = replay(ticket.spec, log);
-  if (!replayed.ok) return { ok: false, status: 400, error: `The run log does not replay: ${replayed.error}.` };
+  if (!replayed.ok)
+    return { ok: false, status: 400, error: `The run log does not replay: ${replayed.error}.` };
   const state = replayed.state;
   const summary = summarize(state);
 
@@ -79,7 +84,10 @@ export async function submitRun(ticketToken: string, log: unknown, player: Playe
 
   if (!inserted) {
     // The ticket was already redeemed. Report the stored run instead of saving a second one.
-    const [existing] = await db.select({ id: runs.id, verified: runs.verified }).from(runs).where(eq(runs.ticketId, ticket.id));
+    const [existing] = await db
+      .select({ id: runs.id, verified: runs.verified })
+      .from(runs)
+      .where(eq(runs.ticketId, ticket.id));
     return { ok: true, summary, verified: existing?.verified ?? false, runId: existing?.id ?? null };
   }
 

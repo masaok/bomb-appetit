@@ -10,7 +10,10 @@ const rules: WiresRules = {
       rules: [
         { when: [{ kind: "count", color: "red", cmp: "none", n: 0 }], cut: { kind: "position", index: 1 } },
         { when: [{ kind: "lastIs", color: "white" }], cut: { kind: "last" } },
-        { when: [{ kind: "count", color: "blue", cmp: "moreThan", n: 1 }], cut: { kind: "lastOf", color: "blue" } },
+        {
+          when: [{ kind: "count", color: "blue", cmp: "moreThan", n: 1 }],
+          cut: { kind: "lastOf", color: "blue" },
+        },
       ],
       otherwise: { kind: "last" },
     },
@@ -18,10 +21,16 @@ const rules: WiresRules = {
       count: 4,
       rules: [
         {
-          when: [{ kind: "count", color: "red", cmp: "moreThan", n: 1 }, { kind: "serial", parity: "odd" }],
+          when: [
+            { kind: "count", color: "red", cmp: "moreThan", n: 1 },
+            { kind: "serial", parity: "odd" },
+          ],
           cut: { kind: "lastOf", color: "red" },
         },
-        { when: [{ kind: "count", color: "blue", cmp: "exactly", n: 1 }], cut: { kind: "firstOf", color: "blue" } },
+        {
+          when: [{ kind: "count", color: "blue", cmp: "exactly", n: 1 }],
+          cut: { kind: "firstOf", color: "blue" },
+        },
       ],
       otherwise: { kind: "position", index: 1 },
     },
@@ -86,7 +95,11 @@ describe("wires module", () => {
 
   it("flags a rule set whose target can be missing", () => {
     const broken: WiresRules = {
-      clauses: rules.clauses.map((c) => ({ ...c, rules: [], otherwise: { kind: "firstOf", color: "red" } as const })),
+      clauses: rules.clauses.map((c) => ({
+        ...c,
+        rules: [],
+        otherwise: { kind: "firstOf", color: "red" } as const,
+      })),
     };
     expect(checkModuleSolvable(wires, broken, { samples: 300 }).ok).toBe(false);
   });

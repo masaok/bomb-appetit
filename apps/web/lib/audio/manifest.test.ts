@@ -50,7 +50,9 @@ describe("sfx.wav", () => {
     const dataBytes = wav.readUInt32LE(40);
     expect(dataBytes).toBe(wav.length - 44);
 
-    const lastEndMs = Math.max(...SFX_NAMES.map((name) => DEFAULT_SFX.sprite[name][0] + DEFAULT_SFX.sprite[name][1]));
+    const lastEndMs = Math.max(
+      ...SFX_NAMES.map((name) => DEFAULT_SFX.sprite[name][0] + DEFAULT_SFX.sprite[name][1]),
+    );
     const expectedSamples = Math.round(((lastEndMs + GAP_MS) * SAMPLE_RATE) / 1000);
     expect(dataBytes).toBe(expectedSamples * 2);
   });

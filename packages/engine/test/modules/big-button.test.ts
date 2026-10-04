@@ -14,11 +14,23 @@ import { ctxFor, edgework } from "../helpers";
 
 const rules: BigButtonRules = {
   rules: [
-    { when: [{ kind: "color", color: "red" }, { kind: "label", label: "BOOP" }], then: "hold" },
+    {
+      when: [
+        { kind: "color", color: "red" },
+        { kind: "label", label: "BOOP" },
+      ],
+      then: "hold",
+    },
     { when: [{ kind: "batteries", cmp: "moreThan", n: 2 }], then: "tap" },
     { when: [{ kind: "litIndicator", label: "YUM" }], then: "hold" },
     { when: [{ kind: "label", label: "HUSH" }], then: "tap" },
-    { when: [{ kind: "color", color: "blue" }, { kind: "batteries", cmp: "fewerThan", n: 2 }], then: "tap" },
+    {
+      when: [
+        { kind: "color", color: "blue" },
+        { kind: "batteries", cmp: "fewerThan", n: 2 },
+      ],
+      then: "tap",
+    },
   ],
   otherwise: "hold",
   stripDigits: { red: 4, blue: 1, yellow: 7, white: 0, green: 5 },
@@ -44,7 +56,9 @@ describe("big button module", () => {
   const holdBomb = edgework();
 
   it("records when the press started", () => {
-    expect(bigButton.apply(idle, { type: "press" }, ctxFor(rules, { elapsedMs: 1000 }))).toEqual({ state: held });
+    expect(bigButton.apply(idle, { type: "press" }, ctxFor(rules, { elapsedMs: 1000 }))).toEqual({
+      state: held,
+    });
   });
 
   it("solves on a quick release when the rules say tap", () => {
@@ -81,7 +95,9 @@ describe("big button module", () => {
 
   it("hints press, then the release the rules call for", () => {
     expect(bigButton.hint(idle, ctxFor(rules))).toEqual({ type: "press" });
-    expect(bigButton.hint(held, ctxFor(rules, { edgework: tapBomb, elapsedMs: 1050 }))).toEqual({ type: "release" });
+    expect(bigButton.hint(held, ctxFor(rules, { edgework: tapBomb, elapsedMs: 1050 }))).toEqual({
+      type: "release",
+    });
 
     const hold = (elapsedMs: number, remainingMs: number) =>
       bigButton.hint(held, ctxFor(rules, { edgework: holdBomb, elapsedMs, remainingMs }));
@@ -111,7 +127,9 @@ describe("big button module", () => {
   it("plays 200 random instances to completion by following hint", () => {
     for (const seed of ["rules:1", "rules:2", "rules:3"]) {
       const generated = bigButton.generateRules(createRng(seed).fork("big-button"));
-      expect(checkModuleSolvable(bigButton, generated, { samples: 200, seed: "other" })).toEqual({ ok: true });
+      expect(checkModuleSolvable(bigButton, generated, { samples: 200, seed: "other" })).toEqual({
+        ok: true,
+      });
     }
   });
 });

@@ -8,11 +8,7 @@
     "caseSize": "3x2",
     "timeLimitMs": 360000,
     "strikeLimit": 3,
-    "modulePool": [
-      "blinker",
-      "wires",
-      "big-button"
-    ],
+    "modulePool": ["blinker", "wires", "big-button"],
     "moduleCount": 3,
     "needyPool": [],
     "needyCount": 0,
@@ -28,11 +24,7 @@
     "caseSize": "3x2",
     "timeLimitMs": 360000,
     "strikeLimit": 3,
-    "modulePool": [
-      "tangled-wires",
-      "wire-panels",
-      "glyph-keypad"
-    ],
+    "modulePool": ["tangled-wires", "wire-panels", "glyph-keypad"],
     "moduleCount": 3,
     "needyPool": [],
     "needyCount": 0,
@@ -48,18 +40,9 @@
     "caseSize": "3x2",
     "timeLimitMs": 360000,
     "strikeLimit": 3,
-    "modulePool": [
-      "wires",
-      "big-button",
-      "glyph-keypad",
-      "color-echo",
-      "word-grid",
-      "recall"
-    ],
+    "modulePool": ["wires", "big-button", "glyph-keypad", "color-echo", "word-grid", "recall"],
     "moduleCount": 4,
-    "needyPool": [
-      "pressure-vent"
-    ],
+    "needyPool": ["pressure-vent"],
     "needyCount": 1,
     "fixedBombSeed": null,
     "ruleSeed": 1
@@ -85,10 +68,7 @@
       "wire-panels"
     ],
     "moduleCount": 6,
-    "needyPool": [
-      "discharge-lever",
-      "pressure-vent"
-    ],
+    "needyPool": ["discharge-lever", "pressure-vent"],
     "needyCount": 1,
     "fixedBombSeed": null,
     "ruleSeed": 1
@@ -114,11 +94,7 @@
       "wire-panels"
     ],
     "moduleCount": 8,
-    "needyPool": [
-      "pressure-vent",
-      "discharge-lever",
-      "dial-alignment"
-    ],
+    "needyPool": ["pressure-vent", "discharge-lever", "dial-alignment"],
     "needyCount": 2,
     "fixedBombSeed": null,
     "ruleSeed": 1

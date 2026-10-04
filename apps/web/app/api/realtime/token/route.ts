@@ -31,6 +31,10 @@ export async function POST(request: Request) {
   const member = player && found?.players.find((p) => p.playerId === player.id);
   if (!player || !member) return fail(403, "You are not in this room.");
 
-  const signed = authorizeChannel(socketId, channel, { id: player.id, name: member.displayName, role: member.role });
+  const signed = authorizeChannel(socketId, channel, {
+    id: player.id,
+    name: member.displayName,
+    role: member.role,
+  });
   return signed ? json(signed) : fail(503, "Realtime is not configured.");
 }

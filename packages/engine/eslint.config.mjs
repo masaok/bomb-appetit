@@ -34,7 +34,10 @@ export default defineConfig([
       ],
       "no-restricted-syntax": [
         "error",
-        { selector: "NewExpression[callee.name='Date']", message: "Time enters the engine through advance()/act()." },
+        {
+          selector: "NewExpression[callee.name='Date']",
+          message: "Time enters the engine through advance()/act().",
+        },
       ],
     },
   },

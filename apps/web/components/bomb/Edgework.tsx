@@ -9,7 +9,13 @@ const PORT_NAMES: Record<PortType, string> = {
   trident: "Trident",
 };
 
-const stroke = { fill: "none", stroke: "currentColor", strokeWidth: 2.5, strokeLinejoin: "round", strokeLinecap: "round" } as const;
+const stroke = {
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2.5,
+  strokeLinejoin: "round",
+  strokeLinecap: "round",
+} as const;
 
 /** Original port drawings. Each has a distinct outline so they can be described aloud. */
 export function PortIcon({ type }: { type: PortType }) {
@@ -68,7 +74,9 @@ function Battery({ kind }: { kind: BatteryKind }) {
 function Plate({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5 rounded-xl border-2 border-[#15101f] bg-[#2b2247] px-3 py-2">
-      <span className="font-display text-xs font-semibold tracking-widest text-[#b9b0d0] uppercase">{title}</span>
+      <span className="font-display text-xs font-semibold tracking-widest text-[#b9b0d0] uppercase">
+        {title}
+      </span>
       <div className="flex min-h-8 flex-wrap items-center gap-2">{children}</div>
     </div>
   );
@@ -85,7 +93,9 @@ export function EdgeworkStrip({ edgework }: { edgework: Edgework }) {
         </span>
       </Plate>
       <Plate title="Batteries">
-        {edgework.batteries.length === 0 ? none : edgework.batteries.map((kind, i) => <Battery key={i} kind={kind} />)}
+        {edgework.batteries.length === 0
+          ? none
+          : edgework.batteries.map((kind, i) => <Battery key={i} kind={kind} />)}
       </Plate>
       <Plate title="Indicators">
         {edgework.indicators.length === 0
@@ -114,7 +124,11 @@ export function EdgeworkStrip({ edgework }: { edgework: Edgework }) {
                 className="inline-flex min-h-9 min-w-10 items-center gap-1 rounded-md border-2 border-[#15101f] bg-[#3a2f5c] px-1.5"
                 aria-label={plate.length === 0 ? "Empty port plate" : undefined}
               >
-                {plate.length === 0 ? <span className="text-xs text-[#b9b0d0]">empty</span> : plate.map((type) => <PortIcon key={type} type={type} />)}
+                {plate.length === 0 ? (
+                  <span className="text-xs text-[#b9b0d0]">empty</span>
+                ) : (
+                  plate.map((type) => <PortIcon key={type} type={type} />)
+                )}
               </span>
             ))}
       </Plate>

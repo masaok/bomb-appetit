@@ -38,9 +38,10 @@ export const MODULES = {
 
 export type ModuleId = keyof typeof MODULES;
 
-type Parts<K extends ModuleId> = (typeof MODULES)[K] extends ModuleDef<string, infer S, infer A, infer R>
-  ? { state: S; action: A; rules: R }
-  : never;
+type Parts<K extends ModuleId> =
+  (typeof MODULES)[K] extends ModuleDef<string, infer S, infer A, infer R>
+    ? { state: S; action: A; rules: R }
+    : never;
 
 export type StateOf<K extends ModuleId> = Parts<K>["state"];
 export type ActionOf<K extends ModuleId> = Parts<K>["action"];

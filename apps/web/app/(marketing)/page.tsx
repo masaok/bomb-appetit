@@ -77,7 +77,7 @@ const homeFaqs = faqs.slice(0, 4);
 function SectionHeading({ kicker, title }: { kicker: string; title: string }) {
   return (
     <div className="mx-auto max-w-2xl text-center">
-      <p className="font-display text-sm font-semibold uppercase tracking-widest text-tomato">
+      <p className="font-display text-sm font-semibold uppercase tracking-widest text-tomato-text">
         {kicker}
       </p>
       <h2 className="mt-2 font-display text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
@@ -102,9 +102,7 @@ function ModuleCard({
         <ModuleIcon id={module.id} className="size-9" />
       </span>
       <div>
-        <h3 className="font-display text-lg font-semibold leading-tight">
-          {module.name}
-        </h3>
+        <h3 className="font-display text-lg font-semibold leading-tight">{module.name}</h3>
         <p className="text-sm text-muted">{module.blurb}</p>
       </div>
     </li>
@@ -120,13 +118,11 @@ export default function Home() {
             Playable now · free
           </p>
           <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight text-balance sm:text-6xl lg:text-7xl">
-            One bomb. One manual.{" "}
-            <span className="text-tomato">Lots of yelling.</span>
+            One bomb. One manual. <span className="text-tomato-text">Lots of yelling.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-muted sm:text-xl lg:mx-0">
-            Bomb Appetit is a co-op party game for your browser. One of you
-            sees a ticking bomb. The rest of you have the manual. Talk each
-            other through it before the timer runs out.
+            Bomb Appetit is a co-op party game for your browser. One of you sees a ticking bomb. The rest of
+            you have the manual. Talk each other through it before the timer runs out.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4 lg:justify-start">
             <Link
@@ -159,9 +155,7 @@ export default function Home() {
               >
                 {i + 1}
               </span>
-              <h3 className="mt-4 font-display text-2xl font-semibold">
-                {step.title}
-              </h3>
+              <h3 className="mt-4 font-display text-2xl font-semibold">{step.title}</h3>
               <p className="mt-2 text-muted">{step.body}</p>
             </li>
           ))}
@@ -169,21 +163,16 @@ export default function Home() {
 
         <div className="mx-auto mt-6 grid max-w-6xl gap-6 md:grid-cols-2">
           <div className="sticker rounded-3xl bg-grape p-6 text-white">
-            <h3 className="font-display text-2xl font-semibold">
-              The Defuser
-            </h3>
-            <p className="mt-2 text-white/85">
-              Sees the bomb: wires, buttons, blinking lights and a countdown.
-              Has no idea what any of it means.
+            <h3 className="font-display text-2xl font-semibold">The Defuser</h3>
+            <p className="mt-2 text-white">
+              Sees the bomb: wires, buttons, blinking lights and a countdown. Has no idea what any of it
+              means.
             </p>
           </div>
           <div className="sticker rounded-3xl bg-sun p-6 text-night">
-            <h3 className="font-display text-2xl font-semibold">
-              The Experts
-            </h3>
+            <h3 className="font-display text-2xl font-semibold">The Experts</h3>
             <p className="mt-2 text-night/80">
-              Have the manual with every rule in it. Have no idea what the
-              bomb looks like.
+              Have the manual with every rule in it. Have no idea what the bomb looks like.
             </p>
           </div>
         </div>
@@ -211,9 +200,7 @@ export default function Home() {
         <ul className="mx-auto mt-12 grid max-w-6xl gap-6 sm:grid-cols-2">
           {features.map((feature) => (
             <li key={feature.title} className="sticker rounded-3xl bg-card p-6">
-              <h3 className="font-display text-2xl font-semibold">
-                {feature.title}
-              </h3>
+              <h3 className="font-display text-2xl font-semibold">{feature.title}</h3>
               <p className="mt-2 text-muted">{feature.body}</p>
             </li>
           ))}
@@ -226,7 +213,7 @@ export default function Home() {
           <FaqList items={homeFaqs} />
         </div>
         <p className="mt-8 text-center font-bold">
-          <Link href="/faq" className="underline hover:text-tomato">
+          <Link href="/faq" className="underline hover:text-tomato-text">
             Read all the questions
           </Link>
         </p>
@@ -236,12 +223,10 @@ export default function Home() {
         <div className="sticker mx-auto flex max-w-4xl flex-col items-center gap-6 rounded-[2rem] bg-tomato px-8 py-10 text-center text-white sm:flex-row sm:text-left">
           <Mascot decorative className="h-36 w-auto shrink-0" />
           <div>
-            <h2 className="font-display text-3xl font-semibold text-balance sm:text-4xl">
-              Dinner is served
-            </h2>
-            <p className="mt-2 text-lg text-white/90">
-              The game is ready to play, free, right in your browser. It is
-              built in the open, so follow along on GitHub too.
+            <h2 className="font-display text-3xl font-semibold text-balance sm:text-4xl">Dinner is served</h2>
+            <p className="mt-2 text-lg text-white">
+              The game is ready to play, free, right in your browser. It is built in the open, so follow along
+              on GitHub too.
             </p>
             <div className="mt-5 flex flex-wrap justify-center gap-4 sm:justify-start">
               <Link

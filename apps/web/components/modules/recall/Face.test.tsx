@@ -43,6 +43,8 @@ it("shows the current stage's display, labels and progress", () => {
 it("locks the buttons once solved", () => {
   const done = { ...state, history: Array.from({ length: 5 }, () => ({ position: 0, label: 1 })) };
   render(<Face state={done} solved bomb={bomb} dispatch={() => {}} />);
-  expect(screen.getByRole("button", { name: "Button 1, position 1" }).getAttribute("aria-disabled")).toBe("true");
+  expect(screen.getByRole("button", { name: "Button 1, position 1" }).getAttribute("aria-disabled")).toBe(
+    "true",
+  );
   expect(screen.getByRole("img", { name: "5 of 5 stages complete" })).toBeTruthy();
 });

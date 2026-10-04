@@ -1,4 +1,11 @@
-import { batteryCount, hasPort, PORT_TYPES, serialLastDigit, type Edgework, type PortType } from "../../edgework";
+import {
+  batteryCount,
+  hasPort,
+  PORT_TYPES,
+  serialLastDigit,
+  type Edgework,
+  type PortType,
+} from "../../edgework";
 import type { Rng } from "../../rng";
 import { checkModuleSolvable, generateSolvableRules } from "../../rules/solvable";
 import { isInt, isRecord, type ModuleDef } from "../../types";
@@ -49,10 +56,19 @@ export function tangledWiresRegion(flags: TangledWiresFlags): number {
 }
 
 export function tangledWiresFlags(region: number): TangledWiresFlags {
-  return { red: (region & 1) !== 0, blue: (region & 2) !== 0, star: (region & 4) !== 0, led: (region & 8) !== 0 };
+  return {
+    red: (region & 1) !== 0,
+    blue: (region & 2) !== 0,
+    star: (region & 4) !== 0,
+    led: (region & 8) !== 0,
+  };
 }
 
-export function tangledWiresShouldCut(rules: TangledWiresRules, flags: TangledWiresFlags, edgework: Edgework): boolean {
+export function tangledWiresShouldCut(
+  rules: TangledWiresRules,
+  flags: TangledWiresFlags,
+  edgework: Edgework,
+): boolean {
   switch (rules.table[tangledWiresRegion(flags)]) {
     case "cut":
       return true;
@@ -82,7 +98,12 @@ function deal(rng: Rng): TangledWiresWire[] {
   return slots.map((to) => ({ red: rng.bool(), blue: rng.bool(), star: rng.bool(), led: rng.bool(), to }));
 }
 
-export const tangledWires: ModuleDef<"tangled-wires", TangledWiresState, TangledWiresAction, TangledWiresRules> = {
+export const tangledWires: ModuleDef<
+  "tangled-wires",
+  TangledWiresState,
+  TangledWiresAction,
+  TangledWiresRules
+> = {
   id: "tangled-wires",
   name: "Tangled Wires",
   kind: "regular",
@@ -110,7 +131,9 @@ export const tangledWires: ModuleDef<"tangled-wires", TangledWiresState, Tangled
     if (!wire || state.cut[action.index]) return { state };
     const next = { ...state, cut: state.cut.map((c, i) => c || i === action.index) };
     if (!tangledWiresShouldCut(ctx.rules, wire, ctx.edgework)) return { state: next, strike: true };
-    const done = next.wires.every((w, i) => next.cut[i] || !tangledWiresShouldCut(ctx.rules, w, ctx.edgework));
+    const done = next.wires.every(
+      (w, i) => next.cut[i] || !tangledWiresShouldCut(ctx.rules, w, ctx.edgework),
+    );
     return done ? { state: next, solved: true } : { state: next };
   },
 

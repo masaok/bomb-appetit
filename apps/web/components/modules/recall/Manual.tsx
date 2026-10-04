@@ -22,10 +22,10 @@ export function Manual({ rules }: ModuleManualProps<RecallRules>) {
     <>
       <ManualLead>
         A display with one digit, and four buttons labeled 1 to 4 in a mixed-up order. There are{" "}
-        {rules.stages.length} stages. Positions are counted from the left, starting at one. At every
-        stage, write down the position and the label of the button that was pressed. Later stages
-        ask for them. A wrong press is a strike. The module then goes back to stage 1 with new
-        numbers, so throw your notes away.
+        {rules.stages.length} stages. Positions are counted from the left, starting at one. At every stage,
+        write down the position and the label of the button that was pressed. Later stages ask for them. A
+        wrong press is a strike. The module then goes back to stage 1 with new numbers, so throw your notes
+        away.
       </ManualLead>
       {rules.stages.map((row, stage) => (
         <section key={stage} className="break-inside-avoid">

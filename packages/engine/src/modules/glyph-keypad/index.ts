@@ -47,7 +47,9 @@ export function glyphKeypadOrder(rules: GlyphKeypadRules, glyphs: GlyphKeypadGly
   const fits = rules.columns.filter((column) => glyphs.every((g) => column.includes(g)));
   const column = fits[0];
   if (fits.length !== 1 || !column) return null;
-  return glyphs.map((_, position) => position).sort((a, b) => column.indexOf(glyphs[a]!) - column.indexOf(glyphs[b]!));
+  return glyphs
+    .map((_, position) => position)
+    .sort((a, b) => column.indexOf(glyphs[a]!) - column.indexOf(glyphs[b]!));
 }
 
 function nextPosition(rules: GlyphKeypadRules, state: GlyphKeypadState): number | null {
@@ -66,7 +68,8 @@ function propose(rng: Rng): GlyphKeypadRules {
 /** Every column shares glyphs with the others, so one familiar glyph never gives the column away. */
 function overlaps(rules: GlyphKeypadRules): boolean {
   return rules.columns.every(
-    (column, i) => column.filter((g) => rules.columns.some((other, j) => i !== j && other.includes(g))).length >= 3,
+    (column, i) =>
+      column.filter((g) => rules.columns.some((other, j) => i !== j && other.includes(g))).length >= 3,
   );
 }
 
@@ -80,7 +83,9 @@ export const glyphKeypad: ModuleDef<"glyph-keypad", GlyphKeypadState, GlyphKeypa
       ruleRng,
       propose,
       (rules) =>
-        glyphKeypadColumnsAreDistinct(rules.columns) && overlaps(rules) && checkModuleSolvable(glyphKeypad, rules).ok,
+        glyphKeypadColumnsAreDistinct(rules.columns) &&
+        overlaps(rules) &&
+        checkModuleSolvable(glyphKeypad, rules).ok,
     );
   },
 
@@ -95,7 +100,9 @@ export const glyphKeypad: ModuleDef<"glyph-keypad", GlyphKeypadState, GlyphKeypa
     if (next === null) return { state };
     if (action.position !== next) return { state, strike: true };
     const pressed = state.pressed.map((p, i) => p || i === action.position);
-    return pressed.every(Boolean) ? { state: { ...state, pressed }, solved: true } : { state: { ...state, pressed } };
+    return pressed.every(Boolean)
+      ? { state: { ...state, pressed }, solved: true }
+      : { state: { ...state, pressed } };
   },
 
   hint(state, ctx) {
@@ -104,7 +111,8 @@ export const glyphKeypad: ModuleDef<"glyph-keypad", GlyphKeypadState, GlyphKeypa
   },
 
   parseAction(raw) {
-    if (!isRecord(raw) || raw.type !== "press" || !isInt(raw.position, 0, GLYPH_KEYPAD_KEY_COUNT - 1)) return null;
+    if (!isRecord(raw) || raw.type !== "press" || !isInt(raw.position, 0, GLYPH_KEYPAD_KEY_COUNT - 1))
+      return null;
     return { type: "press", position: raw.position };
   },
 };

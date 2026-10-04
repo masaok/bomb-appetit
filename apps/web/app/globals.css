@@ -1,4 +1,7 @@
 @import "tailwindcss";
+/* The private admin pages are synced into .cloud/, which git ignores, so Tailwind
+   would skip them without this. */
+@source "../.cloud/src";
 
 :root {
   --page: #fff6e9;
@@ -7,6 +10,9 @@
   --muted: #5f5778;
   --line: #221a38;
   --shadow: #221a38;
+  /* Accent colors for text. They change with the theme to keep 4.5:1 contrast. */
+  --tomato-text: #d23221;
+  --mint-text: #177552;
 }
 
 @theme inline {
@@ -17,7 +23,12 @@
   --color-line: var(--line);
   /* Brand colors stay the same in both themes; text on them uses `night`. */
   --color-night: #221a38;
-  --color-tomato: #f04a3a;
+  /* Dark enough for white text at 4.5:1. */
+  --color-tomato: #d23221;
+  --color-tomato-text: var(--tomato-text);
+  --color-mint-text: var(--mint-text);
+  /* Red for readouts on the bomb's dark panels, in either theme. */
+  --color-ember: #ff6b5c;
   --color-sun: #ffc94a;
   --color-mint: #5fd3a6;
   --color-sky: #6ec1ff;
@@ -36,6 +47,8 @@
     --muted: #b9b0d0;
     --line: #6f5fa8;
     --shadow: #0b0814;
+    --tomato-text: #ff7a6b;
+    --mint-text: #5fd3a6;
   }
 }
 
@@ -197,10 +210,6 @@ body {
   animation: module-struck 0.5s ease-out;
 }
 
-.bomb-shake {
-  animation: bomb-shake 0.4s ease-in-out;
-}
-
 .whiteout {
   animation: whiteout 1.2s ease-out forwards;
 }
@@ -217,25 +226,6 @@ body {
   }
 }
 
-@keyframes bomb-shake {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  20% {
-    transform: translate(-6px, 3px);
-  }
-  40% {
-    transform: translate(5px, -4px);
-  }
-  60% {
-    transform: translate(-4px, -2px);
-  }
-  80% {
-    transform: translate(3px, 3px);
-  }
-}
-
 @keyframes whiteout {
   0% {
     opacity: 1;
@@ -246,8 +236,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .module-struck,
-  .bomb-shake {
+  .module-struck {
     animation: none;
   }
 

@@ -38,5 +38,7 @@ it("marks a cut wire as disabled", () => {
   render(<Face state={state} solved={false} bomb={bomb} dispatch={() => {}} />);
   const cut = screen.getByRole("button", { name: "Wire 3, white, light off, no star, cut" });
   expect(cut.getAttribute("aria-disabled")).toBe("true");
-  expect(screen.getByRole("button", { name: "Wire 1, red, light on, no star" }).getAttribute("aria-disabled")).toBe("false");
+  expect(
+    screen.getByRole("button", { name: "Wire 1, red, light on, no star" }).getAttribute("aria-disabled"),
+  ).toBe("false");
 });

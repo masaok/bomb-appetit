@@ -16,7 +16,10 @@ export async function GET(request: Request) {
   if (!db) return NO_DATABASE();
 
   // Runs keep their history: `runs.room_id` is set to null when its room goes.
-  const expiredRooms = await db.delete(rooms).where(lt(rooms.expiresAt, new Date())).returning({ id: rooms.id });
+  const expiredRooms = await db
+    .delete(rooms)
+    .where(lt(rooms.expiresAt, new Date()))
+    .returning({ id: rooms.id });
   const staleLimits = await db
     .delete(rateLimits)
     .where(lt(rateLimits.windowStart, sql`now() - interval '1 day'`))

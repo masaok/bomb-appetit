@@ -4,21 +4,68 @@ import { isInt, isRecord, type ModuleDef } from "../../types";
 
 /** Kitchen words chosen because each has a sound-alike that is spelled differently. */
 export const WORD_GRID_DISPLAY_WORDS = [
-  "FLOUR", "FLOWER", "THYME", "TIME", "MEAT", "MEET", "STEAK", "STAKE",
-  "PEAR", "PAIR", "PARE", "BREAD", "BRED", "DOUGH", "DOH", "ROLL",
-  "ROLE", "LEEK", "LEAK", "MOUSSE", "MOOSE", "CHILI", "CHILLY", "WHISK",
+  "FLOUR",
+  "FLOWER",
+  "THYME",
+  "TIME",
+  "MEAT",
+  "MEET",
+  "STEAK",
+  "STAKE",
+  "PEAR",
+  "PAIR",
+  "PARE",
+  "BREAD",
+  "BRED",
+  "DOUGH",
+  "DOH",
+  "ROLL",
+  "ROLE",
+  "LEEK",
+  "LEAK",
+  "MOUSSE",
+  "MOOSE",
+  "CHILI",
+  "CHILLY",
+  "WHISK",
 ] as const;
 
 /** Words that sound like talk between players, so reading them aloud causes confusion. */
 export const WORD_GRID_BUTTON_WORDS = [
-  "WAIT", "WEIGHT", "WHAT", "WATT", "RIGHT", "WRITE", "RITE", "NOT",
-  "KNOT", "NOW", "KNOW", "WHICH", "WITCH", "HANG ON", "HMM", "HUH",
-  "UH OH", "OH", "OWE", "GO ON", "GOT IT", "AGAIN", "SAY AGAIN", "STOP",
+  "WAIT",
+  "WEIGHT",
+  "WHAT",
+  "WATT",
+  "RIGHT",
+  "WRITE",
+  "RITE",
+  "NOT",
+  "KNOT",
+  "NOW",
+  "KNOW",
+  "WHICH",
+  "WITCH",
+  "HANG ON",
+  "HMM",
+  "HUH",
+  "UH OH",
+  "OH",
+  "OWE",
+  "GO ON",
+  "GOT IT",
+  "AGAIN",
+  "SAY AGAIN",
+  "STOP",
 ] as const;
 
 /** Button positions in reading order: two columns, three rows. */
 export const WORD_GRID_POSITIONS = [
-  "top left", "top right", "middle left", "middle right", "bottom left", "bottom right",
+  "top left",
+  "top right",
+  "middle left",
+  "middle right",
+  "bottom left",
+  "bottom right",
 ] as const;
 
 export const WORD_GRID_STAGE_COUNT = 3;

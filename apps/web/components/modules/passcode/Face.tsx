@@ -45,7 +45,16 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<PasscodeState,
             >
               <rect x={x} y={14} width={WHEEL_W} height="30" rx="9" fill="#15101f" />
               <g className="motion-safe:transition-transform group-active:translate-y-[3px]">
-                <rect x={x} y={10} width={WHEEL_W} height="30" rx="9" fill="#6ec1ff" stroke="#15101f" strokeWidth="3" />
+                <rect
+                  x={x}
+                  y={10}
+                  width={WHEEL_W}
+                  height="30"
+                  rx="9"
+                  fill="#6ec1ff"
+                  stroke="#15101f"
+                  strokeWidth="3"
+                />
                 <path d={`M${cx - 9} 30L${cx} 19L${cx + 9} 30Z`} fill="#15101f" />
               </g>
             </g>
@@ -71,13 +80,39 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<PasscodeState,
               <rect x={x} y={58} width={WHEEL_W} height="88" rx="8" fill="#fff6e9" />
               <rect x={x} y={58} width={WHEEL_W} height="20" rx="8" fill="#d9cdbb" />
               <rect x={x} y={126} width={WHEEL_W} height="20" rx="8" fill="#d9cdbb" />
-              <text x={cx} y={74} textAnchor="middle" fontSize="14" fontWeight="700" fill="#7a6f8f" className="font-mono select-none" aria-hidden>
+              <text
+                x={cx}
+                y={74}
+                textAnchor="middle"
+                fontSize="14"
+                fontWeight="700"
+                fill="#7a6f8f"
+                className="font-mono select-none"
+                aria-hidden
+              >
                 {above}
               </text>
-              <text x={cx} y={117} textAnchor="middle" fontSize="40" fontWeight="700" fill="#15101f" className="font-mono select-none">
+              <text
+                x={cx}
+                y={117}
+                textAnchor="middle"
+                fontSize="40"
+                fontWeight="700"
+                fill="#15101f"
+                className="font-mono select-none"
+              >
                 {letter}
               </text>
-              <text x={cx} y={141} textAnchor="middle" fontSize="14" fontWeight="700" fill="#7a6f8f" className="font-mono select-none" aria-hidden>
+              <text
+                x={cx}
+                y={141}
+                textAnchor="middle"
+                fontSize="14"
+                fontWeight="700"
+                fill="#7a6f8f"
+                className="font-mono select-none"
+                aria-hidden
+              >
                 {below}
               </text>
             </g>
@@ -93,7 +128,16 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<PasscodeState,
             >
               <rect x={x} y={164} width={WHEEL_W} height="30" rx="9" fill="#15101f" />
               <g className="motion-safe:transition-transform group-active:translate-y-[3px]">
-                <rect x={x} y={160} width={WHEEL_W} height="30" rx="9" fill="#6ec1ff" stroke="#15101f" strokeWidth="3" />
+                <rect
+                  x={x}
+                  y={160}
+                  width={WHEEL_W}
+                  height="30"
+                  rx="9"
+                  fill="#6ec1ff"
+                  stroke="#15101f"
+                  strokeWidth="3"
+                />
                 <path d={`M${cx - 9} 170L${cx} 181L${cx + 9} 170Z`} fill="#15101f" />
               </g>
             </g>
@@ -112,8 +156,26 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<PasscodeState,
       >
         <rect x="18" y="222" width="264" height="62" rx="16" fill="#15101f" />
         <g className="motion-safe:transition-transform group-active:translate-y-[5px]">
-          <rect x="18" y="214" width="264" height="62" rx="16" fill="#ffc94a" stroke="#15101f" strokeWidth="3" />
-          <text x="150" y="256" textAnchor="middle" fontSize="30" fontWeight="700" letterSpacing="3" fill="#15101f" className="font-display select-none">
+          <rect
+            x="18"
+            y="214"
+            width="264"
+            height="62"
+            rx="16"
+            fill="#ffc94a"
+            stroke="#15101f"
+            strokeWidth="3"
+          />
+          <text
+            x="150"
+            y="256"
+            textAnchor="middle"
+            fontSize="30"
+            fontWeight="700"
+            letterSpacing="3"
+            fill="#15101f"
+            className="font-display select-none"
+          >
             SUBMIT
           </text>
         </g>

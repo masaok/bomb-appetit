@@ -8,11 +8,7 @@
     "caseSize": "3x2",
     "timeLimitMs": 300000,
     "strikeLimit": 3,
-    "modulePool": [
-      "color-echo",
-      "wires",
-      "big-button"
-    ],
+    "modulePool": ["color-echo", "wires", "big-button"],
     "moduleCount": 3,
     "needyPool": [],
     "needyCount": 0,
@@ -28,11 +24,7 @@
     "caseSize": "3x2",
     "timeLimitMs": 300000,
     "strikeLimit": 3,
-    "modulePool": [
-      "word-grid",
-      "glyph-keypad",
-      "wires"
-    ],
+    "modulePool": ["word-grid", "glyph-keypad", "wires"],
     "moduleCount": 3,
     "needyPool": [],
     "needyCount": 0,
@@ -48,11 +40,7 @@
     "caseSize": "3x2",
     "timeLimitMs": 300000,
     "strikeLimit": 3,
-    "modulePool": [
-      "recall",
-      "color-echo",
-      "word-grid"
-    ],
+    "modulePool": ["recall", "color-echo", "word-grid"],
     "moduleCount": 3,
     "needyPool": [],
     "needyCount": 0,
@@ -68,14 +56,7 @@
     "caseSize": "3x2",
     "timeLimitMs": 420000,
     "strikeLimit": 3,
-    "modulePool": [
-      "wires",
-      "big-button",
-      "glyph-keypad",
-      "color-echo",
-      "word-grid",
-      "recall"
-    ],
+    "modulePool": ["wires", "big-button", "glyph-keypad", "color-echo", "word-grid", "recall"],
     "moduleCount": 5,
     "needyPool": [],
     "needyCount": 0,
@@ -91,14 +72,7 @@
     "caseSize": "3x2",
     "timeLimitMs": 360000,
     "strikeLimit": 3,
-    "modulePool": [
-      "wires",
-      "big-button",
-      "glyph-keypad",
-      "color-echo",
-      "word-grid",
-      "recall"
-    ],
+    "modulePool": ["wires", "big-button", "glyph-keypad", "color-echo", "word-grid", "recall"],
     "moduleCount": 6,
     "needyPool": [],
     "needyCount": 0,

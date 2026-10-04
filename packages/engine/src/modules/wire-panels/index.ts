@@ -62,7 +62,9 @@ function propose(rng: Rng): WirePanelsRules {
       const picked = colorRng.sample(WIRE_PANELS_LETTERS, colorRng.int(1, 2));
       return WIRE_PANELS_LETTERS.filter((letter) => picked.includes(letter));
     });
-  return { tables: { red: table(rng.fork("red")), blue: table(rng.fork("blue")), black: table(rng.fork("black")) } };
+  return {
+    tables: { red: table(rng.fork("red")), blue: table(rng.fork("blue")), black: table(rng.fork("black")) },
+  };
 }
 
 export const wirePanels: ModuleDef<"wire-panels", WirePanelsState, WirePanelsAction, WirePanelsRules> = {
@@ -71,7 +73,11 @@ export const wirePanels: ModuleDef<"wire-panels", WirePanelsState, WirePanelsAct
   kind: "regular",
 
   generateRules(ruleRng) {
-    return generateSolvableRules(ruleRng, propose, (rules) => checkModuleSolvable(wirePanels, rules, { samples: 200 }).ok);
+    return generateSolvableRules(
+      ruleRng,
+      propose,
+      (rules) => checkModuleSolvable(wirePanels, rules, { samples: 200 }).ok,
+    );
   },
 
   generate(rng) {
@@ -114,7 +120,8 @@ export const wirePanels: ModuleDef<"wire-panels", WirePanelsState, WirePanelsAct
   parseAction(raw) {
     if (!isRecord(raw)) return null;
     if (raw.type === "next") return { type: "next" };
-    if (raw.type === "cut" && isInt(raw.index, 0, WIRE_PANELS_POSTS - 1)) return { type: "cut", index: raw.index };
+    if (raw.type === "cut" && isInt(raw.index, 0, WIRE_PANELS_POSTS - 1))
+      return { type: "cut", index: raw.index };
     return null;
   },
 };

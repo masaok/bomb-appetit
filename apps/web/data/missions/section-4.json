@@ -8,12 +8,7 @@
     "caseSize": "3x2",
     "timeLimitMs": 360000,
     "strikeLimit": 3,
-    "modulePool": [
-      "labyrinth",
-      "passcode",
-      "blinker",
-      "tangled-wires"
-    ],
+    "modulePool": ["labyrinth", "passcode", "blinker", "tangled-wires"],
     "moduleCount": 4,
     "needyPool": [],
     "needyCount": 0,
@@ -71,11 +66,7 @@
       "passcode"
     ],
     "moduleCount": 10,
-    "needyPool": [
-      "pressure-vent",
-      "discharge-lever",
-      "dial-alignment"
-    ],
+    "needyPool": ["pressure-vent", "discharge-lever", "dial-alignment"],
     "needyCount": 1,
     "fixedBombSeed": null,
     "ruleSeed": 1
@@ -103,11 +94,7 @@
       "passcode"
     ],
     "moduleCount": 14,
-    "needyPool": [
-      "pressure-vent",
-      "discharge-lever",
-      "dial-alignment"
-    ],
+    "needyPool": ["pressure-vent", "discharge-lever", "dial-alignment"],
     "needyCount": 3,
     "fixedBombSeed": null,
     "ruleSeed": 1

@@ -15,7 +15,21 @@
     "cloud:sync": "pnpm --filter web cloud:sync",
     "db:generate": "pnpm --filter web db:generate",
     "db:migrate": "pnpm --filter web db:migrate",
-    "db:seed": "pnpm --filter web db:seed"
+    "db:seed": "pnpm --filter web db:seed",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
   },
-  "packageManager": "pnpm@12.8.1"
+  "packageManager": "pnpm@12.8.1",
+  "devDependencies": {
+    "husky": "^9",
+    "lint-staged": "^16",
+    "prettier": "^3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,mjs,json,md,yml,css}": "prettier --write"
+  },
+  "engines": {
+    "node": ">=22"
+  }
 }

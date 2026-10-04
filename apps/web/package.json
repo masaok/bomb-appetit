@@ -2,6 +2,7 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "predev": "node scripts/sync-cloud.mjs",
     "dev": "next dev",
@@ -15,7 +16,7 @@
     "cloud:sync": "node scripts/sync-cloud.mjs",
     "sfx:build": "node scripts/make-sfx.mjs",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
+    "db:migrate": "tsx db/migrate.ts",
     "db:seed": "tsx db/seed.ts"
   },
   "dependencies": {
@@ -38,6 +39,7 @@
     "zustand": "^5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.63",
     "@tailwindcss/postcss": "^4",
     "@testing-library/react": "^16",

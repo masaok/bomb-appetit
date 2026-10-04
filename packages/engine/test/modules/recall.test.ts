@@ -79,7 +79,9 @@ describe("recall rules", () => {
 
 describe("recall rules that look back too far", () => {
   it("resolve to no position", () => {
-    const broken: RecallRules = { stages: [[1, 2, 3, 4].map(() => ({ kind: "sameLabel", stage: 0 }) as const)] };
+    const broken: RecallRules = {
+      stages: [[1, 2, 3, 4].map(() => ({ kind: "sameLabel", stage: 0 }) as const)],
+    };
     expect(recallPositionToPress(broken, at([]))).toBe(-1);
   });
 });
@@ -138,7 +140,10 @@ describe("recall module", () => {
   });
 
   it("accepts only well-formed actions from a run log", () => {
-    expect(recall.parseAction({ type: "press", position: 3, extra: 1 })).toEqual({ type: "press", position: 3 });
+    expect(recall.parseAction({ type: "press", position: 3, extra: 1 })).toEqual({
+      type: "press",
+      position: 3,
+    });
     expect(recall.parseAction({ type: "press", position: 4 })).toBeNull();
     expect(recall.parseAction({ type: "press", position: "1" })).toBeNull();
     expect(recall.parseAction({ type: "spin", position: 1 })).toBeNull();

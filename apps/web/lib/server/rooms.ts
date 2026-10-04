@@ -44,20 +44,29 @@ export async function createRoom(db: Db, host: Player): Promise<string> {
       .onConflictDoNothing({ target: rooms.code })
       .returning();
     if (room) {
-      await db.insert(roomPlayers).values({ roomId: room.id, playerId: host.id, role: "defuser", displayName: host.name });
+      await db
+        .insert(roomPlayers)
+        .values({ roomId: room.id, playerId: host.id, role: "defuser", displayName: host.name });
       return room.code;
     }
   }
   throw new Error("Could not allocate a room code");
 }
 
-export async function loadRoom(db: Db, code: string): Promise<{ room: Room; players: RoomPlayerRow[] } | null> {
+export async function loadRoom(
+  db: Db,
+  code: string,
+): Promise<{ room: Room; players: RoomPlayerRow[] } | null> {
   const [room] = await db
     .select()
     .from(rooms)
     .where(and(eq(rooms.code, code), gt(rooms.expiresAt, new Date())));
   if (!room) return null;
-  const players = await db.select().from(roomPlayers).where(eq(roomPlayers.roomId, room.id)).orderBy(roomPlayers.joinedAt);
+  const players = await db
+    .select()
+    .from(roomPlayers)
+    .where(eq(roomPlayers.roomId, room.id))
+    .orderBy(roomPlayers.joinedAt);
   return { room, players };
 }
 
@@ -74,13 +83,23 @@ function specOf(room: Room): BombSpec | null {
 }
 
 /** Builds the view for one viewer. Only the Defuser's view carries the bomb. */
-export async function viewRoom(db: Db, room: Room, players: RoomPlayerRow[], viewer: Player | null): Promise<RoomView> {
+export async function viewRoom(
+  db: Db,
+  room: Room,
+  players: RoomPlayerRow[],
+  viewer: Player | null,
+): Promise<RoomView> {
   const me = viewer ? players.find((p) => p.playerId === viewer.id) : undefined;
   const spec = room.status === "armed" && me?.role === "defuser" ? specOf(room) : null;
 
   const [last] =
     room.status === "ended"
-      ? await db.select().from(runs).where(eq(runs.ticketId, room.roundId)).orderBy(desc(runs.createdAt)).limit(1)
+      ? await db
+          .select()
+          .from(runs)
+          .where(eq(runs.ticketId, room.roundId))
+          .orderBy(desc(runs.createdAt))
+          .limit(1)
       : [];
 
   return {
@@ -120,7 +139,13 @@ export async function viewRoom(db: Db, room: Room, players: RoomPlayerRow[], vie
   };
 }
 
-const isUniqueViolation = (error: unknown) => /unique|duplicate/i.test(String(error));
+/** Postgres reports a broken unique index as SQLSTATE 23505, possibly wrapped by the driver. */
+function isUniqueViolation(error: unknown): boolean {
+  for (let e = error, depth = 0; e instanceof Error && depth < 5; e = e.cause, depth++) {
+    if ((e as { code?: unknown }).code === "23505") return true;
+  }
+  return false;
+}
 
 export async function applyRoomOp(
   db: Db,
@@ -137,7 +162,8 @@ export async function applyRoomOp(
   switch (op.op) {
     case "join": {
       if (me) return { ok: true };
-      if (players.filter((p) => p.role === "expert").length >= MAX_EXPERTS) return no(409, "This room is full.");
+      if (players.filter((p) => p.role === "expert").length >= MAX_EXPERTS)
+        return no(409, "This room is full.");
       await db
         .insert(roomPlayers)
         .values({ roomId: room.id, playerId: player.id, role: "expert", displayName: player.name })
@@ -209,23 +235,33 @@ export async function applyRoomOp(
     }
 
     case "status": {
-      if (me?.role !== "defuser" || room.status !== "armed") return no(403, "Only the Defuser of an armed bomb reports status.");
-      await db.update(rooms).set({ lastStatus: op.status }).where(and(eq(rooms.id, room.id), eq(rooms.status, "armed")));
+      if (me?.role !== "defuser" || room.status !== "armed")
+        return no(403, "Only the Defuser of an armed bomb reports status.");
+      await db
+        .update(rooms)
+        .set({ lastStatus: op.status })
+        .where(and(eq(rooms.id, room.id), eq(rooms.status, "armed")));
       await realtime.publish(channel, "game:status", op.status);
       return { ok: true };
     }
 
     case "reset": {
       if (!isHost) return no(403, "Only the host can reset the room.");
-      await db.update(rooms).set({ status: "lobby", startedAt: null, lastStatus: null }).where(eq(rooms.id, room.id));
+      await db
+        .update(rooms)
+        .set({ status: "lobby", startedAt: null, lastStatus: null })
+        .where(eq(rooms.id, room.id));
       await realtime.publish(channel, "room:reset", {});
       return { ok: true };
     }
 
     case "leave": {
       if (!me) return { ok: true };
-      if (room.status === "armed" && me.role === "defuser") return no(409, "The Defuser cannot leave an armed bomb.");
-      await db.delete(roomPlayers).where(and(eq(roomPlayers.roomId, room.id), eq(roomPlayers.playerId, player.id)));
+      if (room.status === "armed" && me.role === "defuser")
+        return no(409, "The Defuser cannot leave an armed bomb.");
+      await db
+        .delete(roomPlayers)
+        .where(and(eq(roomPlayers.roomId, room.id), eq(roomPlayers.playerId, player.id)));
       await changed();
       return { ok: true };
     }

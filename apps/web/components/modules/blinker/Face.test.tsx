@@ -26,7 +26,9 @@ it("shows the tuned frequency", () => {
 });
 
 it("lights the lamp from the bomb clock", () => {
-  const at = (elapsedMs: number) => <Face state={state} solved={false} bomb={{ ...bomb, elapsedMs }} dispatch={() => {}} />;
+  const at = (elapsedMs: number) => (
+    <Face state={state} solved={false} bomb={{ ...bomb, elapsedMs }} dispatch={() => {}} />
+  );
   const { rerender } = render(at(100));
   expect(screen.getByRole("img", { name: "Signal light, on" })).toBeTruthy();
   rerender(at(300));

@@ -75,7 +75,9 @@ describe("dial alignment module", () => {
   });
 
   it("turns the dial one step clockwise while active, with no strike", () => {
-    expect(dialAlignment.apply(active, { type: "turn" }, at(40_000))).toEqual({ state: { ...active, dial: "down" } });
+    expect(dialAlignment.apply(active, { type: "turn" }, at(40_000))).toEqual({
+      state: { ...active, dial: "down" },
+    });
   });
 
   it("ignores the dial while asleep", () => {
@@ -102,7 +104,9 @@ describe("dial alignment module", () => {
   it("hints a turn only while active and misaligned", () => {
     expect(dialAlignment.hint(active, at(40_000))).toEqual({ type: "turn" });
     expect(dialAlignment.hint({ ...active, dial: "down" }, at(40_000))).toBeNull();
-    expect(dialAlignment.hint({ ...active, leds: CORNERS, dial: "down" }, at(40_000))).toEqual({ type: "turn" });
+    expect(dialAlignment.hint({ ...active, leds: CORNERS, dial: "down" }, at(40_000))).toEqual({
+      type: "turn",
+    });
     expect(dialAlignment.hint(asleep, at(10_000))).toBeNull();
   });
 
@@ -129,7 +133,9 @@ describe("dial alignment generated rules", () => {
   });
 
   it("survives 90 seconds by following hints", () => {
-    expect(checkModuleSolvable(dialAlignment, generated, { samples: 200, seed: "other" })).toEqual({ ok: true });
+    expect(checkModuleSolvable(dialAlignment, generated, { samples: 200, seed: "other" })).toEqual({
+      ok: true,
+    });
   });
 
   it("fails the survival check when the dial is left alone", () => {

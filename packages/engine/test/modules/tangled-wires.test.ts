@@ -16,14 +16,31 @@ import { ctxFor, edgework } from "../helpers";
 const rules: TangledWiresRules = {
   port: "coax",
   table: [
-    "cut", "skip", "serial", "port", // plain, red, blue, red+blue
-    "battery", "cut", "skip", "serial", // the same four with a star
-    "port", "battery", "cut", "skip", // the same four with the LED on
-    "serial", "port", "battery", "cut", // star and LED
+    "cut",
+    "skip",
+    "serial",
+    "port", // plain, red, blue, red+blue
+    "battery",
+    "cut",
+    "skip",
+    "serial", // the same four with a star
+    "port",
+    "battery",
+    "cut",
+    "skip", // the same four with the LED on
+    "serial",
+    "port",
+    "battery",
+    "cut", // star and LED
   ],
 };
 
-const flags = (red: boolean, blue: boolean, star: boolean, led: boolean): TangledWiresFlags => ({ red, blue, star, led });
+const flags = (red: boolean, blue: boolean, star: boolean, led: boolean): TangledWiresFlags => ({
+  red,
+  blue,
+  star,
+  led,
+});
 
 const evenSerial = edgework({ serial: "AB1CD2" });
 const oddSerial = edgework({ serial: "AB1CD7" });
@@ -115,7 +132,10 @@ describe("tangled wires module", () => {
 
   it("hints the next wire that needs cutting", () => {
     expect(tangledWires.hint(state, ctx)).toEqual({ type: "cut", index: 0 });
-    expect(tangledWires.hint({ wires, cut: [true, true, false, false] }, ctx)).toEqual({ type: "cut", index: 2 });
+    expect(tangledWires.hint({ wires, cut: [true, true, false, false] }, ctx)).toEqual({
+      type: "cut",
+      index: 2,
+    });
     expect(tangledWires.hint({ wires, cut: [true, false, true, false] }, ctx)).toBeNull();
   });
 
@@ -159,12 +179,17 @@ describe("tangled wires module", () => {
   it("plays 200 random instances to completion by following the hint", () => {
     for (const seed of ["rules:1", "rules:2", "rules:3"]) {
       const generated = tangledWires.generateRules(createRng(seed).fork("tangled-wires"));
-      expect(checkModuleSolvable(tangledWires, generated, { samples: 200, seed: "other" })).toEqual({ ok: true });
+      expect(checkModuleSolvable(tangledWires, generated, { samples: 200, seed: "other" })).toEqual({
+        ok: true,
+      });
     }
   });
 
   it("flags a rule set that never lets a wire be cut", () => {
-    const broken: TangledWiresRules = { port: "hex", table: Array.from({ length: 16 }, () => "skip" as const) };
+    const broken: TangledWiresRules = {
+      port: "hex",
+      table: Array.from({ length: 16 }, () => "skip" as const),
+    };
     expect(checkModuleSolvable(tangledWires, broken, { samples: 20 }).ok).toBe(false);
   });
 });

@@ -12,7 +12,11 @@ export function fail(status: number, error: string): Response {
 export const NO_DATABASE = () => fail(503, "This server has no database, so rooms and saved runs are off.");
 
 /** Parses a JSON request body against a schema. Returns a Response on failure. */
-export async function readBody<T>(request: Request, schema: z.ZodType<T>, maxBytes = 2_000_000): Promise<T | Response> {
+export async function readBody<T>(
+  request: Request,
+  schema: z.ZodType<T>,
+  maxBytes = 2_000_000,
+): Promise<T | Response> {
   const text = await request.text();
   if (text.length > maxBytes) return fail(413, "Request body is too large.");
   let raw: unknown;
@@ -26,5 +30,9 @@ export async function readBody<T>(request: Request, schema: z.ZodType<T>, maxByt
 }
 
 export function clientIp(request: Request): string {
-  return request.headers.get("x-real-ip") ?? request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  return (
+    request.headers.get("x-real-ip") ??
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    "unknown"
+  );
 }

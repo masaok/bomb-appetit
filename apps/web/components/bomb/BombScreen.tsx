@@ -59,19 +59,28 @@ export function BombScreen({
   const [chosen, setChosen] = useState<ViewMode | null>(null);
   const view = chosen ?? preferred;
   const [save, setSave] = useState<SaveState>({ kind: "saving" });
-  const [shake, setShake] = useState(0);
+  const stage = useRef<HTMLDivElement>(null);
+
+  // A room re-sends the same run on every poll as a new object. The run's identity is
+  // its resume key, so only a new key deals a new bomb.
+  const latestRun = useRef(run);
+  useEffect(() => {
+    latestRun.current = run;
+  });
+  const resumeKey = run.resumeKey;
 
   useEffect(() => {
     void initAudio();
     const { restore, arm } = useGame.getState();
-    if (!restore(run.resumeKey)) arm(run.spec, { token: run.ticket, resumeKey: run.resumeKey });
+    const { spec, ticket } = latestRun.current;
+    if (!restore(resumeKey)) arm(spec, { token: ticket, resumeKey });
     // 20 Hz keeps blinking codes (250 ms pulses) readable without redrawing more than needed.
     const loop = setInterval(() => useGame.getState().tick(), 50);
     return () => {
       clearInterval(loop);
-      useGame.getState().reset();
+      useGame.getState().suspend();
     };
-  }, [run]);
+  }, [resumeKey]);
 
   const bomb = game.kind === "idle" ? null : game.bomb;
 
@@ -85,7 +94,14 @@ export function BombScreen({
     if (bomb.phase.kind === "defused" && before.phase.kind === "armed") return playSfx("defused");
     if (bomb.strikes > before.strikes) {
       playSfx("strike");
-      setShake((n) => n + 1);
+      // Played through the Web Animations API so the bomb view is not remounted: a
+      // remount would rebuild the 3D scene on every strike.
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        stage.current?.animate(
+          [0, -6, 5, -4, 3, 0].map((x, i) => ({ transform: `translate(${x}px, ${i % 2 ? 3 : -3}px)` })),
+          { duration: 400, easing: "ease-in-out" },
+        );
+      }
     } else if (solvedCount(bomb) > solvedCount(before)) {
       playSfx("solved");
     } else if (needyActive(bomb) && !needyActive(before)) {
@@ -146,7 +162,9 @@ export function BombScreen({
   if (ended) {
     return (
       <>
-        {bomb.phase.kind === "exploded" && <div aria-hidden className="whiteout pointer-events-none fixed inset-0 z-50 bg-white" />}
+        {bomb.phase.kind === "exploded" && (
+          <div aria-hidden className="whiteout pointer-events-none fixed inset-0 z-50 bg-white" />
+        )}
         <ResultsPanel bomb={bomb} save={save} actions={resultActions} />
       </>
     );
@@ -166,7 +184,7 @@ export function BombScreen({
     <div className="min-h-screen bg-[#191329] pb-10">
       <header className="sticky top-0 z-20 flex flex-wrap items-center justify-between gap-3 border-b-2 border-[#15101f] bg-[#221a38] px-4 py-2 text-[#fff6e9]">
         <div className="flex items-center gap-4" role="timer" aria-label={`Time left ${readout.timerText}`}>
-          <span className="font-mono text-3xl font-bold text-tomato tabular-nums">{readout.timerText}</span>
+          <span className="font-mono text-3xl font-bold text-ember tabular-nums">{readout.timerText}</span>
           <span className="text-sm font-bold">
             Strikes {bomb.strikes}/{bomb.spec.strikeLimit}
           </span>
@@ -175,7 +193,11 @@ export function BombScreen({
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex overflow-hidden rounded-full border-2 border-[#15101f]" role="group" aria-label="Bomb view">
+          <div
+            className="flex overflow-hidden rounded-full border-2 border-[#15101f]"
+            role="group"
+            aria-label="Bomb view"
+          >
             {(["2d", "3d"] as const).map((mode) => (
               <button
                 key={mode}
@@ -191,7 +213,7 @@ export function BombScreen({
           <AudioControls />
         </div>
       </header>
-      <div key={shake} className={`mx-auto max-w-6xl px-3 pt-4 ${shake > 0 ? "bomb-shake" : ""}`}>
+      <div ref={stage} className="mx-auto max-w-6xl px-3 pt-4">
         {view === "3d" ? (
           <Bomb3D bomb={bomb} dispatch={useGame.getState().dispatch} />
         ) : (

@@ -26,27 +26,15 @@ export function HeroMascot() {
   const [boops, setBoops] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(
-      () => setSeconds((s) => (s <= 1 ? START_SECONDS : s - 1)),
-      1000,
-    );
+    const id = setInterval(() => setSeconds((s) => (s <= 1 ? START_SECONDS : s - 1)), 1000);
     return () => clearInterval(id);
   }, []);
 
   return (
     <div className="relative mx-auto w-full max-w-md">
-      <div
-        aria-hidden
-        className="absolute inset-x-6 top-10 bottom-4 rounded-full bg-sun"
-      />
-      <div
-        aria-hidden
-        className="absolute right-2 top-16 size-10 rounded-full bg-mint"
-      />
-      <div
-        aria-hidden
-        className="absolute right-4 bottom-10 size-6 rounded-full bg-sky"
-      />
+      <div aria-hidden className="absolute inset-x-6 top-10 bottom-4 rounded-full bg-sun" />
+      <div aria-hidden className="absolute right-2 top-16 size-10 rounded-full bg-mint" />
+      <div aria-hidden className="absolute right-4 bottom-10 size-6 rounded-full bg-sky" />
 
       <button
         type="button"
@@ -69,7 +57,7 @@ export function HeroMascot() {
 
       <div
         aria-hidden
-        className="sticker absolute bottom-6 left-0 -rotate-6 rounded-xl bg-night px-3 py-1.5 font-mono text-xl font-bold tabular-nums text-tomato"
+        className="sticker absolute bottom-6 left-0 -rotate-6 rounded-xl bg-night px-3 py-1.5 font-mono text-xl font-bold tabular-nums text-tomato-text"
       >
         {formatTime(seconds)}
       </div>

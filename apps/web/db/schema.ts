@@ -24,7 +24,9 @@ export const users = pgTable("users", {
   githubId: text("github_id").notNull().unique(),
   name: text("name").notNull(),
   email: text("email").unique(),
-  role: text("role", { enum: ["player", "admin"] }).notNull().default("player"),
+  role: text("role", { enum: ["player", "admin"] })
+    .notNull()
+    .default("player"),
   createdAt,
 });
 
@@ -58,7 +60,9 @@ export const rooms = pgTable(
     id: uuid("id").primaryKey().defaultRandom(),
     code: char("code", { length: 5 }).notNull().unique(),
     hostId: uuid("host_id").notNull(),
-    status: text("status", { enum: ["lobby", "armed", "ended"] }).notNull().default("lobby"),
+    status: text("status", { enum: ["lobby", "armed", "ended"] })
+      .notNull()
+      .default("lobby"),
     missionId: text("mission_id"),
     freeplayConfig: jsonb("freeplay_config").$type<FreeplayConfig>(),
     bombSeed: bigint("bomb_seed", { mode: "number" }).notNull(),
@@ -87,7 +91,9 @@ export const roomPlayers = pgTable(
   (t) => [
     primaryKey({ columns: [t.roomId, t.playerId] }),
     // "Exactly one Defuser" is a database fact, not something two racing requests can both pass.
-    uniqueIndex("room_players_one_defuser_idx").on(t.roomId).where(sql`${t.role} = 'defuser'`),
+    uniqueIndex("room_players_one_defuser_idx")
+      .on(t.roomId)
+      .where(sql`${t.role} = 'defuser'`),
   ],
 );
 
@@ -101,7 +107,10 @@ export const runs = pgTable(
     missionId: text("mission_id"),
     defuserId: uuid("defuser_id"),
     defuserName: text("defuser_name").notNull(),
-    expertIds: uuid("expert_ids").array().notNull().default(sql`'{}'::uuid[]`),
+    expertIds: uuid("expert_ids")
+      .array()
+      .notNull()
+      .default(sql`'{}'::uuid[]`),
     bombSeed: bigint("bomb_seed", { mode: "number" }).notNull(),
     ruleSeed: integer("rule_seed").notNull(),
     engineVersion: text("engine_version").notNull(),

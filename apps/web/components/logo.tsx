@@ -9,7 +9,7 @@ export function Logo({ className = "" }: { className?: string }) {
     >
       <Mascot decorative className="h-10 w-auto" />
       <span>
-        Bomb <span className="text-tomato">Appetit</span>
+        Bomb <span className="text-tomato-text">Appetit</span>
       </span>
     </Link>
   );

@@ -1,9 +1,9 @@
 import { isModuleId, MODULES, validateSpec, type BombSpec, type ModuleId } from "@bombappetit/engine";
 import { z } from "zod";
-import section1 from "@/data/missions/section-1.json";
-import section2 from "@/data/missions/section-2.json";
-import section3 from "@/data/missions/section-3.json";
-import section4 from "@/data/missions/section-4.json";
+import section1 from "@/data/missions/section-1.json" with { type: "json" };
+import section2 from "@/data/missions/section-2.json" with { type: "json" };
+import section3 from "@/data/missions/section-3.json" with { type: "json" };
+import section4 from "@/data/missions/section-4.json" with { type: "json" };
 
 const moduleId = z.custom<ModuleId>(isModuleId, "unknown module");
 
@@ -59,7 +59,8 @@ for (const mission of MISSIONS) {
   const problem = validateSpec(missionSpec(mission, 0));
   if (problem) throw new Error(`Mission ${mission.id}: ${problem}`);
 }
-if (new Set(MISSIONS.map((m) => m.id)).size !== MISSIONS.length) throw new Error("Mission ids must be unique");
+if (new Set(MISSIONS.map((m) => m.id)).size !== MISSIONS.length)
+  throw new Error("Mission ids must be unique");
 
 export function missionById(id: string): Mission | undefined {
   return MISSIONS.find((m) => m.id === id);

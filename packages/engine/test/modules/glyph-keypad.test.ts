@@ -20,9 +20,18 @@ const rules: GlyphKeypadRules = {
 
 describe("glyph keypad rules", () => {
   it.each<[GlyphKeypadGlyph[], number[] | null]>([
-    [["hexagon-zigzag", "circle-dot", "circle-bar", "arch-plus"], [1, 3, 0, 2]], // only in column 1
-    [["square-bar", "triangle-dot", "hexagon-ring", "circle-dot"], [1, 3, 2, 0]], // only in column 2
-    [["circle-dot", "square-bar", "arch-plus", "diamond-ring"], [0, 1, 2, 3]], // already in order
+    [
+      ["hexagon-zigzag", "circle-dot", "circle-bar", "arch-plus"],
+      [1, 3, 0, 2],
+    ], // only in column 1
+    [
+      ["square-bar", "triangle-dot", "hexagon-ring", "circle-dot"],
+      [1, 3, 2, 0],
+    ], // only in column 2
+    [
+      ["circle-dot", "square-bar", "arch-plus", "diamond-ring"],
+      [0, 1, 2, 3],
+    ], // already in order
     [["circle-dot", "square-bar", "arch-plus", "triangle-dot"], null], // fits both columns
     [["circle-dot", "square-bar", "arch-plus", "arch-ring"], null], // fits no column
   ])("%j presses positions %j", (glyphs, expected) => {
@@ -57,7 +66,10 @@ describe("glyph keypad module", () => {
 
   it("strikes on a wrong press and keeps progress", () => {
     const partway = { ...state, pressed: [false, true, false, true] };
-    expect(glyphKeypad.apply(partway, { type: "press", position: 2 }, ctx)).toEqual({ state: partway, strike: true });
+    expect(glyphKeypad.apply(partway, { type: "press", position: 2 }, ctx)).toEqual({
+      state: partway,
+      strike: true,
+    });
   });
 
   it("solves on the fourth correct press", () => {
@@ -110,14 +122,16 @@ describe("glyph keypad module", () => {
   it("plays 200 random instances to completion by following hint", () => {
     for (const seed of ["rules:1", "rules:2", "rules:3"]) {
       const generated = glyphKeypad.generateRules(createRng(seed).fork("glyph-keypad"));
-      expect(checkModuleSolvable(glyphKeypad, generated, { samples: 200, seed: "other" })).toEqual({ ok: true });
+      expect(checkModuleSolvable(glyphKeypad, generated, { samples: 200, seed: "other" })).toEqual({
+        ok: true,
+      });
     }
   });
 
   it("flags a rule set where four keys fit two columns", () => {
     const column = rules.columns[0]!;
-    expect(checkModuleSolvable(glyphKeypad, { columns: [column, [...column].reverse()] }, { samples: 50 }).ok).toBe(
-      false,
-    );
+    expect(
+      checkModuleSolvable(glyphKeypad, { columns: [column, [...column].reverse()] }, { samples: 50 }).ok,
+    ).toBe(false);
   });
 });

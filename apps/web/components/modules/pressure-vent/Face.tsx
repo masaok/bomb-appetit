@@ -17,7 +17,7 @@ export function Face({ state, bomb, dispatch }: ModuleFaceProps<PressureVentStat
     <div
       role="group"
       aria-label="Pressure Vent"
-      className={`flex size-full flex-col gap-3 p-4 text-[#fff6e9] ${active ? "" : "opacity-45 saturate-50"}`}
+      className={`flex size-full flex-col gap-3 p-4 text-[#fff6e9] ${active ? "" : "opacity-60 saturate-50"}`}
     >
       <div className="flex items-center gap-3 pr-10">
         <div
@@ -31,9 +31,26 @@ export function Face({ state, bomb, dispatch }: ModuleFaceProps<PressureVentStat
         </div>
         {/* vent slats: open while it is asking, shut while it sleeps */}
         <svg viewBox="0 0 120 44" className="h-11 flex-1" aria-hidden>
-          <rect x="1.5" y="1.5" width="117" height="41" rx="9" fill="#3a2f5c" stroke="#15101f" strokeWidth="3" />
+          <rect
+            x="1.5"
+            y="1.5"
+            width="117"
+            height="41"
+            rx="9"
+            fill="#3a2f5c"
+            stroke="#15101f"
+            strokeWidth="3"
+          />
           {[10, 20, 30].map((y) => (
-            <rect key={y} x="12" y={y - (active ? 3 : 1)} width="96" height={active ? 6 : 2} rx="1" fill="#15101f" />
+            <rect
+              key={y}
+              x="12"
+              y={y - (active ? 3 : 1)}
+              width="96"
+              height={active ? 6 : 2}
+              rx="1"
+              fill="#15101f"
+            />
           ))}
         </svg>
       </div>
@@ -60,7 +77,14 @@ export function Face({ state, bomb, dispatch }: ModuleFaceProps<PressureVentStat
             className="flex h-[72px] items-center justify-center gap-2 rounded-2xl border-[3px] border-[#15101f] font-display text-3xl font-bold text-[#15101f] uppercase shadow-[0_5px_0_#15101f] enabled:cursor-pointer enabled:active:translate-y-1 enabled:active:shadow-[0_1px_0_#15101f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fff6e9]"
           >
             <svg viewBox="0 0 30 30" className="size-7" aria-hidden>
-              <path d={mark} fill="none" stroke="#15101f" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d={mark}
+                fill="none"
+                stroke="#15101f"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
             {label}
           </button>
