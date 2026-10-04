@@ -2,7 +2,7 @@ import "server-only";
 import { and, count, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
 import type { Db } from "@/db/client";
 import { guests, roomPlayers, rooms, runs, users } from "@/db/schema";
-import type { AdminStore } from "@/lib/cloud-contract";
+import type { AdminRoomFilter, AdminRunFilter, AdminStore, AdminUserFilter } from "@/lib/cloud-contract";
 import { missionById, MISSIONS } from "@/lib/missions";
 import { boardPage, boardSizes } from "./leaderboard";
 
@@ -15,6 +15,28 @@ function contains(term: string | undefined, ...columns: Parameters<typeof ilike>
 }
 
 const waitingForReview = sql`jsonb_array_length(${runs.review}) > 0`;
+// One definition of "matches" per table, shared by the page query and its count.
+const runsWhere = ({
+  flaggedOnly,
+  search,
+  result,
+  verified,
+  review,
+}: { flaggedOnly: boolean } & AdminRunFilter) =>
+  and(
+    flaggedOnly ? sql`jsonb_array_length(${runs.flags}) > 0` : undefined,
+    contains(search, runs.defuserName, runs.missionId),
+    result ? eq(runs.result, result) : undefined,
+    verified === undefined ? undefined : eq(runs.verified, verified),
+    review ? waitingForReview : undefined,
+  );
+const roomsWhere = (filter: AdminRoomFilter) =>
+  and(contains(filter.search, rooms.code), filter.status ? eq(rooms.status, filter.status) : undefined);
+const usersWhere = (filter: AdminUserFilter) =>
+  and(
+    contains(filter.search, users.name, users.login, users.email),
+    filter.role ? eq(users.role, filter.role) : undefined,
+  );
 
 /** The read side handed to the private admin pages. Writes go through /api/admin/*. */
 export function adminStore(db: Db): AdminStore {
@@ -76,19 +98,13 @@ export function adminStore(db: Db): AdminStore {
       };
     },
 
-    async runs({ flaggedOnly, limit, search, result, verified, review }) {
+    async runs({ limit, offset = 0, ...filter }) {
       const rows = await runRows()
-        .where(
-          and(
-            flaggedOnly ? sql`jsonb_array_length(${runs.flags}) > 0` : undefined,
-            contains(search, runs.defuserName, runs.missionId),
-            result ? eq(runs.result, result) : undefined,
-            verified === undefined ? undefined : eq(runs.verified, verified),
-            review ? waitingForReview : undefined,
-          ),
-        )
-        .orderBy(desc(runs.createdAt))
-        .limit(limit);
+        .where(runsWhere(filter))
+        // The id breaks ties, so a row cannot appear on two pages.
+        .orderBy(desc(runs.createdAt), runs.id)
+        .limit(limit)
+        .offset(offset);
       return rows.map(toRunRow);
     },
 
@@ -109,15 +125,11 @@ export function adminStore(db: Db): AdminStore {
         })
         .from(rooms)
         .leftJoin(roomPlayers, eq(roomPlayers.roomId, rooms.id))
-        .where(
-          and(
-            contains(filter.search, rooms.code),
-            filter.status ? eq(rooms.status, filter.status) : undefined,
-          ),
-        )
+        .where(roomsWhere(filter))
         .groupBy(rooms.id)
-        .orderBy(desc(rooms.createdAt))
-        .limit(limit);
+        .orderBy(desc(rooms.createdAt), rooms.id)
+        .limit(limit)
+        .offset(filter.offset ?? 0);
       return rows.map((r) => ({
         ...r,
         createdAt: r.createdAt.toISOString(),
@@ -131,15 +143,11 @@ export function adminStore(db: Db): AdminStore {
         .select({ user: users, runs: count(runs.id) })
         .from(users)
         .leftJoin(runs, eq(runs.defuserId, users.id))
-        .where(
-          and(
-            contains(filter.search, users.name, users.login, users.email),
-            filter.role ? eq(users.role, filter.role) : undefined,
-          ),
-        )
+        .where(usersWhere(filter))
         .groupBy(users.id)
-        .orderBy(desc(users.createdAt))
-        .limit(limit);
+        .orderBy(desc(users.createdAt), users.id)
+        .limit(limit)
+        .offset(filter.offset ?? 0);
       return rows.map(({ user: u, runs: saved }) => ({
         id: u.id,
         githubId: u.githubId,
@@ -186,6 +194,16 @@ export function adminStore(db: Db): AdminStore {
         const run = byId.get(r.runId);
         return run ? [{ ...run, rank: r.rank, playerId: r.playerId }] : [];
       });
+    },
+
+    async countRuns(filter) {
+      return (await db.select({ n: count() }).from(runs).where(runsWhere(filter)))[0]?.n ?? 0;
+    },
+    async countRooms(filter = {}) {
+      return (await db.select({ n: count() }).from(rooms).where(roomsWhere(filter)))[0]?.n ?? 0;
+    },
+    async countUsers(filter = {}) {
+      return (await db.select({ n: count() }).from(users).where(usersWhere(filter)))[0]?.n ?? 0;
     },
   };
 }
