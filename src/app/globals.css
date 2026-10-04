@@ -1,26 +1,174 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --page: #fff6e9;
+  --card: #ffffff;
+  --ink: #221a38;
+  --muted: #5f5778;
+  --line: #221a38;
+  --shadow: #221a38;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-page: var(--page);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  /* Brand colors stay the same in both themes; text on them uses `night`. */
+  --color-night: #221a38;
+  --color-tomato: #f04a3a;
+  --color-sun: #ffc94a;
+  --color-mint: #5fd3a6;
+  --color-sky: #6ec1ff;
+  --color-grape: #5b4b9a;
+  --color-blush: #ff8fa3;
+  --font-sans: var(--font-nunito);
+  --font-display: var(--font-fredoka);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --page: #191329;
+    --card: #261d40;
+    --ink: #fff6e9;
+    --muted: #b9b0d0;
+    --line: #6f5fa8;
+    --shadow: #0b0814;
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--page);
+  color: var(--ink);
+}
+
+/* Chunky outlined card with a hard offset shadow. */
+.sticker {
+  border: 2px solid var(--line);
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.sticker-press {
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.sticker-press:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0 var(--shadow);
+}
+
+.sticker-press:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--shadow);
+}
+
+/* Mascot animation */
+.mascot-bob,
+.mascot-blink,
+.mascot-spark,
+.mascot-wave {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.mascot-bob {
+  animation: mascot-bob 3s ease-in-out infinite;
+}
+
+.mascot-blink {
+  animation: mascot-blink 4.5s infinite;
+}
+
+.mascot-spark {
+  animation: mascot-spark 0.6s ease-in-out infinite alternate;
+}
+
+.mascot-wave {
+  transform-origin: bottom left;
+  animation: mascot-wave 1.6s ease-in-out infinite;
+}
+
+.mascot-boop {
+  animation: mascot-boop 0.45s ease-out;
+}
+
+@keyframes mascot-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes mascot-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes mascot-spark {
+  from {
+    transform: scale(0.85) rotate(-8deg);
+  }
+  to {
+    transform: scale(1.15) rotate(10deg);
+  }
+}
+
+@keyframes mascot-wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(14deg);
+  }
+}
+
+@keyframes mascot-boop {
+  0% {
+    transform: scale(1, 1);
+  }
+  35% {
+    transform: scale(1.12, 0.86);
+  }
+  70% {
+    transform: scale(0.95, 1.06);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .mascot-bob,
+  .mascot-blink,
+  .mascot-spark,
+  .mascot-wave,
+  .mascot-boop {
+    animation: none;
+  }
+
+  .sticker-press {
+    transition: none;
+  }
 }
