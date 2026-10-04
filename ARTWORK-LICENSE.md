@@ -1,6 +1,6 @@
 # Artwork license
 
-The Bomb Appetit mascot ("Fizz"), the logo drawing, the module icons, the glyph set and
+The Bomb Appétit mascot ("Fizz"), the logo drawing, the module icons, the glyph set and
 the Open Graph and icon images are licensed under
 [Creative Commons Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/).
 
@@ -14,4 +14,4 @@ The sound effects in `apps/web/public/audio` are not covered by this file. They 
 CC0. See `apps/web/public/audio/LICENSE.md`.
 
 Using the artwork under this license does not give you the right to use the name
-"Bomb Appetit" or to present your project as this one. See `TRADEMARK.md`.
+"Bomb Appétit" or to present your project as this one. See `TRADEMARK.md`.

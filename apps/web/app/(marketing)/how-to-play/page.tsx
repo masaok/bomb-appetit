@@ -8,7 +8,7 @@ import { ModuleIcon } from "@/components/module-icons";
 export const metadata: Metadata = {
   title: "How to play",
   description:
-    "Learn Bomb Appetit in five minutes: roles, setup for same-room and online play, the timer, strikes, edgework, needy modules and rule seeds.",
+    "Learn Bomb Appétit in five minutes: roles, setup for same-room and online play, the timer, strikes, edgework, needy modules and rule seeds.",
 };
 
 const needs = [

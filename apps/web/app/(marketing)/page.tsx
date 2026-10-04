@@ -7,7 +7,7 @@ import { Mascot } from "@/components/mascot";
 import { ModuleIcon } from "@/components/module-icons";
 
 export const metadata: Metadata = {
-  title: { absolute: "Bomb Appetit, the co-op bomb defusal party game" },
+  title: { absolute: "Bomb Appétit, the co-op bomb defusal party game" },
   description:
     "A free co-op bomb defusal party game for your browser. One player sees the bomb, everyone else has the manual. Play now with 2 to 5 people.",
 };
@@ -121,7 +121,7 @@ export default function Home() {
             One bomb. One manual. <span className="text-tomato-text">Lots of yelling.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-muted sm:text-xl lg:mx-0">
-            Bomb Appetit is a co-op party game for your browser. One of you sees a ticking bomb. The rest of
+            Bomb Appétit is a co-op party game for your browser. One of you sees a ticking bomb. The rest of
             you have the manual. Talk each other through it before the timer runs out.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4 lg:justify-start">

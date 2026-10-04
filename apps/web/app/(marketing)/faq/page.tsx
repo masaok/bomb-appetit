@@ -6,7 +6,7 @@ import { PageIntro } from "@/components/marketing/page-intro";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Answers about Bomb Appetit: players, voice chat, cost, devices, printing the manual, accounts, rule seeds and verified runs.",
+    "Answers about Bomb Appétit: players, voice chat, cost, devices, printing the manual, accounts, rule seeds and verified runs.",
 };
 
 const jsonLd = {

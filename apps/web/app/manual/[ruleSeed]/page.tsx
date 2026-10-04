@@ -68,7 +68,7 @@ export default async function ManualPage({ params }: PageProps<"/manual/[ruleSee
       <main className="min-w-0 text-lg leading-relaxed sm:text-base">
         <section id="intro" className="manual-page scroll-mt-4">
           <p className="font-display text-sm font-semibold tracking-widest text-tomato-text uppercase print:text-black">
-            Bomb Appetit · manual {ruleSeed}
+            Bomb Appétit · manual {ruleSeed}
             {ruleSeed === STANDARD_RULE_SEED && " (standard)"}
           </p>
           <h1 className="mt-1 font-display text-4xl font-bold tracking-tight sm:text-5xl">

@@ -1,6 +1,6 @@
 const INK = "#221a38";
 
-/** Fizz, the Bomb Appetit mascot. Colors are fixed so it looks the same in both themes. */
+/** Fizz, the Bomb Appétit mascot. Colors are fixed so it looks the same in both themes. */
 export function Mascot({ className, decorative = false }: { className?: string; decorative?: boolean }) {
   return (
     <svg

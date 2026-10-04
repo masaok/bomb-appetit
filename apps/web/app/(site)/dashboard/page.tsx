@@ -11,7 +11,7 @@ import { MISSIONS } from "@/lib/missions";
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "Your Bomb Appetit account.",
+  description: "Your Bomb Appétit account.",
   robots: { index: false },
 };
 

@@ -5,7 +5,7 @@ import { changelog } from "@/data/changelog";
 
 export const metadata: Metadata = {
   title: "Changelog",
-  description: "What is new in Bomb Appetit, version by version.",
+  description: "What is new in Bomb Appétit, version by version.",
 };
 
 const dateFormat = new Intl.DateTimeFormat("en-US", {

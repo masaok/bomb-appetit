@@ -26,15 +26,15 @@ const description =
 export const metadata: Metadata = {
   metadataBase: new URL("https://bombappetit.com"),
   title: {
-    default: "Bomb Appetit, the co-op bomb defusal party game",
-    template: "%s · Bomb Appetit",
+    default: "Bomb Appétit, the co-op bomb defusal party game",
+    template: "%s · Bomb Appétit",
   },
   description,
   openGraph: {
-    title: "Bomb Appetit",
+    title: "Bomb Appétit",
     description,
     url: "/",
-    siteName: "Bomb Appetit",
+    siteName: "Bomb Appétit",
     type: "website",
   },
 };

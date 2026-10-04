@@ -19,7 +19,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "How much does it cost?",
-    a: "Nothing. Bomb Appetit is free to play, and the code is open source on GitHub.",
+    a: "Nothing. Bomb Appétit is free to play, and the code is open source on GitHub.",
   },
   {
     q: "What devices and browsers does it work on?",
@@ -47,7 +47,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Is it related to other bomb defusal games?",
-    a: "No. Bomb Appetit is an original game in the same genre. It has its own rules, art and sounds.",
+    a: "No. Bomb Appétit is an original game in the same genre. It has its own rules, art and sounds.",
   },
 ];
 

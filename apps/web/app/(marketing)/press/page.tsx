@@ -6,7 +6,7 @@ import { Mascot } from "@/components/mascot";
 
 export const metadata: Metadata = {
   title: "Press kit",
-  description: "Descriptions, fact sheet, logo, mascot and brand colors for writing about Bomb Appetit.",
+  description: "Descriptions, fact sheet, logo, mascot and brand colors for writing about Bomb Appétit.",
 };
 
 const facts = [
@@ -37,7 +37,7 @@ function SectionTitle({ children }: { children: string }) {
 export default function PressPage() {
   return (
     <>
-      <PageIntro kicker="Press kit" title="Writing about Bomb Appetit?">
+      <PageIntro kicker="Press kit" title="Writing about Bomb Appétit?">
         Here is everything in one place. Copy what you need.
       </PageIntro>
 
@@ -48,14 +48,14 @@ export default function PressPage() {
             <div className="sticker rounded-3xl bg-card p-6">
               <h3 className="font-display text-xl font-semibold">One line</h3>
               <p className="mt-2 text-muted">
-                Bomb Appetit is a free co-op party game for your browser where one player defuses a bomb and
+                Bomb Appétit is a free co-op party game for your browser where one player defuses a bomb and
                 everyone else reads the manual.
               </p>
             </div>
             <div className="sticker rounded-3xl bg-card p-6">
               <h3 className="font-display text-xl font-semibold">One paragraph</h3>
               <p className="mt-2 text-muted">
-                Bomb Appetit is a co-op bomb defusal party game for two to five players. One player, the
+                Bomb Appétit is a co-op bomb defusal party game for two to five players. One player, the
                 Defuser, sees a ticking bomb covered in puzzle modules. The others, the Experts, have the
                 manual but can&apos;t see the bomb. They have to talk each other through it before the timer
                 runs out. Every rule in the manual is generated from a seed, so there is a new manual whenever
@@ -88,7 +88,7 @@ export default function PressPage() {
                 <Logo className="text-3xl" />
               </div>
               <figcaption className="text-sm text-muted">
-                The logo. Fizz on the left, the name on the right, with &quot;Appetit&quot; in tomato.
+                The logo. Fizz on the left, the name on the right, with &quot;Appétit&quot; in tomato.
               </figcaption>
             </figure>
             <figure className="sticker flex flex-col items-center gap-4 rounded-3xl bg-sun p-6 text-center text-night">
@@ -103,14 +103,14 @@ export default function PressPage() {
             <ul className="mt-3 list-disc space-y-1.5 pl-5 text-muted marker:text-tomato-text">
               <li>You can use the logo and Fizz in articles, videos and streams about the game.</li>
               <li>
-                The Bomb Appetit name and logo are trademarks. The MIT license covers the code, not the name,
+                The Bomb Appétit name and logo are trademarks. The MIT license covers the code, not the name,
                 logo or mascot.
               </li>
               <li>
                 Do not use them in a way that implies we endorse or sponsor your product, event or channel.
               </li>
               <li>Keep the colors and proportions as they are. Fizz bruises easily.</li>
-              <li>The name is two words: Bomb Appetit.</li>
+              <li>The name is two words: Bomb Appétit.</li>
             </ul>
           </div>
         </section>
