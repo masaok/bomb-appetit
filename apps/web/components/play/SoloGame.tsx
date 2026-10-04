@@ -26,7 +26,11 @@ export function SoloGame({ start, title, backHref }: { start: object; title: str
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/runs/start", { method: "POST", headers: { "Content-Type": "application/json" }, body: startKey })
+    fetch("/api/runs/start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: startKey,
+    })
       .then(async (response) => {
         const body = await response.json();
         if (cancelled) return;
@@ -63,11 +67,14 @@ export function SoloGame({ start, title, backHref }: { start: object; title: str
     const { spec } = deal;
     return (
       <div className="mx-auto max-w-xl px-6 py-20 text-center">
-        <p className="font-display text-sm font-semibold tracking-widest text-tomato uppercase">Briefing</p>
+        <p className="font-display text-sm font-semibold tracking-widest text-tomato-text uppercase">
+          Briefing
+        </p>
         <h1 className="mt-2 font-display text-5xl font-bold tracking-tight text-balance">{title}</h1>
         <p className="mt-4 text-lg text-muted">
           {spec.moduleCount} {spec.moduleCount === 1 ? "module" : "modules"}
-          {spec.needyCount > 0 && ` plus ${spec.needyCount} needy`} · {formatDuration(spec.timeLimitMs)} on the clock ·{" "}
+          {spec.needyCount > 0 && ` plus ${spec.needyCount} needy`} · {formatDuration(spec.timeLimitMs)} on
+          the clock ·{" "}
           {spec.strikeLimit === 1 ? "one strike and it blows" : `${spec.strikeLimit} strikes and it blows`}
         </p>
         <p className="mt-4 text-lg">

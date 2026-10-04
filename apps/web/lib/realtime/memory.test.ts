@@ -13,6 +13,8 @@ it("delivers published events to subscribers of that channel only, until they un
   stop();
   await bus.publish("presence-room-ABCDE", "room:reset", {});
 
-  expect(heard).toEqual([{ event: "game:start", payload: { ruleSeed: 7, startedAt: "2026-10-03T00:00:00Z" } }]);
+  expect(heard).toEqual([
+    { event: "game:start", payload: { ruleSeed: 7, startedAt: "2026-10-03T00:00:00Z" } },
+  ]);
   expect(other).toEqual([]);
 });

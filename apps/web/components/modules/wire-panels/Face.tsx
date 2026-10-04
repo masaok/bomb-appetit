@@ -18,9 +18,17 @@ function lerp(a: Point, b: Point, t: number): Point {
 
 /** Path data for the part of a wire between `t0` and `t1` of its length, so a cut wire can show a gap. */
 function wirePath(from: number, to: number, t0: number, t1: number): string {
-  let curve: Point[] = [[62, from], [150, from], [150, to], [238, to]];
+  let curve: Point[] = [
+    [62, from],
+    [150, from],
+    [150, to],
+    [238, to],
+  ];
   // De Casteljau, twice: keep the piece before t1, then the piece after t0 within it.
-  for (const [t, keepStart] of [[t1, true], [t0 / t1, false]] as const) {
+  for (const [t, keepStart] of [
+    [t1, true],
+    [t0 / t1, false],
+  ] as const) {
     const [a, b, c, d] = curve as [Point, Point, Point, Point];
     const ab = lerp(a, b, t);
     const bc = lerp(b, c, t);
@@ -44,7 +52,15 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<WirePanelsStat
         PANEL
       </text>
       <rect x="102" y="14" width="72" height="34" rx="8" fill="#0d0a14" stroke="#15101f" strokeWidth="3" />
-      <text x="138" y="39" textAnchor="middle" fontSize="22" fontWeight="700" fill="#8dffc0" className="font-mono">
+      <text
+        x="138"
+        y="39"
+        textAnchor="middle"
+        fontSize="22"
+        fontWeight="700"
+        fill="#8dffc0"
+        className="font-mono"
+      >
         {state.page + 1}/{state.panels.length}
       </text>
       <g aria-hidden>
@@ -72,7 +88,9 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<WirePanelsStat
         const { hex, name, letter, ink } = GAME_COLORS[wire.color];
         const off = wire.cut || solved;
         // The gap sits just past the color tag, before the wire reaches any other wire.
-        const pieces = wire.cut ? [wirePath(from, to, 0, 0.22), wirePath(from, to, 0.32, 1)] : [wirePath(from, to, 0, 1)];
+        const pieces = wire.cut
+          ? [wirePath(from, to, 0, 0.22), wirePath(from, to, 0.32, 1)]
+          : [wirePath(from, to, 0, 1)];
         const snip = () => dispatch({ type: "cut", index: i });
         return (
           <g
@@ -97,8 +115,23 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<WirePanelsStat
                 <path d={d} stroke={hex} strokeWidth="9" />
               </g>
             ))}
-            <circle cx="88" cy={from} r="12" fill={hex} stroke={wire.color === "black" ? "#fff6e9" : "#15101f"} strokeWidth="2.5" />
-            <text x="88" y={from + 5} textAnchor="middle" fontSize="14" fontWeight="800" fill={ink} className="font-display">
+            <circle
+              cx="88"
+              cy={from}
+              r="12"
+              fill={hex}
+              stroke={wire.color === "black" ? "#fff6e9" : "#15101f"}
+              strokeWidth="2.5"
+            />
+            <text
+              x="88"
+              y={from + 5}
+              textAnchor="middle"
+              fontSize="14"
+              fontWeight="800"
+              fill={ink}
+              className="font-display"
+            >
               {letter}
             </text>
           </g>
@@ -107,7 +140,14 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<WirePanelsStat
 
       <g aria-hidden>
         {POST_Y.map((y, i) => (
-          <g key={i} fontSize="19" fontWeight="700" fill="#fff6e9" textAnchor="middle" className="font-display">
+          <g
+            key={i}
+            fontSize="19"
+            fontWeight="700"
+            fill="#fff6e9"
+            textAnchor="middle"
+            className="font-display"
+          >
             <circle cx="46" cy={y} r="17" fill="#3a2f5c" stroke="#15101f" strokeWidth="3" />
             <text x="46" y={y + 7}>
               {i + 1}
@@ -136,8 +176,25 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<WirePanelsStat
         }}
       >
         <rect x="50" y="240" width="200" height="48" rx="14" fill="#15101f" />
-        <rect x="50" y="234" width="200" height="48" rx="14" fill="#ffc94a" stroke="#15101f" strokeWidth="3" />
-        <text x="134" y="265" textAnchor="middle" fontSize="20" fontWeight="700" fill="#221a38" className="font-display">
+        <rect
+          x="50"
+          y="234"
+          width="200"
+          height="48"
+          rx="14"
+          fill="#ffc94a"
+          stroke="#15101f"
+          strokeWidth="3"
+        />
+        <text
+          x="134"
+          y="265"
+          textAnchor="middle"
+          fontSize="20"
+          fontWeight="700"
+          fill="#221a38"
+          className="font-display"
+        >
           NEXT PANEL
         </text>
         <path d="M216 247v22l18 -11z" fill="#221a38" />

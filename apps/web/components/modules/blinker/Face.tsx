@@ -69,11 +69,25 @@ export function Face({ state, solved, bomb, dispatch }: ModuleFaceProps<BlinkerS
         <circle cx="150" cy="66" r="46" fill="#15101f" />
         <circle cx="150" cy="66" r="39" fill={lit ? "#ffc94a" : "#3d3020"} stroke="#fff6e9" strokeWidth="3" />
         <circle cx="150" cy="66" r="27" fill={lit ? "#fff3c4" : "#4a3b28"} />
-        <path d="M128 52a26 26 0 0 1 18 -12" stroke={lit ? "#ffffff" : "#6b5a44"} strokeWidth="5" strokeLinecap="round" fill="none" />
+        <path
+          d="M128 52a26 26 0 0 1 18 -12"
+          stroke={lit ? "#ffffff" : "#6b5a44"}
+          strokeWidth="5"
+          strokeLinecap="round"
+          fill="none"
+        />
       </g>
 
       <rect x="34" y="132" width="232" height="54" rx="12" fill="#0d0a14" stroke="#15101f" strokeWidth="4" />
-      <text x="196" y="171" textAnchor="end" fontSize="38" fontWeight="700" fill="#8dffc0" className="font-mono">
+      <text
+        x="196"
+        y="171"
+        textAnchor="end"
+        fontSize="38"
+        fontWeight="700"
+        fill="#8dffc0"
+        className="font-mono"
+      >
         {BLINKER_FREQUENCIES[state.tuned] ?? "-.---"}
       </text>
       <text x="204" y="171" fontSize="16" fontWeight="700" fill="#8dffc0" className="font-mono">
@@ -83,7 +97,16 @@ export function Face({ state, solved, bomb, dispatch }: ModuleFaceProps<BlinkerS
       <g aria-hidden>
         <line x1="54" y1="204" x2="246" y2="204" stroke="#6f5fa8" strokeWidth="3" strokeLinecap="round" />
         {BLINKER_FREQUENCIES.map((_, i) => (
-          <line key={i} x1={tickX(i)} y1="198" x2={tickX(i)} y2="210" stroke="#6f5fa8" strokeWidth="3" strokeLinecap="round" />
+          <line
+            key={i}
+            x1={tickX(i)}
+            y1="198"
+            x2={tickX(i)}
+            y2="210"
+            stroke="#6f5fa8"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
         ))}
         <path
           d={`M${tickX(state.tuned) - 7} 192h14l-7 12z`}
@@ -94,16 +117,43 @@ export function Face({ state, solved, bomb, dispatch }: ModuleFaceProps<BlinkerS
         />
       </g>
 
-      <PanelButton label="Tune down" disabled={solved || state.tuned <= 0} onPress={() => dispatch({ type: "tune", dir: -1 })}>
+      <PanelButton
+        label="Tune down"
+        disabled={solved || state.tuned <= 0}
+        onPress={() => dispatch({ type: "tune", dir: -1 })}
+      >
         <rect x="18" y="230" width="52" height="54" rx="14" fill="#15101f" />
         <rect x="18" y="224" width="52" height="54" rx="14" fill="#6ec1ff" stroke="#15101f" strokeWidth="3" />
-        <path d="M54 237v28l-22 -14z" fill="#15101f" stroke="#15101f" strokeWidth="3" strokeLinejoin="round" />
+        <path
+          d="M54 237v28l-22 -14z"
+          fill="#15101f"
+          stroke="#15101f"
+          strokeWidth="3"
+          strokeLinejoin="round"
+        />
       </PanelButton>
 
       <PanelButton label="Transmit" disabled={solved} onPress={() => dispatch({ type: "transmit" })}>
         <rect x="82" y="230" width="136" height="54" rx="14" fill="#15101f" />
-        <rect x="82" y="224" width="136" height="54" rx="14" fill="#f04a3a" stroke="#15101f" strokeWidth="3" />
-        <text x="150" y="259" textAnchor="middle" fontSize="22" fontWeight="700" fill="#fff6e9" className="font-display">
+        <rect
+          x="82"
+          y="224"
+          width="136"
+          height="54"
+          rx="14"
+          fill="#f04a3a"
+          stroke="#15101f"
+          strokeWidth="3"
+        />
+        <text
+          x="150"
+          y="259"
+          textAnchor="middle"
+          fontSize="22"
+          fontWeight="700"
+          fill="#fff6e9"
+          className="font-display"
+        >
           TRANSMIT
         </text>
       </PanelButton>
@@ -114,8 +164,23 @@ export function Face({ state, solved, bomb, dispatch }: ModuleFaceProps<BlinkerS
         onPress={() => dispatch({ type: "tune", dir: 1 })}
       >
         <rect x="230" y="230" width="52" height="54" rx="14" fill="#15101f" />
-        <rect x="230" y="224" width="52" height="54" rx="14" fill="#6ec1ff" stroke="#15101f" strokeWidth="3" />
-        <path d="M246 237v28l22 -14z" fill="#15101f" stroke="#15101f" strokeWidth="3" strokeLinejoin="round" />
+        <rect
+          x="230"
+          y="224"
+          width="52"
+          height="54"
+          rx="14"
+          fill="#6ec1ff"
+          stroke="#15101f"
+          strokeWidth="3"
+        />
+        <path
+          d="M246 237v28l22 -14z"
+          fill="#15101f"
+          stroke="#15101f"
+          strokeWidth="3"
+          strokeLinejoin="round"
+        />
       </PanelButton>
     </svg>
   );

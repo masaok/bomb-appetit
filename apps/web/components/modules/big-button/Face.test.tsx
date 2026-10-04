@@ -22,7 +22,12 @@ it("lights the strip only while the button is held", () => {
   const { rerender } = render(<Face state={idle} solved={false} bomb={bomb} dispatch={() => {}} />);
   expect(screen.getByRole("img", { name: "Strip, off" }).textContent).toBe("");
   rerender(
-    <Face state={{ ...idle, press: { kind: "held", sinceMs: 0 } }} solved={false} bomb={bomb} dispatch={() => {}} />,
+    <Face
+      state={{ ...idle, press: { kind: "held", sinceMs: 0 } }}
+      solved={false}
+      bomb={bomb}
+      dispatch={() => {}}
+    />,
   );
   expect(screen.getByRole("img", { name: "Strip, Blue" }).textContent).toBe("B");
 });

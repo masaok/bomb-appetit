@@ -2,7 +2,17 @@ import type { Rng } from "./rng";
 
 /** Labels on the bomb casing that manual rules refer to. All names are original. */
 export const INDICATOR_LABELS = [
-  "YUM", "NOM", "ZAP", "HOT", "ICE", "RAW", "FRY", "DIP", "JAM", "BRU", "MSG",
+  "YUM",
+  "NOM",
+  "ZAP",
+  "HOT",
+  "ICE",
+  "RAW",
+  "FRY",
+  "DIP",
+  "JAM",
+  "BRU",
+  "MSG",
 ] as const;
 export type IndicatorLabel = (typeof INDICATOR_LABELS)[number];
 
@@ -49,12 +59,8 @@ export function generateEdgework(rng: Rng): Edgework {
   ].join("");
 
   const batteries = Array.from({ length: rng.int(0, 4) }, () => rng.pick(BATTERY_KINDS));
-  const indicators = rng
-    .sample(INDICATOR_LABELS, rng.int(0, 3))
-    .map((label) => ({ label, lit: rng.bool() }));
-  const portPlates = Array.from({ length: rng.int(0, 3) }, () =>
-    rng.sample(PORT_TYPES, rng.int(0, 3)),
-  );
+  const indicators = rng.sample(INDICATOR_LABELS, rng.int(0, 3)).map((label) => ({ label, lit: rng.bool() }));
+  const portPlates = Array.from({ length: rng.int(0, 3) }, () => rng.sample(PORT_TYPES, rng.int(0, 3)));
 
   return { serial, batteries, indicators, portPlates };
 }

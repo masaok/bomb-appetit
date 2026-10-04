@@ -38,7 +38,15 @@ describe("blinker rules", () => {
   it.each<[BlinkerPulse[][], string | null, number]>([
     [[[S, L], [L], [L], [S, L]], "ABBA", 3],
     [CAB, "CAB", 0],
-    [[[L, L, S], [S, L], [L, L, S]], "DAD", 15],
+    [
+      [
+        [L, L, S],
+        [S, L],
+        [L, L, S],
+      ],
+      "DAD",
+      15,
+    ],
     [AB, "AB", -1], // decodes, but is not a listed word
     [[[S, S, S]], null, -1], // pulses that match no letter
   ])("%j reads as %s on frequency %i", (letters, word, frequency) => {
@@ -86,8 +94,12 @@ describe("blinker module", () => {
   const state: BlinkerState = { letters: CAB, tuned: 1 };
 
   it("tunes up and down", () => {
-    expect(blinker.apply(state, { type: "tune", dir: 1 }, ctx)).toEqual({ state: { letters: CAB, tuned: 2 } });
-    expect(blinker.apply(state, { type: "tune", dir: -1 }, ctx)).toEqual({ state: { letters: CAB, tuned: 0 } });
+    expect(blinker.apply(state, { type: "tune", dir: 1 }, ctx)).toEqual({
+      state: { letters: CAB, tuned: 2 },
+    });
+    expect(blinker.apply(state, { type: "tune", dir: -1 }, ctx)).toEqual({
+      state: { letters: CAB, tuned: 0 },
+    });
   });
 
   it("ignores tuning past either end", () => {
@@ -108,7 +120,19 @@ describe("blinker module", () => {
 
   it("hints toward the frequency, then to transmit", () => {
     expect(blinker.hint(state, ctx)).toEqual({ type: "tune", dir: -1 });
-    expect(blinker.hint({ letters: [[L, L, S], [S, L], [L, L, S]], tuned: 1 }, ctx)).toEqual({ type: "tune", dir: 1 });
+    expect(
+      blinker.hint(
+        {
+          letters: [
+            [L, L, S],
+            [S, L],
+            [L, L, S],
+          ],
+          tuned: 1,
+        },
+        ctx,
+      ),
+    ).toEqual({ type: "tune", dir: 1 });
     expect(blinker.hint({ letters: CAB, tuned: 0 }, ctx)).toEqual({ type: "transmit" });
     expect(blinker.hint({ letters: AB, tuned: 0 }, ctx)).toBeNull();
   });
@@ -138,7 +162,9 @@ describe("blinker module", () => {
     expect(new Set(generated.code.map((e) => e.pulses.join(","))).size).toBe(26);
     expect(generated.code.every((e) => e.pulses.length >= 1 && e.pulses.length <= 4)).toBe(true);
     expect(generated.words.map((w) => w.word)).toEqual([...BLINKER_WORDS]);
-    expect(generated.words.map((w) => w.frequency).sort((x, y) => x - y)).toEqual(BLINKER_FREQUENCIES.map((_, i) => i));
+    expect(generated.words.map((w) => w.frequency).sort((x, y) => x - y)).toEqual(
+      BLINKER_FREQUENCIES.map((_, i) => i),
+    );
   });
 
   it("lists sixteen distinct words of four to six letters and ascending frequencies", () => {

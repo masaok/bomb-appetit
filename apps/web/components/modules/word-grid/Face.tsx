@@ -77,7 +77,16 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<WordGridState,
           >
             <rect x={x} y={y + 6} width={KEY_W} height={KEY_H} rx="12" fill="#15101f" />
             <g className="motion-safe:transition-transform group-active:translate-y-[4px]">
-              <rect x={x} y={y} width={KEY_W} height={KEY_H} rx="12" fill="#fff6e9" stroke="#15101f" strokeWidth="3" />
+              <rect
+                x={x}
+                y={y}
+                width={KEY_W}
+                height={KEY_H}
+                rx="12"
+                fill="#fff6e9"
+                stroke="#15101f"
+                strokeWidth="3"
+              />
               <text
                 x={x + KEY_W / 2}
                 y={y + KEY_H / 2 + 7}

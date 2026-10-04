@@ -18,7 +18,9 @@ export function FreeplayFields({
 }) {
   const set = (patch: Partial<FreeplayConfig>) => onChange({ ...config, ...patch });
   const togglePool = (id: ModuleId) => {
-    const pool = config.modulePool.includes(id) ? config.modulePool.filter((m) => m !== id) : [...config.modulePool, id];
+    const pool = config.modulePool.includes(id)
+      ? config.modulePool.filter((m) => m !== id)
+      : [...config.modulePool, id];
     if (pool.length > 0) set({ modulePool: REGULAR_MODULE_IDS.filter((m) => pool.includes(m)) });
   };
 
@@ -46,13 +48,19 @@ export function FreeplayFields({
             min={1}
             max={60}
             value={Math.round(config.timeLimitMs / 60_000)}
-            onChange={(e) => set({ timeLimitMs: Math.min(60, Math.max(1, Number(e.target.value) || 1)) * 60_000 })}
+            onChange={(e) =>
+              set({ timeLimitMs: Math.min(60, Math.max(1, Number(e.target.value) || 1)) * 60_000 })
+            }
             className={field}
           />
         </label>
         <label className="grid gap-1">
           <span className="text-sm font-bold">Strikes allowed</span>
-          <select value={config.strikeLimit} onChange={(e) => set({ strikeLimit: Number(e.target.value) })} className={field}>
+          <select
+            value={config.strikeLimit}
+            onChange={(e) => set({ strikeLimit: Number(e.target.value) })}
+            className={field}
+          >
             {[1, 2, 3, 4, 5].map((n) => (
               <option key={n} value={n}>
                 {n === 1 ? "1 (no mistakes)" : n}
@@ -62,7 +70,11 @@ export function FreeplayFields({
         </label>
         <label className="grid gap-1">
           <span className="text-sm font-bold">Needy modules</span>
-          <select value={config.needyCount} onChange={(e) => set({ needyCount: Number(e.target.value) })} className={field}>
+          <select
+            value={config.needyCount}
+            onChange={(e) => set({ needyCount: Number(e.target.value) })}
+            className={field}
+          >
             {[0, 1, 2, 3].map((n) => (
               <option key={n} value={n}>
                 {n === 0 ? "None" : n}
@@ -104,10 +116,14 @@ export function FreeplayFields({
           min={1}
           max={999999}
           value={config.ruleSeed}
-          onChange={(e) => set({ ruleSeed: Math.min(999_999, Math.max(1, Math.floor(Number(e.target.value)) || 1)) })}
+          onChange={(e) =>
+            set({ ruleSeed: Math.min(999_999, Math.max(1, Math.floor(Number(e.target.value)) || 1)) })
+          }
           className={field}
         />
-        <span className="text-sm text-muted">1 is the standard manual. Any other number is a whole new manual.</span>
+        <span className="text-sm text-muted">
+          1 is the standard manual. Any other number is a whole new manual.
+        </span>
       </label>
     </fieldset>
   );

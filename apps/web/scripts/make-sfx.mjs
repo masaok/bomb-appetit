@@ -89,7 +89,9 @@ const SOUNDS = {
       const noise = noiseSource("tickFast");
       return render(
         ms,
-        (t) => decay(t, 0.007) * (0.6 * square(1900 * t) + 0.6 * sine(1900 * t)) + 0.5 * decay(t, 0.0015) * noise(),
+        (t) =>
+          decay(t, 0.007) * (0.6 * square(1900 * t) + 0.6 * sine(1900 * t)) +
+          0.5 * decay(t, 0.0015) * noise(),
       );
     },
   },

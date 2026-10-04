@@ -8,14 +8,42 @@ export type BlinkerPulse = (typeof BLINKER_PULSES)[number];
 export const BLINKER_LETTERS = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 
 export const BLINKER_WORDS = [
-  "BAGEL", "BASIL", "BRINE", "BROTH", "CREPE", "CRUST", "GARLIC", "GRAVY",
-  "SALSA", "SAUTE", "SPICE", "STEW", "TANGY", "TOAST", "WAFFLE", "WHISK",
+  "BAGEL",
+  "BASIL",
+  "BRINE",
+  "BROTH",
+  "CREPE",
+  "CRUST",
+  "GARLIC",
+  "GRAVY",
+  "SALSA",
+  "SAUTE",
+  "SPICE",
+  "STEW",
+  "TANGY",
+  "TOAST",
+  "WAFFLE",
+  "WHISK",
 ] as const;
 
 /** In MHz, ascending. The tuner steps through these in order. */
 export const BLINKER_FREQUENCIES = [
-  "3.505", "3.511", "3.524", "3.533", "3.541", "3.556", "3.562", "3.574",
-  "3.583", "3.591", "3.608", "3.615", "3.629", "3.637", "3.644", "3.658",
+  "3.505",
+  "3.511",
+  "3.524",
+  "3.533",
+  "3.541",
+  "3.556",
+  "3.562",
+  "3.574",
+  "3.583",
+  "3.591",
+  "3.608",
+  "3.615",
+  "3.629",
+  "3.637",
+  "3.644",
+  "3.658",
 ] as const;
 
 export const BLINKER_SHORT_MS = 250;
@@ -125,7 +153,11 @@ export const blinker: ModuleDef<"blinker", BlinkerState, BlinkerAction, BlinkerR
   kind: "regular",
 
   generateRules(ruleRng) {
-    return generateSolvableRules(ruleRng, propose, (rules) => checkModuleSolvable(blinker, rules, { samples: 200 }).ok);
+    return generateSolvableRules(
+      ruleRng,
+      propose,
+      (rules) => checkModuleSolvable(blinker, rules, { samples: 200 }).ok,
+    );
   },
 
   generate(rng, _bomb, rules) {

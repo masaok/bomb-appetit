@@ -28,11 +28,21 @@ export async function POST(request: Request) {
     const mission = missionById(body.missionId);
     if (!mission) return fail(404, "Unknown mission.");
     const spec = missionSpec(mission, randomBombSeed());
-    const ticket = issueTicket({ spec, missionId: mission.id, roomCode: null, serverSeed: mission.fixedBombSeed === null });
+    const ticket = issueTicket({
+      spec,
+      missionId: mission.id,
+      roomCode: null,
+      serverSeed: mission.fixedBombSeed === null,
+    });
     return json({ spec, ticket });
   }
 
   const spec = freeplaySpec(body.config, body.bombSeed ?? randomBombSeed());
-  const ticket = issueTicket({ spec, missionId: null, roomCode: null, serverSeed: body.bombSeed === undefined });
+  const ticket = issueTicket({
+    spec,
+    missionId: null,
+    roomCode: null,
+    serverSeed: body.bombSeed === undefined,
+  });
   return json({ spec, ticket });
 }

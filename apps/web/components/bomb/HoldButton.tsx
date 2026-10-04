@@ -14,7 +14,10 @@ export function HoldButton({
 }: {
   onPress: () => void;
   onRelease: () => void;
-} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onPointerDown" | "onPointerUp" | "onKeyDown" | "onKeyUp">) {
+} & Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  "onPointerDown" | "onPointerUp" | "onKeyDown" | "onKeyUp"
+>) {
   const held = useRef(false);
 
   const press = () => {

@@ -46,7 +46,11 @@ export function ManualTable({ head, rows }: { head: ReactNode[]; rows: ReactNode
 export function ColorWord({ name, hex }: { name: string; hex: string }) {
   return (
     <span className="inline-flex items-center gap-1 font-bold whitespace-nowrap">
-      <span aria-hidden className="inline-block size-3 rounded-full border border-current" style={{ background: hex }} />
+      <span
+        aria-hidden
+        className="inline-block size-3 rounded-full border border-current"
+        style={{ background: hex }}
+      />
       {name.toLowerCase()}
     </span>
   );

@@ -23,7 +23,10 @@ export const freeplaySchema = z
     ruleSeed: z.int().min(1).max(MAX_RULE_SEED),
   })
   .refine((c) => c.moduleCount + c.needyCount <= moduleCapacity("4x3"), "too many modules")
-  .refine((c) => c.modulePool.every((id) => REGULAR_MODULE_IDS.includes(id)), "modulePool must hold regular modules");
+  .refine(
+    (c) => c.modulePool.every((id) => REGULAR_MODULE_IDS.includes(id)),
+    "modulePool must hold regular modules",
+  );
 
 export type FreeplayConfig = z.infer<typeof freeplaySchema>;
 
@@ -68,7 +71,9 @@ export function freeplayToQuery(config: FreeplayConfig): string {
   return params.toString();
 }
 
-export function freeplayFromQuery(query: Record<string, string | string[] | undefined>): FreeplayConfig | null {
+export function freeplayFromQuery(
+  query: Record<string, string | string[] | undefined>,
+): FreeplayConfig | null {
   const one = (key: string) => (typeof query[key] === "string" ? (query[key] as string) : undefined);
   const num = (key: string, fallback: number) => (one(key) === undefined ? fallback : Number(one(key)));
   const parsed = freeplaySchema.safeParse({

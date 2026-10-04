@@ -84,14 +84,18 @@ describe("bomb generation", () => {
   });
 
   it("builds a different bomb from a different seed", () => {
-    expect(JSON.stringify(generateBomb({ ...spec, bombSeed: 43 }))).not.toBe(JSON.stringify(generateBomb(spec)));
+    expect(JSON.stringify(generateBomb({ ...spec, bombSeed: 43 }))).not.toBe(
+      JSON.stringify(generateBomb(spec)),
+    );
   });
 
   it("puts one timer and every module in a slot", () => {
     const bomb = generateBomb(spec);
     expect(bomb.slots).toHaveLength(12);
     expect(bomb.slots.filter((s) => s.kind === "timer")).toHaveLength(1);
-    expect(bomb.slots.filter((s) => s.kind === "module").map((s) => (s.kind === "module" ? s.index : -1))).toEqual([0, 1, 2]);
+    expect(
+      bomb.slots.filter((s) => s.kind === "module").map((s) => (s.kind === "module" ? s.index : -1)),
+    ).toEqual([0, 1, 2]);
   });
 
   it("rejects a spec that does not fit the case", () => {
@@ -141,7 +145,15 @@ describe("replay", () => {
   });
 
   it("rejects actions that are out of order or malformed", () => {
-    expect(replay(spec, { actions: [{ t: 5, m: 0, a: { type: "cut", index: 0 } }, { t: 4, m: 0, a: { type: "cut", index: 1 } }], endMs: 10 })).toEqual({
+    expect(
+      replay(spec, {
+        actions: [
+          { t: 5, m: 0, a: { type: "cut", index: 0 } },
+          { t: 4, m: 0, a: { type: "cut", index: 1 } },
+        ],
+        endMs: 10,
+      }),
+    ).toEqual({
       ok: false,
       error: "action 1 is malformed or out of order",
     });
@@ -149,7 +161,9 @@ describe("replay", () => {
       ok: false,
       error: "action 0 is not valid for its module",
     });
-    expect(replay(spec, { actions: [{ t: 5, m: 9, a: { type: "cut", index: 0 } }], endMs: 10 }).ok).toBe(false);
+    expect(replay(spec, { actions: [{ t: 5, m: 9, a: { type: "cut", index: 0 } }], endMs: 10 }).ok).toBe(
+      false,
+    );
   });
 
   it("reports a run that stopped early as abandoned", () => {

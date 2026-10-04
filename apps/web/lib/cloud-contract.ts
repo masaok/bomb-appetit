@@ -59,7 +59,14 @@ export interface AdminUserRow {
 
 /** Read access the public app hands to the admin pages. Mutations go through `/api/admin/*`. */
 export interface AdminStore {
-  stats(): Promise<{ users: number; guests: number; rooms: number; runs: number; verifiedRuns: number; flaggedRuns: number }>;
+  stats(): Promise<{
+    users: number;
+    guests: number;
+    rooms: number;
+    runs: number;
+    verifiedRuns: number;
+    flaggedRuns: number;
+  }>;
   runs(options: { flaggedOnly: boolean; limit: number }): Promise<AdminRunRow[]>;
   rooms(limit: number): Promise<AdminRoomRow[]>;
   users(limit: number): Promise<AdminUserRow[]>;

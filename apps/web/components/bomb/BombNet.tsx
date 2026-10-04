@@ -41,7 +41,12 @@ export function SlotView({
     );
   }
   if (slot.kind === "empty") {
-    return <div aria-hidden className="aspect-square rounded-2xl border-2 border-[#15101f] bg-[#231b3b] opacity-60" />;
+    return (
+      <div
+        aria-hidden
+        className="aspect-square rounded-2xl border-2 border-[#15101f] bg-[#231b3b] opacity-60"
+      />
+    );
   }
   const instance = bomb.modules[slot.index];
   if (!instance) return null;
@@ -63,20 +68,31 @@ export function BombNet({
 }) {
   const { cols, rows } = CASE_SIZES[bomb.spec.caseSize];
   const perFace = cols * rows;
+  // Blank plates only matter in 3D. Here, keep whole rows up to the last used slot.
+  const usedRows = (slots: Slot[]) => {
+    const last = slots.findLastIndex((slot) => slot.kind !== "empty");
+    return slots.slice(0, Math.ceil((last + 1) / cols) * cols);
+  };
   const faces = [
-    { name: "Front", slots: bomb.slots.slice(0, perFace) },
-    { name: "Back", slots: bomb.slots.slice(perFace) },
-  ].filter((face) => face.slots.some((slot) => slot.kind !== "empty"));
+    { name: "Front", slots: usedRows(bomb.slots.slice(0, perFace)) },
+    { name: "Back", slots: usedRows(bomb.slots.slice(perFace)) },
+  ].filter((face) => face.slots.length > 0);
 
   return (
     <div className="flex flex-col gap-5">
       <EdgeworkStrip edgework={bomb.edgework} />
       {faces.map((face) => (
-        <section key={face.name} aria-label={`${face.name} of the bomb`} className="rounded-3xl border-2 border-[#15101f] bg-[#3a2f5c] p-3">
+        <section
+          key={face.name}
+          aria-label={`${face.name} of the bomb`}
+          className="rounded-3xl border-2 border-[#15101f] bg-[#3a2f5c] p-3"
+        >
           <h2 className="mb-2 px-1 font-display text-sm font-semibold tracking-widest text-[#b9b0d0] uppercase">
             {face.name}
           </h2>
-          <div className={`grid gap-3 ${cols === 3 ? "sm:grid-cols-2 lg:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-4"}`}>
+          <div
+            className={`grid gap-3 ${cols === 3 ? "sm:grid-cols-2 lg:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-4"}`}
+          >
             {face.slots.map((slot, i) => (
               <SlotView key={i} slot={slot} bomb={bomb} dispatch={dispatch} />
             ))}

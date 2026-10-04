@@ -54,7 +54,9 @@ describe("discharge lever module", () => {
       state: { kind: "running", level: 0, atMs: 75_000, held: false },
       strike: true,
     });
-    expect(dischargeLever.nextEventAt?.({ kind: "running", level: 0, atMs: 75_000, held: false })).toBe(120_000);
+    expect(dischargeLever.nextEventAt?.({ kind: "running", level: 0, atMs: 75_000, held: false })).toBe(
+      120_000,
+    );
   });
 
   it("has no timed event while the lever is held", () => {

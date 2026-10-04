@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bomb Appetit
 
-## Getting Started
+A co-op bomb defusal party game for the browser. One player, the Defuser, sees a
+ticking bomb. Everyone else, the Experts, has the manual. The app never shows the bomb
+to the Experts, so you have to talk.
 
-First, run the development server:
+The site is [bombappetit.com](https://bombappetit.com).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+## Run it
+
+You need Node 22 and pnpm.
+
+```sh
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. With no configuration you get the whole game: solo and
+same-room play, all 14 modules, missions, the manual for any rule seed, and the 2D and
+3D bomb. Open the bomb on one device and `/manual/1` on another, or print the manual.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Online rooms, saved runs and leaderboards need a Postgres database. Copy
+`apps/web/.env.example` to `apps/web/.env.local`, set `DATABASE_URL`, then run:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+pnpm db:migrate
+pnpm db:seed
+```
 
-## Learn More
+`.env.example` lists every variable and what turns on when you set it.
 
-To learn more about Next.js, take a look at the following resources:
+## Checks
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+pnpm check        # lint, typecheck, unit tests
+pnpm build        # production build
+pnpm e2e          # Playwright, against a dev server
+pnpm format       # Prettier
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+CI runs format, lint, typecheck, test, the rule-seed sweep and a build on every push and
+pull request. The Playwright suite runs nightly, because it needs a live database.
 
-## Deploy on Vercel
+## How it is built
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```text
+packages/engine   The game. Pure TypeScript, no dependencies, no clock, no DOM.
+apps/web          Next.js app: bomb, manual, rooms, API, marketing site.
+docs/modules.md   How to add a module.
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**The engine is deterministic.** A bomb is a function of its bomb seed. A manual is a
+function of its rule seed. Time enters only through `advance(state, toMs)` and
+`act(state, action)`. ESLint rejects `Date.now()`, `Math.random()`, React and Node
+imports inside `packages/engine`.
+
+**The server trusts nothing from the client.** The Defuser's browser runs the engine
+locally and records every action with a timestamp. When the bomb ends, it posts the
+log. The server replays the log with the same engine on the bomb it issued, and stores
+what the replay says. A run is `verified` only if the replay matches and the
+plausibility checks pass. Leaderboards read verified runs only.
+
+**Rules are data.** Each module generates its manual rules from the rule seed and
+accepts a rule set only after `checkModuleSolvable` plays 1,000 random bombs against
+it. Rule seed 1 is the standard manual. It is frozen as JSON in
+`packages/engine/src/rules/seed-1/` so it does not shift when a generator changes.
+
+**Experts never receive the bomb.** In a room, the server sends the bomb seed to the
+Defuser only. Experts get the rule seed and a status line: time, strikes, modules
+solved, and whether a needy module is awake.
+
+## The private part
+
+Three things live in a private repository and are pulled in at build time as
+`@bombappetit/cloud`: the anti-cheat plausibility checks, licensed assets, and the
+admin pages. The engine is public, so anyone can write a bot that submits a valid log.
+The checks that tell a bot from a person only work while unpublished.
+
+The interface is one file, `apps/web/lib/cloud-contract.ts`. Without access to the
+private repository, `apps/web/lib/cloud-stub.tsx` implements it: every valid replay is
+accepted and the CC0 sounds play. `scripts/sync-cloud.mjs` chooses between the two
+before each dev and build run. A production build refuses to start on the stub.
+
+## Licenses
+
+- Code: MIT, see [LICENSE](LICENSE).
+- Sound effects in `apps/web/public/audio`: CC0, generated by `apps/web/scripts/make-sfx.mjs`.
+- Mascot, logo and other artwork: CC BY-NC 4.0, see [ARTWORK-LICENSE.md](ARTWORK-LICENSE.md).
+- The name "Bomb Appetit" and the logo are not covered by any of these. See [TRADEMARK.md](TRADEMARK.md).
+
+Bomb Appetit is an original game in the bomb defusal genre. It does not use the name,
+manual text, rule tables, symbols, art or audio of any other game.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).

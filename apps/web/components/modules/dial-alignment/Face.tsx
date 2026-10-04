@@ -19,7 +19,7 @@ export function Face({ state, bomb, dispatch }: ModuleFaceProps<DialAlignmentSta
     <div
       role="group"
       aria-label="Dial Alignment"
-      className={`flex size-full flex-col gap-2.5 p-4 text-[#fff6e9] ${active ? "" : "opacity-45 saturate-50"}`}
+      className={`flex size-full flex-col gap-2.5 p-4 text-[#fff6e9] ${active ? "" : "opacity-60 saturate-50"}`}
     >
       <div className="flex h-11 items-center gap-3 pr-10">
         <div
@@ -47,14 +47,21 @@ export function Face({ state, bomb, dispatch }: ModuleFaceProps<DialAlignmentSta
             role="img"
             aria-label={`Light ${i + 1}, ${lit ? "on" : "off"}`}
             className={`size-7 rounded-full border-[3px] ${
-              lit ? "border-[#fff6e9] bg-[#ffc94a] shadow-[0_0_10px_2px_#ffc94a]" : "border-[#3a2f5c] bg-transparent"
+              lit
+                ? "border-[#fff6e9] bg-[#ffc94a] shadow-[0_0_10px_2px_#ffc94a]"
+                : "border-[#3a2f5c] bg-transparent"
             }`}
           />
         ))}
       </div>
 
       <div className="flex flex-1 items-center justify-between gap-3">
-        <svg viewBox="0 0 120 120" className="size-[120px]" role="img" aria-label={`Dial pointing ${state.dial}`}>
+        <svg
+          viewBox="0 0 120 120"
+          className="size-[120px]"
+          role="img"
+          aria-label={`Dial pointing ${state.dial}`}
+        >
           {DIAL_ALIGNMENT_DIRECTIONS.map((direction, i) => (
             <polygon
               key={direction}
@@ -66,7 +73,13 @@ export function Face({ state, bomb, dispatch }: ModuleFaceProps<DialAlignmentSta
           <circle cx="60" cy="64" r="40" fill="#15101f" />
           <circle cx="60" cy="60" r="40" fill="#6ec1ff" stroke="#15101f" strokeWidth="3" />
           <g transform={`rotate(${quarterTurns * 90} 60 60)`}>
-            <path d="M60 26L72 62H48Z" fill="#15101f" stroke="#15101f" strokeWidth="3" strokeLinejoin="round" />
+            <path
+              d="M60 26L72 62H48Z"
+              fill="#15101f"
+              stroke="#15101f"
+              strokeWidth="3"
+              strokeLinejoin="round"
+            />
           </g>
           <circle cx="60" cy="60" r="9" fill="#fff6e9" stroke="#15101f" strokeWidth="3" />
         </svg>
@@ -79,7 +92,13 @@ export function Face({ state, bomb, dispatch }: ModuleFaceProps<DialAlignmentSta
           className="flex h-[92px] flex-1 flex-col items-center justify-center rounded-2xl border-[3px] border-[#15101f] bg-[#ffc94a] font-display text-2xl leading-none font-bold text-[#15101f] uppercase shadow-[0_5px_0_#15101f] enabled:cursor-pointer enabled:active:translate-y-1 enabled:active:shadow-[0_1px_0_#15101f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fff6e9]"
         >
           <svg viewBox="0 0 30 30" className="size-9" aria-hidden>
-            <path d="M7 19a9 9 0 1 1 5 5" fill="none" stroke="#15101f" strokeWidth="4" strokeLinecap="round" />
+            <path
+              d="M7 19a9 9 0 1 1 5 5"
+              fill="none"
+              stroke="#15101f"
+              strokeWidth="4"
+              strokeLinecap="round"
+            />
             <path d="M2 14l5 7 7-5z" fill="#15101f" stroke="#15101f" strokeWidth="2" strokeLinejoin="round" />
           </svg>
           Turn

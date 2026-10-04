@@ -27,8 +27,14 @@ export type Ticket = z.infer<typeof ticketSchema>;
  * which mission or room, and when. The run log comes back with it, so the server never
  * trusts the client about what was played or how long it could have taken.
  */
-export function issueTicket(input: Omit<Ticket, "id" | "issuedAt"> & { id?: string; issuedAt?: number }): string {
-  return sign("run-ticket", { ...input, id: input.id ?? randomUUID(), issuedAt: input.issuedAt ?? Date.now() });
+export function issueTicket(
+  input: Omit<Ticket, "id" | "issuedAt"> & { id?: string; issuedAt?: number },
+): string {
+  return sign("run-ticket", {
+    ...input,
+    id: input.id ?? randomUUID(),
+    issuedAt: input.issuedAt ?? Date.now(),
+  });
 }
 
 export function readTicket(token: string): Ticket | null {

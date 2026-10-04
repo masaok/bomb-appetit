@@ -23,7 +23,8 @@ export type ReplayResult = { ok: true; state: BombState } | { ok: false; error: 
 export function replay(spec: BombSpec, log: unknown): ReplayResult {
   const problem = validateSpec(spec);
   if (problem) return { ok: false, error: problem };
-  if (!isRecord(log) || !Array.isArray(log.actions)) return { ok: false, error: "log must have an actions array" };
+  if (!isRecord(log) || !Array.isArray(log.actions))
+    return { ok: false, error: "log must have an actions array" };
   if (log.actions.length > MAX_LOG_ACTIONS) return { ok: false, error: "log has too many actions" };
   const maxMs = spec.timeLimitMs + 60_000;
   if (!isInt(log.endMs, 0, maxMs)) return { ok: false, error: "endMs out of range" };
@@ -55,10 +56,16 @@ export function summarize(state: BombState): RunSummary {
   const base = { strikes: state.strikes, elapsedMs: state.elapsedMs };
   switch (state.phase.kind) {
     case "defused":
-      return { ...base, result: "defused", reason: "All modules solved", timeRemainingMs: state.phase.remainingMs };
+      return {
+        ...base,
+        result: "defused",
+        reason: "All modules solved",
+        timeRemainingMs: state.phase.remainingMs,
+      };
     case "exploded": {
       const cause = state.phase.cause;
-      if (cause.kind === "time") return { ...base, result: "exploded", reason: "Time ran out", timeRemainingMs: 0 };
+      if (cause.kind === "time")
+        return { ...base, result: "exploded", reason: "Time ran out", timeRemainingMs: 0 };
       const culprit = state.modules[cause.moduleIndex];
       const name = culprit ? moduleDef(culprit.id).name : "a module";
       return {
@@ -69,6 +76,11 @@ export function summarize(state: BombState): RunSummary {
       };
     }
     case "armed":
-      return { ...base, result: "abandoned", reason: "Left before the end", timeRemainingMs: remainingMs(state) };
+      return {
+        ...base,
+        result: "abandoned",
+        reason: "Left before the end",
+        timeRemainingMs: remainingMs(state),
+      };
   }
 }

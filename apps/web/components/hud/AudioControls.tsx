@@ -21,7 +21,9 @@ export function AudioControls({ className = "" }: { className?: string }) {
   const silent = muted || volume === 0;
 
   return (
-    <div className={`sticker inline-flex items-center gap-3 rounded-full bg-card px-3 py-2 text-ink ${className}`}>
+    <div
+      className={`sticker inline-flex items-center gap-3 rounded-full bg-card px-3 py-2 text-ink ${className}`}
+    >
       <button
         type="button"
         aria-pressed={muted}

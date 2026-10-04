@@ -1,4 +1,8 @@
-import type { GlyphKeypadGlyph, GlyphKeypadMark, GlyphKeypadShape } from "@bombappetit/engine/modules/glyph-keypad";
+import type {
+  GlyphKeypadGlyph,
+  GlyphKeypadMark,
+  GlyphKeypadShape,
+} from "@bombappetit/engine/modules/glyph-keypad";
 import type { ReactNode } from "react";
 
 /** Where the inner mark sits, and how much room the shape leaves for it. */

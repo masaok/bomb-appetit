@@ -117,7 +117,11 @@ const icons: Record<string, ReactNode> = {
     <>
       <circle cx="20" cy="20" r="10" {...stroke} fill="#fff" />
       <path d="M20 20l5-6" {...stroke} />
-      <path d="M20 4v0M36 20v0M20 36v0M4 20v0M31.5 8.5v0M31.5 31.5v0M8.5 31.5v0M8.5 8.5v0" {...stroke} strokeWidth={3.5} />
+      <path
+        d="M20 4v0M36 20v0M20 36v0M4 20v0M31.5 8.5v0M31.5 31.5v0M8.5 31.5v0M8.5 8.5v0"
+        {...stroke}
+        strokeWidth={3.5}
+      />
     </>
   ),
 };

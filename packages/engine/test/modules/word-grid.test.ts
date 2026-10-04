@@ -78,7 +78,10 @@ describe("word grid module", () => {
   });
 
   it("accepts only well-formed actions from a run log", () => {
-    expect(wordGrid.parseAction({ type: "press", position: 5, extra: 1 })).toEqual({ type: "press", position: 5 });
+    expect(wordGrid.parseAction({ type: "press", position: 5, extra: 1 })).toEqual({
+      type: "press",
+      position: 5,
+    });
     expect(wordGrid.parseAction({ type: "press", position: 6 })).toBeNull();
     expect(wordGrid.parseAction({ type: "press", position: 1.5 })).toBeNull();
     expect(wordGrid.parseAction({ type: "cut", position: 1 })).toBeNull();
@@ -120,7 +123,10 @@ describe("word grid module", () => {
     const generated = wordGrid.generateRules(createRng("rules:5").fork("word-grid"));
     const broken: WordGridRules = {
       ...generated,
-      priority: generated.priority.map((p) => ({ word: p.word, order: p.word === "WAIT" ? ["STOP"] : ["WAIT"] })),
+      priority: generated.priority.map((p) => ({
+        word: p.word,
+        order: p.word === "WAIT" ? ["STOP"] : ["WAIT"],
+      })),
     };
     expect(checkModuleSolvable(wordGrid, broken, { samples: 200 }).ok).toBe(false);
   });

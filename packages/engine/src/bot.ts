@@ -3,8 +3,8 @@ import { act, advance, hintFor, type LoggedAction } from "./engine";
 import type { RunLog } from "./replay";
 
 export interface BotOptions {
-  /** Pause between the bot's actions. */
-  actionGapMs?: number;
+  /** Pause after each of the bot's actions. A function lets a caller vary it per action. */
+  actionGapMs?: number | ((actionIndex: number) => number);
   /** How far to move the clock when no module has a correct action yet. */
   waitMs?: number;
 }
@@ -14,7 +14,8 @@ export interface BotOptions {
  * bombs are completable and to produce logs for replay tests; it is not shipped to players.
  */
 export function autoPlay(start: BombState, options: BotOptions = {}): { state: BombState; log: RunLog } {
-  const actionGapMs = options.actionGapMs ?? 400;
+  const gap = options.actionGapMs ?? 400;
+  const gapAfter = (index: number) => (typeof gap === "number" ? gap : gap(index));
   const waitMs = options.waitMs ?? 100;
   const actions: LoggedAction[] = [];
   let state = start;
@@ -30,7 +31,7 @@ export function autoPlay(start: BombState, options: BotOptions = {}): { state: B
         if (a === null) break;
         const action = { t: state.elapsedMs, m, a };
         actions.push(action);
-        state = advance(act(state, action), state.elapsedMs + actionGapMs);
+        state = advance(act(state, action), state.elapsedMs + gapAfter(actions.length));
         acted = true;
       }
     }

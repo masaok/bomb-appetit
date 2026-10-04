@@ -1,0 +1,8 @@
+pnpm-lock.yaml
+.next
+apps/web/.cloud
+apps/web/public
+apps/web/drizzle
+apps/web/next-env.d.ts
+apps/web/e2e/.results
+packages/engine/src/rules/seed-1

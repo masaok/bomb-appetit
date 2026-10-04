@@ -55,7 +55,10 @@ function settle(state: BombState, index: number, result: ModuleResult<unknown>):
       strikeLog: [...next.strikeLog, { atMs: next.elapsedMs, moduleIndex: index }],
     };
     if (next.strikes >= next.spec.strikeLimit) {
-      return { ...next, phase: { kind: "exploded", atMs: next.elapsedMs, cause: { kind: "strikes", moduleIndex: index } } };
+      return {
+        ...next,
+        phase: { kind: "exploded", atMs: next.elapsedMs, cause: { kind: "strikes", moduleIndex: index } },
+      };
     }
   }
 

@@ -33,7 +33,10 @@ export type DialAlignmentState =
 export type DialAlignmentAction = { type: "turn" };
 
 /** Where the manual says the dial must point for these LEDs, or null when it does not list them. */
-export function dialAlignmentDirection(rules: DialAlignmentRules, leds: readonly boolean[]): DialAlignmentDirection | null {
+export function dialAlignmentDirection(
+  rules: DialAlignmentRules,
+  leds: readonly boolean[],
+): DialAlignmentDirection | null {
   const pattern = rules.patterns.find(
     (p) => p.leds.length === leds.length && p.leds.every((lit, i) => lit === leds[i]),
   );
@@ -47,7 +50,13 @@ export function dialAlignmentTurn(dial: DialAlignmentDirection): DialAlignmentDi
 
 function sleep(state: DialAlignmentState, fromMs: number): DialAlignmentState {
   const napMs = createRng(state.key).fork(String(state.cycle)).fork("nap").int(15_000, 30_000);
-  return { kind: "asleep", dial: state.dial, key: state.key, cycle: state.cycle + 1, wakeAtMs: fromMs + napMs };
+  return {
+    kind: "asleep",
+    dial: state.dial,
+    key: state.key,
+    cycle: state.cycle + 1,
+    wakeAtMs: fromMs + napMs,
+  };
 }
 
 function propose(rng: Rng): DialAlignmentRules {
@@ -71,7 +80,12 @@ function allDistinct(rules: DialAlignmentRules): boolean {
   return seen.size === rules.patterns.length;
 }
 
-export const dialAlignment: ModuleDef<"dial-alignment", DialAlignmentState, DialAlignmentAction, DialAlignmentRules> = {
+export const dialAlignment: ModuleDef<
+  "dial-alignment",
+  DialAlignmentState,
+  DialAlignmentAction,
+  DialAlignmentRules
+> = {
   id: "dial-alignment",
   name: "Dial Alignment",
   kind: "needy",
@@ -106,7 +120,9 @@ export const dialAlignment: ModuleDef<"dial-alignment", DialAlignmentState, Dial
   tick(state, ctx) {
     if (state.kind === "active") {
       const next = sleep(state, state.deadlineMs);
-      return dialAlignmentDirection(ctx.rules, state.leds) === state.dial ? { state: next } : { state: next, strike: true };
+      return dialAlignmentDirection(ctx.rules, state.leds) === state.dial
+        ? { state: next }
+        : { state: next, strike: true };
     }
     if (ctx.rules.patterns.length === 0) return { state: sleep(state, state.wakeAtMs) };
     const pattern = createRng(state.key).fork(String(state.cycle)).fork("pattern").pick(ctx.rules.patterns);

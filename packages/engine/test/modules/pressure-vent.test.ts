@@ -18,7 +18,13 @@ const rules: PressureVentRules = {
 const at = (elapsedMs: number) => ctxFor(rules, { elapsedMs });
 
 const asleep: PressureVentState = { kind: "asleep", key: "vent", cycle: 0, wakeAtMs: 30_000 };
-const active: PressureVentState = { kind: "active", key: "vent", cycle: 0, prompt: "Salt the fuse?", deadlineMs: 70_000 };
+const active: PressureVentState = {
+  kind: "active",
+  key: "vent",
+  cycle: 0,
+  prompt: "Salt the fuse?",
+  deadlineMs: 70_000,
+};
 
 function expectAsleep(state: PressureVentState): Extract<PressureVentState, { kind: "asleep" }> {
   if (state.kind !== "asleep") throw new Error(`expected asleep, got ${state.kind}`);
@@ -38,7 +44,9 @@ describe("pressure vent rules", () => {
 describe("pressure vent module", () => {
   it("first wakes 20 to 45 seconds after arming", () => {
     for (let i = 0; i < 100; i++) {
-      const state = expectAsleep(pressureVent.generate(createRng(`bomb${i}`), { edgework: edgework() }, rules));
+      const state = expectAsleep(
+        pressureVent.generate(createRng(`bomb${i}`), { edgework: edgework() }, rules),
+      );
       expect(state.wakeAtMs).toBeGreaterThanOrEqual(20_000);
       expect(state.wakeAtMs).toBeLessThanOrEqual(45_000);
       expect(state).toMatchObject({ key: `bomb${i}`, cycle: 0 });
@@ -91,7 +99,10 @@ describe("pressure vent module", () => {
 
   it("hints the manual's answer while active and nothing while asleep", () => {
     expect(pressureVent.hint(active, at(41_000))).toEqual({ type: "answer", yes: true });
-    expect(pressureVent.hint({ ...active, prompt: "Whisk the wick?" }, at(41_000))).toEqual({ type: "answer", yes: false });
+    expect(pressureVent.hint({ ...active, prompt: "Whisk the wick?" }, at(41_000))).toEqual({
+      type: "answer",
+      yes: false,
+    });
     expect(pressureVent.hint(asleep, at(10_000))).toBeNull();
   });
 
@@ -121,7 +132,9 @@ describe("pressure vent generated rules", () => {
   });
 
   it("survives 90 seconds by following hints", () => {
-    expect(checkModuleSolvable(pressureVent, generated, { samples: 200, seed: "other" })).toEqual({ ok: true });
+    expect(checkModuleSolvable(pressureVent, generated, { samples: 200, seed: "other" })).toEqual({
+      ok: true,
+    });
   });
 
   it("flags a manual that is missing a prompt the module can show", () => {

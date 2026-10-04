@@ -48,8 +48,8 @@ export function Manual({ rules }: ModuleManualProps<BlinkerRules>) {
   return (
     <>
       <ManualLead>
-        A light blinks one word, over and over. Each letter is a group of short and long flashes. A
-        dark pause separates two letters. A much longer dark pause means the word is starting again.
+        A light blinks one word, over and over. Each letter is a group of short and long flashes. A dark pause
+        separates two letters. A much longer dark pause means the word is starting again.
       </ManualLead>
       <RuleList>
         <li>Have the Defuser call out each letter as flashes, for example &quot;short, long, short&quot;.</li>
@@ -61,7 +61,9 @@ export function Manual({ rules }: ModuleManualProps<BlinkerRules>) {
 
       <section className="break-inside-avoid">
         <ManualSubheading>Code table</ManualSubheading>
-        <ManualLead>A dot is a short flash. A bar is a long flash. Groups with fewer flashes come first.</ManualLead>
+        <ManualLead>
+          A dot is a short flash. A bar is a long flash. Groups with fewer flashes come first.
+        </ManualLead>
         <ManualTable
           head={["Flashes", "Letter", "Flashes", "Letter"]}
           rows={code.slice(0, codeHalf).map((entry, i) => {

@@ -1,11 +1,5 @@
 import { generateEdgework, type Edgework } from "./edgework";
-import {
-  isModuleId,
-  moduleDef,
-  MODULES,
-  type ModuleId,
-  type ModuleInstance,
-} from "./modules/registry";
+import { isModuleId, moduleDef, MODULES, type ModuleId, type ModuleInstance } from "./modules/registry";
 import { createRng, type Rng } from "./rng";
 import { MAX_RULE_SEED, ruleBook } from "./rules/book";
 
@@ -79,13 +73,16 @@ export function validateSpec(spec: BombSpec): string | null {
   if (!int(spec.bombSeed, 0, Number.MAX_SAFE_INTEGER)) return "bombSeed must be a non-negative safe integer";
   if (!int(spec.ruleSeed, 1, MAX_RULE_SEED)) return `ruleSeed must be 1 to ${MAX_RULE_SEED}`;
   if (!int(spec.timeLimitMs, SPEC_LIMITS.minTimeMs, SPEC_LIMITS.maxTimeMs)) return "timeLimitMs out of range";
-  if (!int(spec.strikeLimit, SPEC_LIMITS.minStrikes, SPEC_LIMITS.maxStrikes)) return "strikeLimit out of range";
+  if (!int(spec.strikeLimit, SPEC_LIMITS.minStrikes, SPEC_LIMITS.maxStrikes))
+    return "strikeLimit out of range";
   if (!Object.hasOwn(CASE_SIZES, spec.caseSize)) return "unknown caseSize";
   if (!int(spec.moduleCount, 1, 23) || !int(spec.needyCount, 0, 22)) return "module counts out of range";
-  if (spec.moduleCount + spec.needyCount > moduleCapacity(spec.caseSize)) return "too many modules for the case";
+  if (spec.moduleCount + spec.needyCount > moduleCapacity(spec.caseSize))
+    return "too many modules for the case";
   const poolOk = (pool: ModuleId[], kind: "regular" | "needy") =>
     Array.isArray(pool) && pool.every((id) => isModuleId(id) && MODULES[id].kind === kind);
-  if (!poolOk(spec.modulePool, "regular") || spec.modulePool.length === 0) return "modulePool must list regular modules";
+  if (!poolOk(spec.modulePool, "regular") || spec.modulePool.length === 0)
+    return "modulePool must list regular modules";
   if (!poolOk(spec.needyPool, "needy")) return "needyPool must list needy modules";
   if (spec.needyCount > 0 && spec.needyPool.length === 0) return "needyPool is empty";
   return null;

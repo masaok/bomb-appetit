@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Fredoka, Geist_Mono, Nunito } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { AudioManifest } from "@/components/hud/AudioManifest";
+import { cloud } from "@/lib/cloud";
 import "./globals.css";
 
 const fredoka = Fredoka({
@@ -23,7 +26,7 @@ const description =
 export const metadata: Metadata = {
   metadataBase: new URL("https://bombappetit.com"),
   title: {
-    default: "Bomb Appetit — the co-op bomb defusal party game",
+    default: "Bomb Appetit, the co-op bomb defusal party game",
     template: "%s · Bomb Appetit",
   },
   description,
@@ -42,7 +45,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${fredoka.variable} ${nunito.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        {children}
+        {cloud.assetManifest.sfx ? <AudioManifest sfx={cloud.assetManifest.sfx} /> : null}
+        {/* Collects only on Vercel deployments; a local or self-hosted run sends nothing. */}
+        {process.env.VERCEL ? <Analytics /> : null}
+      </body>
     </html>
   );
 }

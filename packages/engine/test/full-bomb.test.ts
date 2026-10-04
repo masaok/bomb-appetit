@@ -24,7 +24,9 @@ const theWorks = (bombSeed: number, ruleSeed: number): BombSpec => ({
 describe("a bomb with one of every module", () => {
   it("has all 11 regular and 3 needy modules", () => {
     expect([REGULAR_MODULE_IDS.length, NEEDY_MODULE_IDS.length]).toEqual([11, 3]);
-    const ids = generateBomb(theWorks(1, 1)).modules.map((m) => m.id).sort();
+    const ids = generateBomb(theWorks(1, 1))
+      .modules.map((m) => m.id)
+      .sort();
     expect(ids).toEqual([...REGULAR_MODULE_IDS, ...NEEDY_MODULE_IDS].sort());
   });
 
@@ -35,14 +37,17 @@ describe("a bomb with one of every module", () => {
     [4, 7],
     [5, 2026],
     [6, 31337],
-  ])("bomb seed %i with rule seed %i is defused without a strike by following the hints", (bombSeed, ruleSeed) => {
-    const spec = theWorks(bombSeed, ruleSeed);
-    const played = autoPlay(generateBomb(spec));
-    expect(summarize(played.state)).toMatchObject({ result: "defused", strikes: 0 });
+  ])(
+    "bomb seed %i with rule seed %i is defused without a strike by following the hints",
+    (bombSeed, ruleSeed) => {
+      const spec = theWorks(bombSeed, ruleSeed);
+      const played = autoPlay(generateBomb(spec));
+      expect(summarize(played.state)).toMatchObject({ result: "defused", strikes: 0 });
 
-    const replayed = replay(spec, JSON.parse(JSON.stringify(played.log)));
-    expect(replayed).toEqual({ ok: true, state: played.state });
-  });
+      const replayed = replay(spec, JSON.parse(JSON.stringify(played.log)));
+      expect(replayed).toEqual({ ok: true, state: played.state });
+    },
+  );
 
   it("explodes from needy strikes alone when nobody touches it", () => {
     const spec = { ...theWorks(9, 1), strikeLimit: 2 };

@@ -36,10 +36,34 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<WiresState, Wi
             <path d={`M52 ${y}Q150 ${y + bend} 248 ${y}`} stroke="transparent" strokeWidth="26" fill="none" />
             {cut ? (
               <>
-                <path d={`M52 ${y}Q95 ${y + bend} 128 ${y + bend - 8}`} stroke="#15101f" strokeWidth="11" fill="none" strokeLinecap="round" />
-                <path d={`M52 ${y}Q95 ${y + bend} 128 ${y + bend - 8}`} stroke={hex} strokeWidth="7" fill="none" strokeLinecap="round" />
-                <path d={`M172 ${y + bend + 8}Q205 ${y + bend} 248 ${y}`} stroke="#15101f" strokeWidth="11" fill="none" strokeLinecap="round" />
-                <path d={`M172 ${y + bend + 8}Q205 ${y + bend} 248 ${y}`} stroke={hex} strokeWidth="7" fill="none" strokeLinecap="round" />
+                <path
+                  d={`M52 ${y}Q95 ${y + bend} 128 ${y + bend - 8}`}
+                  stroke="#15101f"
+                  strokeWidth="11"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+                <path
+                  d={`M52 ${y}Q95 ${y + bend} 128 ${y + bend - 8}`}
+                  stroke={hex}
+                  strokeWidth="7"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+                <path
+                  d={`M172 ${y + bend + 8}Q205 ${y + bend} 248 ${y}`}
+                  stroke="#15101f"
+                  strokeWidth="11"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+                <path
+                  d={`M172 ${y + bend + 8}Q205 ${y + bend} 248 ${y}`}
+                  stroke={hex}
+                  strokeWidth="7"
+                  fill="none"
+                  strokeLinecap="round"
+                />
               </>
             ) : (
               <>

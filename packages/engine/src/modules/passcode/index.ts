@@ -4,13 +4,76 @@ import { isInt, isRecord, type ModuleDef } from "../../types";
 
 /** Five-letter kitchen words. Each manual lists a sample of these. */
 export const PASSCODE_WORD_POOL = [
-  "APPLE", "BACON", "BAGEL", "BASIL", "BASTE", "BERRY", "BLEND", "BREAD", "BRINE", "BROTH",
-  "CANDY", "CAPER", "CHARD", "CHILI", "CHIVE", "CIDER", "CLOVE", "COCOA", "CREAM", "CREPE",
-  "CRUST", "CUMIN", "CURRY", "DONUT", "DOUGH", "FEAST", "FLOUR", "FUDGE", "GRAPE", "GRAVY",
-  "GRILL", "GUAVA", "GUMBO", "HONEY", "JELLY", "JUICE", "KEBAB", "KNEAD", "KNIFE", "LADLE",
-  "LATTE", "LEMON", "MANGO", "MAPLE", "MELON", "MOCHA", "NACHO", "OLIVE", "ONION", "PASTA",
-  "PEACH", "PECAN", "PESTO", "PIZZA", "PLATE", "PRAWN", "RAMEN", "ROAST", "SALAD", "SALSA",
-  "SAUCE", "SCONE", "SLICE", "SPICE", "SPOON", "STEAK", "SUGAR", "SUSHI", "SYRUP", "TOAST",
+  "APPLE",
+  "BACON",
+  "BAGEL",
+  "BASIL",
+  "BASTE",
+  "BERRY",
+  "BLEND",
+  "BREAD",
+  "BRINE",
+  "BROTH",
+  "CANDY",
+  "CAPER",
+  "CHARD",
+  "CHILI",
+  "CHIVE",
+  "CIDER",
+  "CLOVE",
+  "COCOA",
+  "CREAM",
+  "CREPE",
+  "CRUST",
+  "CUMIN",
+  "CURRY",
+  "DONUT",
+  "DOUGH",
+  "FEAST",
+  "FLOUR",
+  "FUDGE",
+  "GRAPE",
+  "GRAVY",
+  "GRILL",
+  "GUAVA",
+  "GUMBO",
+  "HONEY",
+  "JELLY",
+  "JUICE",
+  "KEBAB",
+  "KNEAD",
+  "KNIFE",
+  "LADLE",
+  "LATTE",
+  "LEMON",
+  "MANGO",
+  "MAPLE",
+  "MELON",
+  "MOCHA",
+  "NACHO",
+  "OLIVE",
+  "ONION",
+  "PASTA",
+  "PEACH",
+  "PECAN",
+  "PESTO",
+  "PIZZA",
+  "PLATE",
+  "PRAWN",
+  "RAMEN",
+  "ROAST",
+  "SALAD",
+  "SALSA",
+  "SAUCE",
+  "SCONE",
+  "SLICE",
+  "SPICE",
+  "SPOON",
+  "STEAK",
+  "SUGAR",
+  "SUSHI",
+  "SYRUP",
+  "TOAST",
 ] as const;
 
 export const PASSCODE_RULE_WORD_COUNT = 35;
@@ -49,7 +112,13 @@ export function passcodeShowing(state: PasscodeState): string {
 
 function drawWheels(rng: Rng, target: string): PasscodeState {
   const wheels = [...target].map((letter) =>
-    rng.shuffle([letter, ...rng.sample(ALPHABET.filter((l) => l !== letter), PASSCODE_WHEEL_SIZE - 1)]),
+    rng.shuffle([
+      letter,
+      ...rng.sample(
+        ALPHABET.filter((l) => l !== letter),
+        PASSCODE_WHEEL_SIZE - 1,
+      ),
+    ]),
   );
   return { wheels, showing: wheels.map(() => 0) };
 }
@@ -96,7 +165,8 @@ export const passcode: ModuleDef<"passcode", PasscodeState, PasscodeAction, Pass
     if (target === null) return null;
     for (let i = 0; i < state.wheels.length; i++) {
       const wheel = state.wheels[i] as string[];
-      const forward = (wheel.indexOf(target[i] as string) - (state.showing[i] ?? 0) + wheel.length) % wheel.length;
+      const forward =
+        (wheel.indexOf(target[i] as string) - (state.showing[i] ?? 0) + wheel.length) % wheel.length;
       if (forward !== 0) return { type: "spin", wheel: i, dir: forward <= wheel.length / 2 ? 1 : -1 };
     }
     return { type: "submit" };

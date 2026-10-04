@@ -68,7 +68,10 @@ describe("color echo module", () => {
   it("solves when the last stage is complete", () => {
     const last = { ...start, stage: 2, entered: 2 };
     const solved: ColorEchoState = { sequence: ["red", "green", "red"], stage: 2, entered: 3 };
-    expect(colorEcho.apply(last, { type: "press", color: "blue" }, ctx)).toEqual({ state: solved, solved: true });
+    expect(colorEcho.apply(last, { type: "press", color: "blue" }, ctx)).toEqual({
+      state: solved,
+      solved: true,
+    });
     expect(colorEcho.apply(solved, { type: "press", color: "blue" }, ctx)).toEqual({ state: solved });
     expect(colorEcho.hint(solved, ctx)).toBeNull();
   });
@@ -80,11 +83,17 @@ describe("color echo module", () => {
 
     const struck = ctxFor(rules, { edgework: vowelBomb, strikes: 1 });
     expect(colorEcho.hint(start, struck)).toEqual({ type: "press", color: "green" });
-    expect(colorEcho.hint({ ...start, stage: 1, entered: 1 }, struck)).toEqual({ type: "press", color: "blue" });
+    expect(colorEcho.hint({ ...start, stage: 1, entered: 1 }, struck)).toEqual({
+      type: "press",
+      color: "blue",
+    });
   });
 
   it("accepts only well-formed actions from a run log", () => {
-    expect(colorEcho.parseAction({ type: "press", color: "green" })).toEqual({ type: "press", color: "green" });
+    expect(colorEcho.parseAction({ type: "press", color: "green" })).toEqual({
+      type: "press",
+      color: "green",
+    });
     expect(colorEcho.parseAction({ type: "press", color: "white" })).toBeNull();
     expect(colorEcho.parseAction({ type: "press", color: 2 })).toBeNull();
     expect(colorEcho.parseAction({ type: "tap", color: "red" })).toBeNull();
@@ -116,7 +125,9 @@ describe("color echo module", () => {
   it("plays 200 random instances to completion by following hint", () => {
     for (const seed of ["rules:1", "rules:2", "rules:3"]) {
       const generated = colorEcho.generateRules(createRng(seed).fork("color-echo"));
-      expect(checkModuleSolvable(colorEcho, generated, { samples: 200, seed: "other" })).toEqual({ ok: true });
+      expect(checkModuleSolvable(colorEcho, generated, { samples: 200, seed: "other" })).toEqual({
+        ok: true,
+      });
     }
   });
 });

@@ -62,7 +62,9 @@ describe("wire panels module", () => {
   const ctx = ctxFor(rules, { edgework: edgework() });
   const state: WirePanelsState = { panels, page: 0 };
   const withCut = (page: number, index: number, from: WirePanelsPanel[] = panels) =>
-    from.map((panel, p) => (p === page ? panel.map((w, i) => (w && i === index ? { ...w, cut: true } : w)) : panel));
+    from.map((panel, p) =>
+      p === page ? panel.map((w, i) => (w && i === index ? { ...w, cut: true } : w)) : panel,
+    );
 
   it("cuts a wire that must be cut without solving or striking", () => {
     expect(wirePanels.apply(state, { type: "cut", index: 0 }, ctx)).toEqual({
@@ -90,12 +92,16 @@ describe("wire panels module", () => {
 
   it("turns to the next panel when the current one is clean", () => {
     const clean: WirePanelsState = { panels: withCut(0, 0), page: 0 };
-    expect(wirePanels.apply(clean, { type: "next" }, ctx)).toEqual({ state: { panels: clean.panels, page: 1 } });
+    expect(wirePanels.apply(clean, { type: "next" }, ctx)).toEqual({
+      state: { panels: clean.panels, page: 1 },
+    });
   });
 
   it("turns past a panel where a wrong wire was cut but nothing is owed", () => {
     const messy: WirePanelsState = { panels: withCut(0, 1, withCut(0, 0)), page: 0 };
-    expect(wirePanels.apply(messy, { type: "next" }, ctx)).toEqual({ state: { panels: messy.panels, page: 1 } });
+    expect(wirePanels.apply(messy, { type: "next" }, ctx)).toEqual({
+      state: { panels: messy.panels, page: 1 },
+    });
   });
 
   it("solves on next from the last panel when it is clean", () => {
@@ -158,7 +164,9 @@ describe("wire panels module", () => {
   it("plays 200 random instances to completion by following the hint", () => {
     for (const seed of ["rules:1", "rules:2", "rules:3"]) {
       const generated = wirePanels.generateRules(createRng(seed).fork("wire-panels"));
-      expect(checkModuleSolvable(wirePanels, generated, { samples: 200, seed: "other" })).toEqual({ ok: true });
+      expect(checkModuleSolvable(wirePanels, generated, { samples: 200, seed: "other" })).toEqual({
+        ok: true,
+      });
     }
   });
 });

@@ -25,7 +25,13 @@ const state: PasscodeState = { wheels, showing: [0, 0, 0, 0, 0] };
 describe("passcode rules", () => {
   it.each<[string, string[][], string | null]>([
     ["one listed word fits", wheels, "LEMON"],
-    ["two listed words fit", wheels.map((w, i) => (i === 0 ? ["L", "M", "B", "Q", "Z", "S"] : i === 2 ? ["T", "C", "L", "M", "G", "V"] : w)), null],
+    [
+      "two listed words fit",
+      wheels.map((w, i) =>
+        i === 0 ? ["L", "M", "B", "Q", "Z", "S"] : i === 2 ? ["T", "C", "L", "M", "G", "V"] : w,
+      ),
+      null,
+    ],
     ["no listed word fits", wheels.map((w, i) => (i === 4 ? ["F", "I", "A", "K", "T", "X"] : w)), null],
   ])("%s", (_name, candidate, expected) => {
     expect(passcodeTarget(rules, candidate)).toBe(expected);
@@ -47,7 +53,9 @@ describe("passcode module", () => {
     expect(passcode.apply(state, { type: "spin", wheel: 4, dir: -1 }, ctx)).toEqual({
       state: { wheels, showing: [0, 0, 0, 0, 5] },
     });
-    expect(passcode.apply({ wheels, showing: [5, 0, 0, 0, 0] }, { type: "spin", wheel: 0, dir: 1 }, ctx)).toEqual({
+    expect(
+      passcode.apply({ wheels, showing: [5, 0, 0, 0, 0] }, { type: "spin", wheel: 0, dir: 1 }, ctx),
+    ).toEqual({
       state: { wheels, showing: [0, 0, 0, 0, 0] },
     });
   });
@@ -70,16 +78,32 @@ describe("passcode module", () => {
   it("hints the shortest spin toward the word, then submit", () => {
     expect(passcode.hint(state, ctx)).toEqual({ type: "spin", wheel: 1, dir: 1 });
     // wheel 3 needs M at index 3: three steps either way, forward wins the tie
-    expect(passcode.hint({ wheels, showing: [0, 1, 0, 0, 0] }, ctx)).toEqual({ type: "spin", wheel: 2, dir: 1 });
+    expect(passcode.hint({ wheels, showing: [0, 1, 0, 0, 0] }, ctx)).toEqual({
+      type: "spin",
+      wheel: 2,
+      dir: 1,
+    });
     // from index 5, O at index 1 is two forward (wrapping) or four back
-    expect(passcode.hint({ wheels, showing: [0, 1, 3, 5, 0] }, ctx)).toEqual({ type: "spin", wheel: 3, dir: 1 });
+    expect(passcode.hint({ wheels, showing: [0, 1, 3, 5, 0] }, ctx)).toEqual({
+      type: "spin",
+      wheel: 3,
+      dir: 1,
+    });
     // from index 3, O at index 1 is four forward or two back
-    expect(passcode.hint({ wheels, showing: [0, 1, 3, 3, 0] }, ctx)).toEqual({ type: "spin", wheel: 3, dir: -1 });
+    expect(passcode.hint({ wheels, showing: [0, 1, 3, 3, 0] }, ctx)).toEqual({
+      type: "spin",
+      wheel: 3,
+      dir: -1,
+    });
     expect(passcode.hint({ wheels, showing: [0, 1, 3, 1, 2] }, ctx)).toEqual({ type: "submit" });
   });
 
   it("accepts only well-formed actions from a run log", () => {
-    expect(passcode.parseAction({ type: "spin", wheel: 4, dir: -1, extra: 1 })).toEqual({ type: "spin", wheel: 4, dir: -1 });
+    expect(passcode.parseAction({ type: "spin", wheel: 4, dir: -1, extra: 1 })).toEqual({
+      type: "spin",
+      wheel: 4,
+      dir: -1,
+    });
     expect(passcode.parseAction({ type: "submit", wheel: 9 })).toEqual({ type: "submit" });
     expect(passcode.parseAction({ type: "spin", wheel: 5, dir: 1 })).toBeNull();
     expect(passcode.parseAction({ type: "spin", wheel: 0, dir: 2 })).toBeNull();

@@ -1,0 +1,33 @@
+name: E2E
+
+# Browser tests need a running server, and the room tests need the database and the
+# realtime provider. They run nightly and on demand, not as a merge gate, so a network
+# hiccup never turns a required check red.
+on:
+  schedule:
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.E2E_DATABASE_URL }}
+      AUTH_SECRET: ${{ secrets.E2E_AUTH_SECRET }}
+      PUSHER_APP_ID: ${{ secrets.PUSHER_APP_ID }}
+      PUSHER_SECRET: ${{ secrets.PUSHER_SECRET }}
+      NEXT_PUBLIC_PUSHER_KEY: ${{ secrets.PUSHER_KEY }}
+      NEXT_PUBLIC_PUSHER_CLUSTER: ${{ secrets.PUSHER_CLUSTER }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm --filter web exec playwright install --with-deps chromium
+      - run: pnpm e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: apps/web/e2e/.results

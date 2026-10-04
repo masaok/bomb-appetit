@@ -72,7 +72,16 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<RecallState, R
           >
             <rect x={x} y={y + 8} width={KEY_W} height={KEY_H} rx="14" fill="#15101f" />
             <g className="motion-safe:transition-transform group-active:translate-y-[5px]">
-              <rect x={x} y={y} width={KEY_W} height={KEY_H} rx="14" fill="#fff6e9" stroke="#15101f" strokeWidth="3" />
+              <rect
+                x={x}
+                y={y}
+                width={KEY_W}
+                height={KEY_H}
+                rx="14"
+                fill="#fff6e9"
+                stroke="#15101f"
+                strokeWidth="3"
+              />
               <text
                 x={x + KEY_W / 2}
                 y={y + KEY_H / 2 + 20}

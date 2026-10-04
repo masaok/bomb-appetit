@@ -1,4 +1,10 @@
-import { batteryCount, hasIndicator, INDICATOR_LABELS, type Edgework, type IndicatorLabel } from "../../edgework";
+import {
+  batteryCount,
+  hasIndicator,
+  INDICATOR_LABELS,
+  type Edgework,
+  type IndicatorLabel,
+} from "../../edgework";
 import type { Rng } from "../../rng";
 import { checkModuleSolvable, generateSolvableRules } from "../../rules/solvable";
 import { isRecord, type ModuleDef } from "../../types";
@@ -44,7 +50,11 @@ export interface BigButtonState {
 
 export type BigButtonAction = { type: "press" } | { type: "release" };
 
-function holds(condition: BigButtonCondition, button: Pick<BigButtonState, "color" | "label">, edgework: Edgework): boolean {
+function holds(
+  condition: BigButtonCondition,
+  button: Pick<BigButtonState, "color" | "label">,
+  edgework: Edgework,
+): boolean {
   switch (condition.kind) {
     case "color":
       return button.color === condition.color;
@@ -70,7 +80,11 @@ export function bigButtonMove(
 }
 
 /** Whether the countdown display currently allows releasing a held button. */
-export function bigButtonCanRelease(rules: BigButtonRules, strip: BigButtonColor, timerText: string): boolean {
+export function bigButtonCanRelease(
+  rules: BigButtonRules,
+  strip: BigButtonColor,
+  timerText: string,
+): boolean {
   return timerText.includes(String(rules.stripDigits[strip]));
 }
 
@@ -159,7 +173,9 @@ export const bigButton: ModuleDef<"big-button", BigButtonState, BigButtonAction,
     if (state.press.kind === "idle") return { type: "press" };
     if (bigButtonMove(ctx.rules, state, ctx.edgework) === "tap") return { type: "release" };
     const heldLongEnough = ctx.elapsedMs - state.press.sinceMs >= BIG_BUTTON_TAP_MS;
-    return heldLongEnough && bigButtonCanRelease(ctx.rules, state.strip, ctx.timerText) ? { type: "release" } : null;
+    return heldLongEnough && bigButtonCanRelease(ctx.rules, state.strip, ctx.timerText)
+      ? { type: "release" }
+      : null;
   },
 
   parseAction(raw) {

@@ -1,4 +1,8 @@
-import { LABYRINTH_SIZE, type LabyrinthMaze, type LabyrinthRules } from "@bombappetit/engine/modules/labyrinth";
+import {
+  LABYRINTH_SIZE,
+  type LabyrinthMaze,
+  type LabyrinthRules,
+} from "@bombappetit/engine/modules/labyrinth";
 import { ManualLead, ManualSubheading } from "@/components/manual/primitives";
 import type { ModuleManualProps } from "../types";
 
@@ -16,7 +20,8 @@ function MazeDrawing({ maze, label }: { maze: LabyrinthMaze; label: string }) {
   for (const cell of cells) {
     const x = PAD + (cell % LABYRINTH_SIZE) * CELL;
     const y = PAD + Math.floor(cell / LABYRINTH_SIZE) * CELL;
-    if (cell % LABYRINTH_SIZE < LABYRINTH_SIZE - 1 && maze.wallRight[cell]) walls.push(`M${x + CELL} ${y}v${CELL}`);
+    if (cell % LABYRINTH_SIZE < LABYRINTH_SIZE - 1 && maze.wallRight[cell])
+      walls.push(`M${x + CELL} ${y}v${CELL}`);
     if (cell < cells.length - LABYRINTH_SIZE && maze.wallBelow[cell]) walls.push(`M${x} ${y + CELL}h${CELL}`);
   }
 
@@ -58,14 +63,14 @@ export function Manual({ rules }: ModuleManualProps<LabyrinthRules>) {
   return (
     <>
       <ManualLead>
-        A six by six grid of dots with four arrow buttons. Two dots have a ring around them. The
-        white light is the Defuser. The red triangle is the goal. The Defuser cannot see any walls.
+        A six by six grid of dots with four arrow buttons. Two dots have a ring around them. The white light
+        is the Defuser. The red triangle is the goal. The Defuser cannot see any walls.
       </ManualLead>
       <ManualLead>
-        Ask where the two rings are. Columns count from the left. Rows count from the top. Find the
-        maze with rings in the same two places. Then ask where the light and the triangle are.
-        Guide the light to the triangle one step at a time. Lines are walls. Stepping into a wall
-        is a strike. Stepping off the grid is a strike. The light stays where it was.
+        Ask where the two rings are. Columns count from the left. Rows count from the top. Find the maze with
+        rings in the same two places. Then ask where the light and the triangle are. Guide the light to the
+        triangle one step at a time. Lines are walls. Stepping into a wall is a strike. Stepping off the grid
+        is a strike. The light stays where it was.
       </ManualLead>
       <ManualSubheading>Mazes</ManualSubheading>
       <div className="mt-3 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3">
@@ -73,8 +78,8 @@ export function Manual({ rules }: ModuleManualProps<LabyrinthRules>) {
           <figure key={i} className="break-inside-avoid">
             <MazeDrawing maze={maze} label={`Maze ${i + 1}`} />
             <figcaption className="mt-1 text-sm leading-snug">
-              <span className="font-display font-semibold">Maze {i + 1}.</span> Rings at {place(maze.markers[0])} and{" "}
-              {place(maze.markers[1])}.
+              <span className="font-display font-semibold">Maze {i + 1}.</span> Rings at{" "}
+              {place(maze.markers[0])} and {place(maze.markers[1])}.
             </figcaption>
           </figure>
         ))}

@@ -37,7 +37,7 @@ export default function FaqPage() {
       <section className="px-6 pb-24 text-center">
         <p className="text-lg text-muted">
           Still stuck? Read{" "}
-          <Link href="/how-to-play" className="font-bold text-ink underline hover:text-tomato">
+          <Link href="/how-to-play" className="font-bold text-ink underline hover:text-tomato-text">
             how to play
           </Link>
           , or just start a bomb and learn the loud way.

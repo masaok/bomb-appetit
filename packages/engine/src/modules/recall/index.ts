@@ -116,7 +116,10 @@ export const recall: ModuleDef<"recall", RecallState, RecallAction, RecallRules>
     if (!stage || label === undefined) return { state };
     if (action.position !== recallPositionToPress(ctx.rules, state)) {
       const resets = state.resets + 1;
-      return { state: { key: state.key, resets, stages: content(state.key, resets), history: [] }, strike: true };
+      return {
+        state: { key: state.key, resets, stages: content(state.key, resets), history: [] },
+        strike: true,
+      };
     }
     const next = { ...state, history: [...state.history, { position: action.position, label }] };
     return next.history.length >= state.stages.length ? { state: next, solved: true } : { state: next };

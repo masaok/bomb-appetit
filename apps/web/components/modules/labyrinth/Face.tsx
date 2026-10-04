@@ -93,7 +93,14 @@ export function Face({ state, solved, dispatch }: ModuleFaceProps<LabyrinthState
       )}
 
       <g role="img" aria-label={`Your light at ${place(state.position)}`}>
-        <circle cx={here.x} cy={here.y} r="10" fill="#fff6e9" opacity="0.25" className="motion-safe:animate-pulse" />
+        <circle
+          cx={here.x}
+          cy={here.y}
+          r="10"
+          fill="#fff6e9"
+          opacity="0.25"
+          className="motion-safe:animate-pulse"
+        />
         <circle cx={here.x} cy={here.y} r="6.5" fill="#fff6e9" stroke="#15101f" strokeWidth="1.5" />
       </g>
 

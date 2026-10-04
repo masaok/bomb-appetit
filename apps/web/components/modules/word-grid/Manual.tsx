@@ -14,16 +14,15 @@ export function Manual({ rules }: ModuleManualProps<WordGridRules>) {
   return (
     <>
       <ManualLead>
-        A display with one word, and six word buttons in two columns and three rows. There are three
-        rounds. Many words sound alike. Ask the Defuser to spell every word. A wrong press is a
-        strike and the round stays the same.
+        A display with one word, and six word buttons in two columns and three rows. There are three rounds.
+        Many words sound alike. Ask the Defuser to spell every word. A wrong press is a strike and the round
+        stays the same.
       </ManualLead>
 
       <section>
         <ManualSubheading>Step 1: which button to read</ManualSubheading>
         <ManualLead>
-          Find the word on the display. It tells you which button to read. Do not press that button
-          yet.
+          Find the word on the display. It tells you which button to read. Do not press that button yet.
         </ManualLead>
         <ManualTable
           head={["Display", "Read the button at", "Display", "Read the button at"]}
@@ -42,8 +41,8 @@ export function Manual({ rules }: ModuleManualProps<WordGridRules>) {
       <section>
         <ManualSubheading>Step 2: which button to press</ManualSubheading>
         <ManualLead>
-          Find the word you read in the left column. Go through its list from left to right. Press
-          the first word in the list that is on any of the six buttons.
+          Find the word you read in the left column. Go through its list from left to right. Press the first
+          word in the list that is on any of the six buttons.
         </ManualLead>
         <ManualTable
           head={["Word you read", "Press the first of these that is on a button"]}

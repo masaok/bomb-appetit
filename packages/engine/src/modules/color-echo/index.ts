@@ -29,7 +29,11 @@ export interface ColorEchoState {
 export type ColorEchoAction = { type: "press"; color: ColorEchoColor };
 
 /** The mapping table in force for this serial number and strike count. */
-export function colorEchoMapping(rules: ColorEchoRules, hasVowel: boolean, strikes: number): ColorEchoMapping {
+export function colorEchoMapping(
+  rules: ColorEchoRules,
+  hasVowel: boolean,
+  strikes: number,
+): ColorEchoMapping {
   const tables = hasVowel ? rules.vowel : rules.noVowel;
   return tables[strikes <= 0 ? 0 : strikes === 1 ? 1 : 2];
 }
@@ -59,7 +63,9 @@ function isInteresting(rules: ColorEchoRules): boolean {
   const tables = [...rules.vowel, ...rules.noVowel];
   const keys = tables.map((t) => COLOR_ECHO_COLORS.map((c) => t[c]).join());
   return (
-    tables.every(isPermutation) && new Set(keys).size === keys.length && !keys.includes(COLOR_ECHO_COLORS.join())
+    tables.every(isPermutation) &&
+    new Set(keys).size === keys.length &&
+    !keys.includes(COLOR_ECHO_COLORS.join())
   );
 }
 

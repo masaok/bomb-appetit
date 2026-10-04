@@ -63,7 +63,12 @@ function isMixed(rules: PressureVentRules): boolean {
   return yes >= 2 && rules.prompts.length - yes >= 2;
 }
 
-export const pressureVent: ModuleDef<"pressure-vent", PressureVentState, PressureVentAction, PressureVentRules> = {
+export const pressureVent: ModuleDef<
+  "pressure-vent",
+  PressureVentState,
+  PressureVentAction,
+  PressureVentRules
+> = {
   id: "pressure-vent",
   name: "Pressure Vent",
   kind: "needy",
@@ -83,7 +88,9 @@ export const pressureVent: ModuleDef<"pressure-vent", PressureVentState, Pressur
   apply(state, action, ctx) {
     if (state.kind !== "active") return { state };
     const next = sleep(state, ctx.elapsedMs);
-    return pressureVentAnswer(ctx.rules, state.prompt) === action.yes ? { state: next } : { state: next, strike: true };
+    return pressureVentAnswer(ctx.rules, state.prompt) === action.yes
+      ? { state: next }
+      : { state: next, strike: true };
   },
 
   nextEventAt(state) {

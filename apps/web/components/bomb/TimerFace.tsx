@@ -15,7 +15,7 @@ export function TimerFace({
       aria-label={`Time left ${timerText}. ${strikes} of ${strikeLimit} strikes.`}
     >
       <div className="rounded-xl border-2 border-[#15101f] bg-[#15101f] px-5 py-3 shadow-[inset_0_0_18px_#000]">
-        <span className="font-mono text-7xl font-bold tracking-tight text-tomato tabular-nums [text-shadow:0_0_14px_#f04a3a]">
+        <span className="font-mono text-7xl font-bold tracking-tight text-ember tabular-nums [text-shadow:0_0_14px_#f04a3a]">
           {timerText}
         </span>
       </div>
@@ -24,7 +24,9 @@ export function TimerFace({
           <span
             key={i}
             className={`grid size-9 place-items-center rounded-lg border-2 border-[#15101f] font-display text-xl font-bold ${
-              i < strikes ? "bg-tomato text-white shadow-[0_0_12px_2px_#f04a3a]" : "bg-[#3a2f5c] text-[#2b2247]"
+              i < strikes
+                ? "bg-tomato text-white shadow-[0_0_12px_2px_#f04a3a]"
+                : "bg-[#3a2f5c] text-[#2b2247]"
             }`}
           >
             ✕

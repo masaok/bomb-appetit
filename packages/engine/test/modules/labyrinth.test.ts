@@ -93,7 +93,10 @@ describe("labyrinth module", () => {
 
   it("judges by the maze the markers point to", () => {
     const other: LabyrinthState = { markers: [7, 28], position: 4, goal: 11 };
-    expect(labyrinth.apply(other, { type: "move", dir: "right" }, ctx)).toEqual({ state: other, strike: true });
+    expect(labyrinth.apply(other, { type: "move", dir: "right" }, ctx)).toEqual({
+      state: other,
+      strike: true,
+    });
     expect(labyrinth.apply(other, { type: "move", dir: "down" }, ctx)).toEqual({
       state: { markers: [7, 28], position: 10, goal: 11 },
     });
@@ -150,7 +153,9 @@ describe("labyrinth generated rules", () => {
   it("starts at least four steps from the goal", () => {
     for (let i = 0; i < 200; i++) {
       const state = labyrinth.generate(createRng(`bomb${i}`), { edgework: edgework() }, generated);
-      const maze = generated.mazes.find((m) => m.markers[0] === state.markers[0] && m.markers[1] === state.markers[1]);
+      const maze = generated.mazes.find(
+        (m) => m.markers[0] === state.markers[0] && m.markers[1] === state.markers[1],
+      );
       expect(maze).toBeDefined();
       expect(labyrinthDistances(maze as LabyrinthMaze, state.goal)[state.position]).toBeGreaterThanOrEqual(4);
     }

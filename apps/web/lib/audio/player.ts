@@ -30,7 +30,9 @@ function readStoredSettings(): AudioSettings {
     return Object.freeze({
       muted: typeof muted === "boolean" ? muted : DEFAULT_AUDIO_SETTINGS.muted,
       volume:
-        typeof volume === "number" && Number.isFinite(volume) ? clampVolume(volume) : DEFAULT_AUDIO_SETTINGS.volume,
+        typeof volume === "number" && Number.isFinite(volume)
+          ? clampVolume(volume)
+          : DEFAULT_AUDIO_SETTINGS.volume,
     });
   } catch {
     return DEFAULT_AUDIO_SETTINGS;
@@ -63,8 +65,18 @@ export function subscribeAudioSettings(listener: () => void): () => void {
   };
 }
 
+let configured: SfxManifest = DEFAULT_SFX;
+
+/**
+ * Chooses the sound sprite before audio loads. The root layout calls this with the
+ * private package's licensed sprite when there is one; otherwise the CC0 sprite plays.
+ */
+export function configureAudio(manifest: SfxManifest): void {
+  configured = manifest;
+}
+
 /** The first manifest wins; later calls reuse the existing Howl. */
-export function initAudio(manifest: SfxManifest = DEFAULT_SFX): Promise<void> {
+export function initAudio(manifest: SfxManifest = configured): Promise<void> {
   if (typeof window === "undefined") return Promise.resolve();
   loading ??= import("howler")
     .then(({ Howl }) => {

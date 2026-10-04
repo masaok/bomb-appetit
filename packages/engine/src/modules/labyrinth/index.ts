@@ -74,7 +74,11 @@ export function labyrinthDistances(maze: LabyrinthMaze, from: number): number[] 
 }
 
 /** The first move of a shortest path, or null when already there or there is no path. */
-export function labyrinthNextMove(maze: LabyrinthMaze, position: number, goal: number): LabyrinthDirection | null {
+export function labyrinthNextMove(
+  maze: LabyrinthMaze,
+  position: number,
+  goal: number,
+): LabyrinthDirection | null {
   const distance = labyrinthDistances(maze, goal);
   const here = distance[position];
   if (here === undefined || here <= 0) return null;

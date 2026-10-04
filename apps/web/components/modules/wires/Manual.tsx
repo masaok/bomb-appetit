@@ -14,7 +14,11 @@ function Condition({ condition }: { condition: WireCondition }) {
   switch (condition.kind) {
     case "count":
       if (condition.cmp === "none") {
-        return <>there are no <Color color={condition.color} /> wires</>;
+        return (
+          <>
+            there are no <Color color={condition.color} /> wires
+          </>
+        );
       }
       if (condition.cmp === "exactly") {
         return (
@@ -25,12 +29,20 @@ function Condition({ condition }: { condition: WireCondition }) {
         );
       }
       return condition.n === 0 ? (
-        <>there is at least one <Color color={condition.color} /> wire</>
+        <>
+          there is at least one <Color color={condition.color} /> wire
+        </>
       ) : (
-        <>there is more than {NUMBER_WORDS[condition.n]} <Color color={condition.color} /> wire</>
+        <>
+          there is more than {NUMBER_WORDS[condition.n]} <Color color={condition.color} /> wire
+        </>
       );
     case "lastIs":
-      return <>the last wire is <Color color={condition.color} /></>;
+      return (
+        <>
+          the last wire is <Color color={condition.color} />
+        </>
+      );
     case "serial":
       return <>the last digit of the serial number is {condition.parity}</>;
   }
@@ -43,9 +55,17 @@ function Target({ target }: { target: WireTarget }) {
     case "last":
       return <>cut the last wire</>;
     case "firstOf":
-      return <>cut the first <Color color={target.color} /> wire</>;
+      return (
+        <>
+          cut the first <Color color={target.color} /> wire
+        </>
+      );
     case "lastOf":
-      return <>cut the last <Color color={target.color} /> wire</>;
+      return (
+        <>
+          cut the last <Color color={target.color} /> wire
+        </>
+      );
   }
 }
 
@@ -53,9 +73,9 @@ export function Manual({ rules }: ModuleManualProps<WiresRules>) {
   return (
     <>
       <ManualLead>
-        A panel with three to six wires. Exactly one wire must be cut. Wires are counted from the
-        top, starting at one. Find the list for the number of wires, then read it from the top and
-        stop at the first line that is true.
+        A panel with three to six wires. Exactly one wire must be cut. Wires are counted from the top,
+        starting at one. Find the list for the number of wires, then read it from the top and stop at the
+        first line that is true.
       </ManualLead>
       {rules.clauses.map((clause) => (
         <section key={clause.count} className="break-inside-avoid">

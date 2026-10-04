@@ -39,7 +39,11 @@ interface GameStore {
   dispatch(moduleIndex: number, action: unknown): void;
   /** Moves the bomb's clock to now. Called by the game loop. */
   tick(): void;
-  reset(): void;
+  /**
+   * Stops showing the run but keeps its saved log, so coming back to the same place
+   * resumes it. A finished run clears its own log.
+   */
+  suspend(): void;
 }
 
 const STORAGE_KEY = "ba:run";
@@ -64,12 +68,7 @@ function load(): SavedRun | null {
 
 const elapsedSince = (startedAtEpochMs: number) => Math.max(0, Math.round(Date.now() - startedAtEpochMs));
 
-function settle(
-  bomb: BombState,
-  ticket: RunTicket,
-  actions: LoggedAction[],
-  startedAtEpochMs: number,
-): Game {
+function settle(bomb: BombState, ticket: RunTicket, actions: LoggedAction[], startedAtEpochMs: number): Game {
   if (bomb.phase.kind === "armed") return { kind: "running", bomb, ticket, actions, startedAtEpochMs };
   save(null);
   return { kind: "ended", bomb, ticket, log: { actions, endMs: bomb.elapsedMs } };
@@ -88,16 +87,35 @@ export const useGame = create<GameStore>((set, get) => ({
     const saved = load();
     if (!saved || saved.ticket.resumeKey !== resumeKey) return false;
     const endMs = elapsedSince(saved.startedAtEpochMs);
-    const result = replay(saved.spec, { actions: saved.actions, endMs: Math.min(endMs, saved.spec.timeLimitMs + 60_000) });
-    if (!result.ok) return false;
-    set({ game: settle(result.state, saved.ticket, saved.actions, saved.startedAtEpochMs) });
+    const result = replay(saved.spec, {
+      actions: saved.actions,
+      endMs: Math.min(endMs, saved.spec.timeLimitMs + 60_000),
+    });
+    // A run that ended while the page was away is over. Drop it so a fresh bomb is dealt.
+    if (!result.ok || result.state.phase.kind !== "armed") {
+      save(null);
+      return false;
+    }
+    set({
+      game: {
+        kind: "running",
+        bomb: result.state,
+        ticket: saved.ticket,
+        actions: saved.actions,
+        startedAtEpochMs: saved.startedAtEpochMs,
+      },
+    });
     return true;
   },
 
   dispatch(moduleIndex, action) {
     const { game } = get();
     if (game.kind !== "running") return;
-    const logged = { t: Math.max(elapsedSince(game.startedAtEpochMs), game.bomb.elapsedMs), m: moduleIndex, a: action };
+    const logged = {
+      t: Math.max(elapsedSince(game.startedAtEpochMs), game.bomb.elapsedMs),
+      m: moduleIndex,
+      a: action,
+    };
     const actions = [...game.actions, logged];
     save({ spec: game.bomb.spec, ticket: game.ticket, actions, startedAtEpochMs: game.startedAtEpochMs });
     set({ game: settle(act(game.bomb, logged), game.ticket, actions, game.startedAtEpochMs) });
@@ -110,8 +128,7 @@ export const useGame = create<GameStore>((set, get) => ({
     if (bomb !== game.bomb) set({ game: settle(bomb, game.ticket, game.actions, game.startedAtEpochMs) });
   },
 
-  reset() {
-    save(null);
+  suspend() {
     set({ game: { kind: "idle" } });
   },
 }));
