@@ -1,6 +1,6 @@
 {
-  "id": "43f0f627-8f74-4dbd-835d-7c1972c0cc50",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "2e5b49d2-02f3-4e33-8ef1-5babe6b37f03",
+  "prevId": "f6b9932b-94fc-4108-870e-d040986e4404",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -158,6 +158,13 @@
         },
         "rule_seed": {
           "name": "rule_seed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "board_epoch": {
+          "name": "board_epoch",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -447,6 +454,30 @@
           "notNull": true,
           "default": "'{}'::uuid[]"
         },
+        "expert_names": {
+          "name": "expert_names",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::text[]"
+        },
+        "team_size": {
+          "name": "team_size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "generated": {
+            "as": "1 + cardinality(expert_ids)",
+            "type": "stored"
+          }
+        },
+        "board_epoch": {
+          "name": "board_epoch",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
         "bomb_seed": {
           "name": "bomb_seed",
           "type": "bigint",
@@ -515,6 +546,13 @@
           "notNull": true,
           "default": "'[]'::jsonb"
         },
+        "review": {
+          "name": "review",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp with time zone",
@@ -524,8 +562,8 @@
         }
       },
       "indexes": {
-        "runs_leaderboard_idx": {
-          "name": "runs_leaderboard_idx",
+        "runs_board_idx": {
+          "name": "runs_board_idx",
           "columns": [
             {
               "expression": "mission_id",
@@ -534,7 +572,7 @@
               "nulls": "last"
             },
             {
-              "expression": "verified",
+              "expression": "board_epoch",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -544,9 +582,22 @@
               "isExpression": false,
               "asc": false,
               "nulls": "last"
+            },
+            {
+              "expression": "strikes",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
             }
           ],
           "isUnique": false,
+          "where": "\"runs\".\"verified\" and \"runs\".\"result\" = 'defused'",
           "concurrently": false,
           "method": "btree",
           "with": {}
@@ -592,6 +643,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "login": {
+          "name": "login",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "name": {
           "name": "name",
           "type": "text",
@@ -604,12 +661,31 @@
           "primaryKey": false,
           "notNull": false
         },
+        "avatar_url": {
+          "name": "avatar_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "role": {
           "name": "role",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "default": "'player'"
+        },
+        "last_login_at": {
+          "name": "last_login_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ranked": {
+          "name": "ranked",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
         },
         "created_at": {
           "name": "created_at",
@@ -619,7 +695,24 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "users_one_admin_idx": {
+          "name": "users_one_admin_idx",
+          "columns": [
+            {
+              "expression": "role",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"users\".\"role\" = 'admin'",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {

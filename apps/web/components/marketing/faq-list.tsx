@@ -42,6 +42,10 @@ export const faqs: Faq[] = [
     a: "Yes. The server replays every submitted run from its recorded inputs. If the replay does not end the same way, the run is not listed.",
   },
   {
+    q: "How does the leaderboard rank players?",
+    a: 'Each mission has its own board. You are listed once, by your best verified defusal: the most time left on the clock, then the fewest strikes, then the earlier run. Your rank is also shown as a percentile, so "Top 12%" means 12% of ranked players did as well as you or better. If a mission is changed, it starts a new board and the old one is kept as an archive.',
+  },
+  {
     q: "What are needy modules?",
     a: "Modules that can't be solved. They wake up now and then and need quick attention until the rest of the bomb is done. Ignore one for too long and you get a strike.",
   },

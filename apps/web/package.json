@@ -17,7 +17,8 @@
     "sfx:build": "node scripts/make-sfx.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx db/migrate.ts",
-    "db:seed": "tsx db/seed.ts"
+    "db:seed": "tsx db/seed.ts",
+    "boards:lock": "tsx scripts/lock-boards.ts"
   },
   "dependencies": {
     "@bombappetit/engine": "workspace:*",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
+    "@electric-sql/pglite": "^0.5.8",
     "@playwright/test": "^1.63",
     "@tailwindcss/postcss": "^4",
     "@testing-library/react": "^16",

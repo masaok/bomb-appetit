@@ -24,4 +24,6 @@ A pnpm workspace. `packages/engine` is the game as pure TypeScript. `apps/web` i
 - Experts must never receive the bomb seed, module state or edgework. `viewRoom` in `apps/web/lib/server/rooms.ts` is the one place that decides what a viewer gets.
 - Server-only modules import `server-only`. Do not remove it to make a client import compile.
 - After changing a rule generator or module logic, run `pnpm rules:freeze` and bump `ENGINE_VERSION`.
+- `apps/web/lib/server/leaderboard.ts` is the only place a leaderboard is ranked. Do not write a second `ORDER BY` for runs.
+- After changing a mission's time limit, strike limit, pools, counts, case or seeds, raise its `boardEpoch` and run `pnpm boards:lock`. Do the same for the missions that use a module whose logic you changed.
 - Run `pnpm check` and `pnpm build` before calling a task done. Run `pnpm e2e` for anything that touches the bomb screen, rooms or the manual.

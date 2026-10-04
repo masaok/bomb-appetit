@@ -1,16 +1,26 @@
 import "server-only";
 import { ENGINE_VERSION, MODULES, replay, summarize, type RunSummary } from "@bombappetit/engine";
-import { and, eq, sql } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { getDb } from "@/db/client";
-import { missionProgress, roomPlayers, rooms, runs } from "@/db/schema";
+import { roomPlayers, rooms, runs } from "@/db/schema";
 import { cloud } from "@/lib/cloud";
+import { missionById } from "@/lib/missions";
 import { roomChannel } from "@/lib/realtime/adapter";
 import { realtime } from "@/lib/realtime/server";
+import { expireBoard } from "./board-cache";
+import { candidate, standing, type Standing } from "./leaderboard";
 import type { Player } from "./player";
+import { refreshProgress } from "./progress";
 import { readTicket } from "./tickets";
 
+/**
+ * Where a saved run stands on its leaderboard. `guest` means the run would be ranked if
+ * the player signed in; null means it is not a ranked kind of run at all.
+ */
+export type RunStanding = Pick<Standing, "rank" | "total" | "topPercent"> | "guest" | null;
+
 export type SubmitResult =
-  | { ok: true; summary: RunSummary; verified: boolean; runId: string | null }
+  | { ok: true; summary: RunSummary; verified: boolean; runId: string | null; standing: RunStanding }
   | { ok: false; status: number; error: string };
 
 /**
@@ -32,6 +42,26 @@ export async function submitRun(
   const state = replayed.state;
   const summary = summarize(state);
 
+  const db = getDb();
+  const [room] =
+    db && ticket.roomCode ? await db.select().from(rooms).where(eq(rooms.code, ticket.roomCode)) : [];
+  const experts =
+    db && room
+      ? await db
+          .select({ id: roomPlayers.playerId, name: roomPlayers.displayName })
+          .from(roomPlayers)
+          .where(and(eq(roomPlayers.roomId, room.id), eq(roomPlayers.role, "expert")))
+          .orderBy(roomPlayers.joinedAt)
+      : [];
+
+  // A run can be ranked when a signed-in user defused a mission. Freeplay has no board.
+  const mission = ticket.missionId ? missionById(ticket.missionId) : undefined;
+  const board =
+    db && mission && player?.kind === "user" && summary.result === "defused"
+      ? { missionId: mission.id, epoch: mission.boardEpoch }
+      : null;
+  const landing = db && board && player ? await candidate(db, board, player.id, summary) : null;
+
   const verdict = cloud.verifyRunPlausibility({
     engineVersion: ENGINE_VERSION,
     result: summary.result,
@@ -43,19 +73,17 @@ export async function submitRun(
     actions: (log as { actions: { t: number; m: number }[] }).actions.map(({ t, m }) => ({ t, m })),
     serverSeed: ticket.serverSeed,
     serverElapsedMs: Date.now() - ticket.issuedAt,
+    teamSize: 1 + experts.length,
+    board: landing && {
+      rank: landing.boardRank,
+      size: landing.boardSize,
+      priorBestMs: landing.priorBestMs,
+      priorAttempts: landing.priorAttempts,
+    },
   });
   const verified = verdict.plausible && summary.result !== "abandoned";
 
-  const db = getDb();
-  if (!db) return { ok: true, summary, verified, runId: null };
-
-  const [room] = ticket.roomCode ? await db.select().from(rooms).where(eq(rooms.code, ticket.roomCode)) : [];
-  const experts = room
-    ? await db
-        .select({ id: roomPlayers.playerId })
-        .from(roomPlayers)
-        .where(and(eq(roomPlayers.roomId, room.id), eq(roomPlayers.role, "expert")))
-    : [];
+  if (!db) return { ok: true, summary, verified, runId: null, standing: null };
 
   const [inserted] = await db
     .insert(runs)
@@ -66,6 +94,8 @@ export async function submitRun(
       defuserId: player?.id ?? null,
       defuserName: player?.name ?? "Anonymous",
       expertIds: experts.map((e) => e.id),
+      expertNames: experts.map((e) => e.name),
+      boardEpoch: mission?.boardEpoch ?? 1,
       bombSeed: ticket.spec.bombSeed,
       ruleSeed: ticket.spec.ruleSeed,
       engineVersion: ENGINE_VERSION,
@@ -78,6 +108,7 @@ export async function submitRun(
       actionLog: log as (typeof runs.$inferInsert)["actionLog"],
       verified,
       flags: verdict.plausible ? [] : verdict.reasons,
+      review: verdict.plausible ? (verdict.review ?? []) : [],
     })
     .onConflictDoNothing({ target: runs.ticketId })
     .returning({ id: runs.id });
@@ -88,21 +119,24 @@ export async function submitRun(
       .select({ id: runs.id, verified: runs.verified })
       .from(runs)
       .where(eq(runs.ticketId, ticket.id));
-    return { ok: true, summary, verified: existing?.verified ?? false, runId: existing?.id ?? null };
+    return {
+      ok: true,
+      summary,
+      verified: existing?.verified ?? false,
+      runId: existing?.id ?? null,
+      standing: null,
+    };
   }
 
-  if (verified && summary.result === "defused" && ticket.missionId && player) {
-    await db
-      .insert(missionProgress)
-      .values({ playerId: player.id, missionId: ticket.missionId, bestTimeMs: summary.timeRemainingMs })
-      .onConflictDoUpdate({
-        target: [missionProgress.playerId, missionProgress.missionId],
-        set: {
-          bestTimeMs: sql`greatest(${missionProgress.bestTimeMs}, excluded.best_time_ms)`,
-          completedAt: sql`case when excluded.best_time_ms > ${missionProgress.bestTimeMs} then now() else ${missionProgress.completedAt} end`,
-        },
-      });
-  }
+  const defusedMission = verified && summary.result === "defused" && mission;
+  if (defusedMission && player) await refreshProgress(db, player.id, mission.id);
+  if (defusedMission && board) expireBoard(mission.id);
+  const placed = defusedMission && board && player ? await standing(db, board, player.id) : null;
+  const runStanding: RunStanding = placed
+    ? { rank: placed.rank, total: placed.total, topPercent: placed.topPercent }
+    : defusedMission && player?.kind !== "user"
+      ? "guest"
+      : null;
 
   if (room) {
     await db
@@ -117,5 +151,5 @@ export async function submitRun(
     });
   }
 
-  return { ok: true, summary, verified, runId: inserted.id };
+  return { ok: true, summary, verified, runId: inserted.id, standing: runStanding };
 }

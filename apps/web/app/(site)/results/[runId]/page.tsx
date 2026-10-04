@@ -5,9 +5,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 import { getDb } from "@/db/client";
-import { runs } from "@/db/schema";
+import { runs, users } from "@/db/schema";
 import { formatDuration } from "@/components/hud/format";
 import { missionById } from "@/lib/missions";
+import { standing } from "@/lib/server/leaderboard";
 
 export const metadata: Metadata = { title: "Result", robots: { index: false } };
 
@@ -24,6 +25,16 @@ export default async function ResultPage({ params }: PageProps<"/results/[runId]
   const strikeLog = replayed.ok ? replayed.state.strikeLog : [];
   const mission = run.missionId ? missionById(run.missionId) : undefined;
   const defused = run.result === "defused";
+
+  // The run's player may be ranked on this run's board, by this run or by a better one.
+  const board = mission && { missionId: mission.id, epoch: run.boardEpoch };
+  const [rank, [account]] =
+    board && run.defuserId && run.verified && defused
+      ? await Promise.all([
+          standing(db, board, run.defuserId),
+          db.select({ id: users.id }).from(users).where(eq(users.id, run.defuserId)),
+        ])
+      : [null, []];
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-12">
@@ -52,6 +63,17 @@ export default async function ResultPage({ params }: PageProps<"/results/[runId]
           ? "Verified: the server replayed this run from its action log."
           : "Not verified. This run does not count on leaderboards."}
       </p>
+      {mission && run.verified && defused && (
+        <p className="mt-1">
+          {rank?.runId === run.id
+            ? `Ranked #${rank.rank} of ${rank.total} on ${mission.title}, in the top ${rank.topPercent}%.`
+            : rank
+              ? `${run.defuserName} has a better run on this board, ranked #${rank.rank} of ${rank.total}.`
+              : account
+                ? "This run is not on the leaderboard."
+                : "Played as a guest. Only signed-in players are ranked."}
+        </p>
+      )}
 
       <h2 className="mt-8 font-display text-xl font-semibold">Modules</h2>
       <ul className="mt-2 divide-y-2 divide-line/20">

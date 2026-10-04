@@ -31,6 +31,7 @@ const rows = MISSIONS.map((m) => ({
   needyCount: m.needyCount,
   fixedBombSeed: m.fixedBombSeed,
   ruleSeed: m.ruleSeed,
+  boardEpoch: m.boardEpoch,
 }));
 
 await db

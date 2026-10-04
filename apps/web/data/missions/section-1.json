@@ -13,7 +13,8 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": 101,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "button-up",
@@ -29,7 +30,8 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": 102,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "strange-symbols",
@@ -45,7 +47,8 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "table-for-three",
@@ -61,7 +64,8 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "quick-snack",
@@ -77,6 +81,7 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   }
 ]

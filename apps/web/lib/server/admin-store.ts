@@ -1,8 +1,10 @@
 import "server-only";
-import { and, count, desc, eq, ilike, or, sql, type SQL } from "drizzle-orm";
+import { and, count, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
 import type { Db } from "@/db/client";
 import { guests, roomPlayers, rooms, runs, users } from "@/db/schema";
 import type { AdminStore } from "@/lib/cloud-contract";
+import { missionById, MISSIONS } from "@/lib/missions";
+import { boardPage, boardSizes } from "./leaderboard";
 
 /** A case-insensitive "contains" test. The term is escaped, so `%` and `_` match themselves. */
 function contains(term: string | undefined, ...columns: Parameters<typeof ilike>[0][]): SQL | undefined {
@@ -12,10 +14,48 @@ function contains(term: string | undefined, ...columns: Parameters<typeof ilike>
   return or(...columns.map((column) => ilike(column, pattern)));
 }
 
+const waitingForReview = sql`jsonb_array_length(${runs.review}) > 0`;
+
 /** The read side handed to the private admin pages. Writes go through /api/admin/*. */
 export function adminStore(db: Db): AdminStore {
   const total = async (table: typeof users | typeof guests | typeof rooms | typeof runs) =>
     (await db.select({ n: count() }).from(table))[0]?.n ?? 0;
+
+  // The columns of an admin run row. The run list and the leaderboard both select these.
+  const runRows = () =>
+    db
+      .select({
+        r: {
+          id: runs.id,
+          createdAt: runs.createdAt,
+          missionId: runs.missionId,
+          defuserName: runs.defuserName,
+          result: runs.result,
+          reason: runs.reason,
+          timeRemainingMs: runs.timeRemainingMs,
+          strikes: runs.strikes,
+          verified: runs.verified,
+          flags: runs.flags,
+          review: runs.review,
+          expertNames: runs.expertNames,
+          boardEpoch: runs.boardEpoch,
+          engineVersion: runs.engineVersion,
+          bombSeed: runs.bombSeed,
+          ruleSeed: runs.ruleSeed,
+        },
+        // Counted in SQL so a page of runs does not pull every action log across the wire.
+        actionCount: sql<number>`jsonb_array_length(${runs.actionLog} -> 'actions')`.mapWith(Number),
+        expertCount: sql<number>`cardinality(${runs.expertIds})`.mapWith(Number),
+        roomCode: rooms.code,
+      })
+      .from(runs)
+      .leftJoin(rooms, eq(rooms.id, runs.roomId))
+      .$dynamic();
+  const toRunRow = ({ r, ...counts }: Awaited<ReturnType<typeof runRows>>[number]) => ({
+    ...r,
+    ...counts,
+    createdAt: r.createdAt.toISOString(),
+  });
 
   return {
     async stats() {
@@ -24,6 +64,7 @@ export function adminStore(db: Db): AdminStore {
         .select({ n: count() })
         .from(runs)
         .where(sql`jsonb_array_length(${runs.flags}) > 0`);
+      const [review] = await db.select({ n: count() }).from(runs).where(waitingForReview);
       return {
         users: await total(users),
         guests: await total(guests),
@@ -31,45 +72,24 @@ export function adminStore(db: Db): AdminStore {
         runs: await total(runs),
         verifiedRuns: verified?.n ?? 0,
         flaggedRuns: flagged?.n ?? 0,
+        reviewRuns: review?.n ?? 0,
       };
     },
 
-    async runs({ flaggedOnly, limit, search, result, verified }) {
-      const rows = await db
-        .select({
-          r: {
-            id: runs.id,
-            createdAt: runs.createdAt,
-            missionId: runs.missionId,
-            defuserName: runs.defuserName,
-            result: runs.result,
-            reason: runs.reason,
-            timeRemainingMs: runs.timeRemainingMs,
-            strikes: runs.strikes,
-            verified: runs.verified,
-            flags: runs.flags,
-            engineVersion: runs.engineVersion,
-            bombSeed: runs.bombSeed,
-            ruleSeed: runs.ruleSeed,
-          },
-          // Counted in SQL so a page of runs does not pull every action log across the wire.
-          actionCount: sql<number>`jsonb_array_length(${runs.actionLog} -> 'actions')`.mapWith(Number),
-          expertCount: sql<number>`cardinality(${runs.expertIds})`.mapWith(Number),
-          roomCode: rooms.code,
-        })
-        .from(runs)
-        .leftJoin(rooms, eq(rooms.id, runs.roomId))
+    async runs({ flaggedOnly, limit, search, result, verified, review }) {
+      const rows = await runRows()
         .where(
           and(
             flaggedOnly ? sql`jsonb_array_length(${runs.flags}) > 0` : undefined,
             contains(search, runs.defuserName, runs.missionId),
             result ? eq(runs.result, result) : undefined,
             verified === undefined ? undefined : eq(runs.verified, verified),
+            review ? waitingForReview : undefined,
           ),
         )
         .orderBy(desc(runs.createdAt))
         .limit(limit);
-      return rows.map(({ r, ...counts }) => ({ ...r, ...counts, createdAt: r.createdAt.toISOString() }));
+      return rows.map(toRunRow);
     },
 
     async rooms(limit, filter = {}) {
@@ -128,10 +148,44 @@ export function adminStore(db: Db): AdminStore {
         email: u.email,
         avatarUrl: u.avatarUrl,
         role: u.role,
+        ranked: u.ranked,
         createdAt: u.createdAt.toISOString(),
         lastLoginAt: u.lastLoginAt?.toISOString() ?? null,
         runs: saved,
       }));
+    },
+
+    async boards() {
+      const sizes = await boardSizes(db);
+      return MISSIONS.map((m) => ({
+        missionId: m.id,
+        title: m.title,
+        epoch: m.boardEpoch,
+        players: sizes.get(m.id) ?? 0,
+      }));
+    },
+
+    async board(missionId, limit) {
+      const mission = missionById(missionId);
+      if (!mission) return [];
+      // The ranking comes from the same query the public board uses, never from a second one.
+      const { rows: ranked } = await boardPage(
+        db,
+        { missionId, epoch: mission.boardEpoch },
+        { pageSize: limit },
+      );
+      if (ranked.length === 0) return [];
+      const found = await runRows().where(
+        inArray(
+          runs.id,
+          ranked.map((r) => r.runId),
+        ),
+      );
+      const byId = new Map(found.map((row) => [row.r.id, toRunRow(row)]));
+      return ranked.flatMap((r) => {
+        const run = byId.get(r.runId);
+        return run ? [{ ...run, rank: r.rank, playerId: r.playerId }] : [];
+      });
     },
   };
 }

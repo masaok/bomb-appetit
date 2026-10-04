@@ -145,7 +145,7 @@ export function BombScreen({
         if (cancelled) return;
         setSave(
           response.ok
-            ? { kind: "saved", runId: body.runId, verified: body.verified }
+            ? { kind: "saved", runId: body.runId, verified: body.verified, standing: body.standing ?? null }
             : { kind: "failed", message: body.error ?? "The server rejected this run." },
         );
       })

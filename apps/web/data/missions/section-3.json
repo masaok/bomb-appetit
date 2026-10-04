@@ -13,7 +13,8 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "spaghetti",
@@ -29,7 +30,8 @@
     "needyPool": [],
     "needyCount": 0,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "pressure-cooker",
@@ -45,7 +47,8 @@
     "needyPool": ["pressure-vent"],
     "needyCount": 1,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "full-boil",
@@ -71,7 +74,8 @@
     "needyPool": ["discharge-lever", "pressure-vent"],
     "needyCount": 1,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   },
   {
     "id": "back-of-house",
@@ -97,6 +101,7 @@
     "needyPool": ["pressure-vent", "discharge-lever", "dial-alignment"],
     "needyCount": 2,
     "fixedBombSeed": null,
-    "ruleSeed": 1
+    "ruleSeed": 1,
+    "boardEpoch": 1
   }
 ]
