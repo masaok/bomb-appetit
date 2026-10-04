@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDb } from "@/db/client";
 import { cloud } from "@/lib/cloud";
-import { currentAdmin } from "@/lib/server/admin";
+import { adminQuery, currentAdmin } from "@/lib/server/admin";
 import { adminStore } from "@/lib/server/admin-store";
 
 export const metadata: Metadata = { title: "Admin", robots: { index: false, follow: false } };
@@ -17,11 +17,6 @@ export default async function AdminPage({ params, searchParams }: PageProps<"/ad
   const db = getDb();
   if (!admin || !db) notFound();
   const { path } = await params;
-  // One short value per key: the admin tables read their search box and filters from here.
-  const query: Record<string, string> = {};
-  for (const [key, value] of Object.entries(await searchParams)) {
-    const first = Array.isArray(value) ? value[0] : value;
-    if (first) query[key] = first.slice(0, 100);
-  }
+  const query = adminQuery(Object.entries(await searchParams));
   return <cloud.AdminApp path={path ?? []} query={query} store={adminStore(db)} adminName={admin.name} />;
 }

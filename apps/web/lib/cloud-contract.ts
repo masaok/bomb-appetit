@@ -202,6 +202,20 @@ export interface AdminAppProps {
   adminName: string;
 }
 
+export interface AdminExportRequest {
+  /** The table's path segment after `/admin`, such as `runs` or `users`. */
+  table: string;
+  /** The same query the table's page was showing. */
+  query: Record<string, string>;
+  store: AdminStore;
+}
+
+export interface AdminExport {
+  /** A plain file name ending in `.csv`. */
+  filename: string;
+  csv: string;
+}
+
 export interface CloudSfx {
   src: string[];
   sprite: Record<string, [number, number]>;
@@ -214,4 +228,9 @@ export interface CloudModule {
   /** Overrides for the CC0 placeholder assets. Empty means use the public defaults. */
   assetManifest: { sfx?: CloudSfx };
   AdminApp(props: AdminAppProps): ReactNode | Promise<ReactNode>;
+  /**
+   * An admin table as a CSV file: every row its search and filters match, in its sort order.
+   * Null when there is no such table. Optional, so a build without it has no export.
+   */
+  exportAdminTable?(request: AdminExportRequest): Promise<AdminExport | null>;
 }
