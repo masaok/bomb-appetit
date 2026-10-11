@@ -42,7 +42,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
     "@electric-sql/pglite": "^0.5.8",
-    "@playwright/test": "^1.63",
+    "@playwright/test": "^1.64",
     "@tailwindcss/postcss": "^4",
     "@testing-library/react": "^16",
     "@types/howler": "^2.2",
