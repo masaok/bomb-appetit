@@ -13,8 +13,9 @@ const isDev = process.env.NODE_ENV !== "production";
 // so a self-hosted build keeps a CSP with no Google origins.
 const ga = source === "path" || source === "token";
 const gaScript = ga ? " https://www.googletagmanager.com" : "";
+// GA4 also beacons to www.google.com and doubleclick when Google signals is on.
 const gaConnect = ga
-  ? " https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com"
+  ? " https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.google.com https://*.g.doubleclick.net"
   : "";
 
 // Next.js needs inline scripts for hydration data. Nonces would force every page,

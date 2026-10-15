@@ -2,6 +2,7 @@ import Link from "next/link";
 import { signInAvailable } from "@/auth";
 import { Logo } from "@/components/logo";
 import { SignInMenu } from "@/components/site/SignInMenu";
+import { ThemeToggle } from "@/components/site/theme-toggle";
 import { routeServed } from "@/lib/marketing";
 import { NAV_LINKS } from "./links";
 
@@ -26,6 +27,7 @@ export function SiteHeader() {
         ))}
       </nav>
       <div className="flex items-center gap-3">
+        <ThemeToggle />
         {signInAvailable() && <SignInMenu />}
         <Link
           href="/play"

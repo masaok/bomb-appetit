@@ -3,6 +3,7 @@ import { Fredoka, Geist_Mono, Nunito } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next";
 import { AudioManifest } from "@/components/hud/AudioManifest";
+import { THEME_SCRIPT } from "@/components/site/theme-toggle";
 import { cloud } from "@/lib/cloud";
 import "./globals.css";
 
@@ -45,7 +46,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${fredoka.variable} ${nunito.variable} ${geistMono.variable} h-full antialiased`}
+      // The theme script adds `dark` before React hydrates
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="min-h-full flex flex-col font-sans">
         {children}
         {cloud.assetManifest.sfx ? <AudioManifest sfx={cloud.assetManifest.sfx} /> : null}
