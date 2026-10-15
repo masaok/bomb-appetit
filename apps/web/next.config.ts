@@ -4,22 +4,31 @@ import { assertProductionHasCloud, cloudSource } from "./scripts/cloud-source.mj
 
 // scripts/sync-cloud.mjs fills `.cloud/` before every dev and build run and records
 // whether it holds the private package or the public stub.
-assertProductionHasCloud(process.env.VERCEL_ENV, cloudSource(process.cwd()));
+const source = cloudSource(process.cwd());
+assertProductionHasCloud(process.env.VERCEL_ENV, source);
 
 const isDev = process.env.NODE_ENV !== "production";
 
+// The cloud package sets a Google Analytics id (see app/layout.tsx). The stub sets none,
+// so a self-hosted build keeps a CSP with no Google origins.
+const ga = source === "path" || source === "token";
+const gaScript = ga ? " https://www.googletagmanager.com" : "";
+const gaConnect = ga
+  ? " https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com"
+  : "";
+
 // Next.js needs inline scripts for hydration data. Nonces would force every page,
-// including the static marketing site, to render per request, so inline is allowed
+// including the static marketing pages, to render per request, so inline is allowed
 // and everything else is locked to this origin plus the realtime provider.
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${gaScript}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://avatars.githubusercontent.com",
+  `img-src 'self' data: blob: https://avatars.githubusercontent.com${gaConnect}`,
   "font-src 'self' data:",
   "media-src 'self' blob:",
   "worker-src 'self' blob:",
-  "connect-src 'self' https://*.pusher.com wss://*.pusher.com",
+  `connect-src 'self' https://*.pusher.com wss://*.pusher.com${gaConnect}`,
   "form-action 'self' https://github.com",
   "frame-src 'self'",
   // The room page shows the manual to Experts in a same-origin frame.

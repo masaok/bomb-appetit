@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getDb } from "@/db/client";
 import { missionProgress } from "@/db/schema";
 import { formatDuration } from "@/components/hud/format";
-import { PageIntro } from "@/components/marketing/page-intro";
+import { PageIntro } from "@/components/site/page-intro";
 import { MISSIONS, moduleNames, SECTION_TITLES } from "@/lib/missions";
 import { standings, type Standing } from "@/lib/server/leaderboard";
 import { currentPlayer } from "@/lib/server/player";

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PageIntro } from "@/components/marketing/page-intro";
+import { PageIntro } from "@/components/site/page-intro";
 import { PlaySetup } from "@/components/play/PlaySetup";
 import { Account } from "@/components/site/Account";
 import { env } from "@/lib/server/env";

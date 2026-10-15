@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fredoka, Geist_Mono, Nunito } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next";
 import { AudioManifest } from "@/components/hud/AudioManifest";
 import { cloud } from "@/lib/cloud";
@@ -51,6 +52,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* Collects only on Vercel deployments; a local or self-hosted run sends nothing. */}
         {process.env.VERCEL ? <Analytics /> : null}
       </body>
+      {/* The measurement id comes from the cloud package; the stub has none. */}
+      {cloud.gaId && process.env.NODE_ENV === "production" ? <GoogleAnalytics gaId={cloud.gaId} /> : null}
     </html>
   );
 }

@@ -1,18 +1,13 @@
 import type { MetadataRoute } from "next";
+import { cloud } from "@/lib/cloud";
+import { MARKETING_ROUTES } from "@/lib/cloud-contract";
 
 const BASE_URL = "https://bombappetit.com";
 
-const paths = [
-  "/",
-  "/play",
-  "/how-to-play",
-  "/missions",
-  "/leaderboard",
-  "/manual/1",
-  "/faq",
-  "/press",
-  "/changelog",
-];
+const gamePaths = ["/play", "/missions", "/leaderboard", "/manual/1"];
+
+// Only the marketing pages this build has: the stub serves `/` and nothing else.
+const paths = [...MARKETING_ROUTES.filter((route) => cloud.marketing[route] !== null), ...gamePaths];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return paths.map((path) => ({
