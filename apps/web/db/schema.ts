@@ -182,3 +182,43 @@ export const rateLimits = pgTable("rate_limits", {
   windowStart: timestamp("window_start", { withTimezone: true }).notNull().defaultNow(),
   count: integer("count").notNull().default(1),
 });
+
+/**
+ * Blog posts. Authored as Markdown files in content/blog and saved here by
+ * `pnpm blog:seed`; the blog pages read only this table (lib/blog/loader.ts).
+ */
+export const posts = pgTable(
+  "posts",
+  {
+    slug: text("slug").primaryKey(),
+    title: text("title").notNull(),
+    description: text("description").notNull(),
+    category: text("category").notNull(),
+    primaryKeyword: text("primary_keyword").notNull().unique(),
+    secondaryKeywords: text("secondary_keywords")
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
+    length: text("length", { enum: ["full", "short"] }).notNull(),
+    tags: text("tags")
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
+    author: text("author").notNull(),
+    image: text("image"),
+    body: text("body").notNull(),
+    draft: boolean("draft").notNull().default(true),
+    createdAt,
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    updatedAt: timestamp("updated_at", { withTimezone: true }),
+    /** md5 of the body as last written by the seed, so a re-seed can tell a database edit from a file edit. */
+    seededHash: text("seeded_hash"),
+  },
+  (t) => [
+    index("posts_recent_idx").on(t.draft, t.publishedAt.desc()),
+    index("posts_updated_idx").on(t.draft, t.updatedAt.desc()),
+    index("posts_category_idx").on(t.category, t.draft, t.publishedAt.desc()),
+  ],
+);
+
+export type PostRow = typeof posts.$inferSelect;

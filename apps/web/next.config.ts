@@ -45,6 +45,10 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // The dev tools bubble sits over the bomb's corner. Compile and runtime errors still show.
   devIndicators: false,
+  // A post's Markdown copy lives at /blog/<slug>.md
+  async rewrites() {
+    return [{ source: "/blog/:slug.md", destination: "/blog/md/:slug" }];
+  },
   async headers() {
     return [
       {

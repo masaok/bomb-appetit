@@ -8,6 +8,9 @@ const FOOTER_LINKS = [
   { href: "/changelog", label: "Changelog" },
 ] as const;
 
+/** Pages every build serves, so they are never filtered by the marketing routes. */
+const SITE_LINKS = [{ href: "/blog", label: "Blog" }] as const;
+
 export function SiteFooter() {
   return (
     <footer className="border-t-2 border-line px-6 py-8">
@@ -19,6 +22,11 @@ export function SiteFooter() {
           className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm font-bold"
         >
           {FOOTER_LINKS.filter((link) => routeServed(link.href)).map((link) => (
+            <Link key={link.href} href={link.href} className="hover:text-tomato-text">
+              {link.label}
+            </Link>
+          ))}
+          {SITE_LINKS.map((link) => (
             <Link key={link.href} href={link.href} className="hover:text-tomato-text">
               {link.label}
             </Link>

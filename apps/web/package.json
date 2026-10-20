@@ -18,7 +18,9 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx db/migrate.ts",
     "db:seed": "tsx db/seed.ts",
-    "boards:lock": "tsx scripts/lock-boards.ts"
+    "boards:lock": "tsx scripts/lock-boards.ts",
+    "blog:seed": "tsx scripts/seed-blog.ts",
+    "check:content": "tsx scripts/check-content.ts"
   },
   "dependencies": {
     "@bombappetit/engine": "workspace:*",
@@ -29,6 +31,7 @@
     "@vercel/analytics": "^2",
     "drizzle-orm": "^0.45",
     "howler": "^2.2",
+    "marked": "^18.1.1",
     "next": "16.3.8",
     "next-auth": "5.0.0-beta.32",
     "pusher": "^5",
