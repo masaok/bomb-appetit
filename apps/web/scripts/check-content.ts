@@ -1,12 +1,12 @@
 // The content check. Read-only: it reports, it never rewrites a post.
 //
-//   pnpm check:content                       the database rows (staged files if DATABASE_URL is unset)
-//   pnpm check:content --files               the staged files in content/blog
+//   pnpm check:content                       the database rows (the files if DATABASE_URL is unset)
+//   pnpm check:content --files               the private package's posts, synced into .cloud/content/blog
 //   pnpm check:content --files --slug a,b    only those, links resolved against the keyword map
 //   pnpm check:content --report              also print the proof tables
 //
-// The same rules run over the staged files in lib/blog/content.test.ts, so `pnpm test`
-// is the gate; this script is for checking what the database actually holds.
+// The same rules run over the synced files in lib/blog/content.test.ts and in the private
+// repository's own hook and CI; this script is for a subset, or for what the database holds.
 import { neon } from "@neondatabase/serverless";
 import { config } from "dotenv";
 import { desc } from "drizzle-orm";
@@ -26,7 +26,7 @@ const report = args.includes("--report");
 async function load(): Promise<RulePost[]> {
   if (useFiles) {
     if (!args.includes("--files"))
-      console.log("DATABASE_URL is not set: checking the staged files in content/blog");
+      console.log("DATABASE_URL is not set: checking the synced files in .cloud/content/blog");
     const slugs = listPostFiles().filter((s) => !slugArg || slugArg.includes(s));
     const out: RulePost[] = [];
     for (const s of slugs) {

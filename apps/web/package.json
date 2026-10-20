@@ -19,7 +19,9 @@
     "db:migrate": "tsx db/migrate.ts",
     "db:seed": "tsx db/seed.ts",
     "boards:lock": "tsx scripts/lock-boards.ts",
+    "preblog:seed": "node scripts/sync-cloud.mjs",
     "blog:seed": "tsx scripts/seed-blog.ts",
+    "precheck:content": "node scripts/sync-cloud.mjs",
     "check:content": "tsx scripts/check-content.ts"
   },
   "dependencies": {

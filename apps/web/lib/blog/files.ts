@@ -1,13 +1,15 @@
-// Reads the staged post files in content/blog. Node-only: the seed, the content
-// check and the content test use it, the pages never do.
+// Reads the post files the private package holds in content/blog, and the keyword map in
+// docs/blog-keywords.md, as scripts/sync-cloud.mjs syncs them into .cloud/. Node-only: the
+// seed, the content check and the content test use it, the pages never do. With the public
+// stub there are no files, and listPostFiles() is empty.
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { postInputSchema, type PostInput } from "./schema";
 
 const appDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-export const CONTENT_DIR = path.join(appDir, "content", "blog");
-export const KEYWORD_MAP_FILE = path.join(appDir, "docs", "blog-keywords.md");
+export const CONTENT_DIR = path.join(appDir, ".cloud", "content", "blog");
+export const KEYWORD_MAP_FILE = path.join(appDir, ".cloud", "docs", "blog-keywords.md");
 
 // Front matter is strict on purpose: `key: value` per line, where a value is a
 // JSON string or array, true/false, or a bare word. Prettier wraps a long array over

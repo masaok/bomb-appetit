@@ -5,6 +5,10 @@
 //
 // With neither set, `.cloud/` holds a one-line shim that re-exports lib/cloud-stub.tsx,
 // so `@bombappetit/cloud` always resolves to `.cloud/src/index.ts`.
+//
+// The private repository's `content/` (the blog posts) and `docs/` (the blog plan) are
+// synced beside `src/`, so the blog seed and the content check read them from `.cloud/`
+// and this repository never holds a copy.
 import { execFileSync } from "node:child_process";
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -52,6 +56,11 @@ function install(sourceDir, source) {
   });
   if (existsSync(path.join(sourceDir, "assets"))) {
     cpSync(path.join(sourceDir, "assets"), publicTarget, { recursive: true });
+  }
+  for (const dir of ["content", "docs"]) {
+    if (existsSync(path.join(sourceDir, dir))) {
+      cpSync(path.join(sourceDir, dir), path.join(target, dir), { recursive: true });
+    }
   }
   mark(source);
 }

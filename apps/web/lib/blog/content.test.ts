@@ -1,14 +1,17 @@
+import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { authors, categories } from "./config";
-import { listPostFiles, readKeywordMap, readPostFile } from "./files";
+import { CONTENT_DIR, listPostFiles, readKeywordMap, readPostFile } from "./files";
 import { checkPosts } from "./rules";
 
 /**
- * Every staged post passes every content rule, including the whole-blog rules. This is
- * the gate the pre-push hook and CI run; the seed refuses a post that fails the per-post
- * rules, so the database can never hold worse than what is here.
+ * Every post the private package holds passes every content rule, including the
+ * whole-blog rules. The posts are synced into .cloud/ with the private package, so a
+ * build on the public stub has none and this suite skips; the private repository's own
+ * hook and CI run the same check. The seed refuses a post that fails the per-post rules,
+ * so the database can never hold worse than what is here.
  */
-describe("content/blog", () => {
+describe.skipIf(!existsSync(CONTENT_DIR))("content/blog", () => {
   const slugs = listPostFiles();
   const posts = slugs.map(readPostFile);
   const keywordMap = readKeywordMap();
