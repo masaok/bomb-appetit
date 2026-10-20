@@ -18,6 +18,9 @@ export function SiteFooter() {
           <Link href="/changelog" className="hover:text-tomato-text">
             Changelog
           </Link>
+          <Link href="/blog" className="hover:text-tomato-text">
+            Blog
+          </Link>
           <a href={GITHUB_URL} className="hover:text-tomato-text">
             GitHub
           </a>

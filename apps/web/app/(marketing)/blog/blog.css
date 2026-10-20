@@ -1,0 +1,105 @@
+/* The post body. Colors come from the tokens in app/globals.css, so it follows the
+   light and dark themes like the rest of the site. */
+.post-body {
+  color: var(--ink);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  overflow-wrap: break-word;
+}
+.post-body > * + * {
+  margin-top: 1.25em;
+}
+.post-body h2 {
+  margin-top: 2.25em;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  scroll-margin-top: 2rem;
+}
+.post-body h3 {
+  margin-top: 1.75em;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  scroll-margin-top: 2rem;
+}
+.post-body a {
+  color: var(--tomato-text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.post-body ul,
+.post-body ol {
+  padding-left: 1.4em;
+}
+.post-body ul {
+  list-style: disc;
+}
+.post-body ol {
+  list-style: decimal;
+}
+.post-body li + li {
+  margin-top: 0.4em;
+}
+.post-body strong {
+  font-weight: 800;
+}
+.post-body blockquote {
+  border-left: 4px solid var(--color-sun);
+  padding-left: 1em;
+  color: var(--muted);
+}
+.post-body code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--line) 20%, transparent);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+.post-body pre {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  padding: 1em;
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+.post-body pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.post-body .table-wrap {
+  overflow-x: auto;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+}
+.post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.post-body th,
+.post-body td {
+  padding: 0.6em 0.8em;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 20%, transparent);
+}
+.post-body th {
+  background: var(--color-sun);
+  color: var(--color-night);
+  font-weight: 800;
+}
+.post-body tr:last-child td {
+  border-bottom: 0;
+}
+.post-body img {
+  max-width: 100%;
+  border-radius: 12px;
+}
