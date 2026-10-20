@@ -3,7 +3,8 @@ import { expect, test } from "@playwright/test";
 
 // axe-core is the engine behind Lighthouse's accessibility score. Zero violations
 // here is a stricter bar than a score of 95.
-for (const path of ["/", "/play", "/missions", "/how-to-play", "/faq", "/manual/1", "/manual/2026"]) {
+// The marketing pages ship in the private cloud package, so they are not tested here.
+for (const path of ["/", "/play", "/missions", "/manual/1", "/manual/2026"]) {
   test(`${path} has no accessibility violations`, async ({ page }) => {
     await page.goto(path);
     const results = await new AxeBuilder({ page })

@@ -1,6 +1,6 @@
 // The blog's name, its categories, its author and its call to action. The pages,
 // feeds and content rules read everything about the blog's shape from here.
-import { GITHUB_URL } from "@/components/marketing/links";
+import { GITHUB_URL } from "@/components/site/links";
 import type { Author, CallToAction, Category } from "./schema";
 
 export const SITE_NAME = "Bomb Appétit";

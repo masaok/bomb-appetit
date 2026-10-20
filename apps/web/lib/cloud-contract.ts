@@ -1,10 +1,11 @@
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 /**
  * The seam between this public repo and the private `@bombappetit/cloud` package.
- * The private package holds what loses value once published: anti-cheat thresholds,
- * licensed assets and the admin pages. This file is the whole interface; the stub in
- * `cloud-stub.ts` implements it for clones that have no access to the private repo.
+ * The private package holds anti-cheat thresholds, licensed assets, the admin pages and
+ * the marketing site. This file is the whole interface; the stub in `cloud-stub.tsx`
+ * implements it for clones that have no access to the private repo.
  */
 
 /** What the server knows about a run after replaying it. No module contents, only timing. */
@@ -221,6 +222,16 @@ export interface CloudSfx {
   sprite: Record<string, [number, number]>;
 }
 
+/** The routes in `app/(marketing)/`. Each route file mounts the matching page from `CloudModule.marketing`. */
+export const MARKETING_ROUTES = ["/", "/faq", "/how-to-play", "/press", "/changelog"] as const;
+export type MarketingRoute = (typeof MARKETING_ROUTES)[number];
+
+/** One marketing page: its Next metadata and its body. The site header and footer come from the public app. */
+export interface MarketingPage {
+  metadata: Metadata;
+  Page(): ReactNode | Promise<ReactNode>;
+}
+
 export interface CloudModule {
   name: "stub" | "cloud";
   /** Proves humanity, where the engine replay only proves validity. */
@@ -233,4 +244,8 @@ export interface CloudModule {
    * Null when there is no such table. Optional, so a build without it has no export.
    */
   exportAdminTable?(request: AdminExportRequest): Promise<AdminExport | null>;
+  /** Every marketing route. Null means the build has no such page, and the route is a 404. */
+  marketing: Record<MarketingRoute, MarketingPage | null>;
+  /** GA4 measurement id. Null loads no Google Analytics. */
+  gaId: string | null;
 }

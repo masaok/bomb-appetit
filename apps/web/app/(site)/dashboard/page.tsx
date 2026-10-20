@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth, signInAvailable } from "@/auth";
-import { PageIntro } from "@/components/marketing/page-intro";
+import { PageIntro } from "@/components/site/page-intro";
 import { getDb } from "@/db/client";
 import { missionProgress, users } from "@/db/schema";
 import { signOutToHome } from "@/lib/actions/auth";

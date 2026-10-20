@@ -3,18 +3,13 @@ import { categories } from "@/lib/blog/config";
 import { absolute, lastChanged } from "@/lib/blog/feeds";
 import { listPublishedPosts } from "@/lib/blog/loader";
 import { BLOG_PATH, RECENT_PATH, UPDATED_PATH, categoryPath, postPath } from "@/lib/blog/routes";
+import { cloud } from "@/lib/cloud";
+import { MARKETING_ROUTES } from "@/lib/cloud-contract";
 
-const paths = [
-  "/",
-  "/play",
-  "/how-to-play",
-  "/missions",
-  "/leaderboard",
-  "/manual/1",
-  "/faq",
-  "/press",
-  "/changelog",
-];
+const gamePaths = ["/play", "/missions", "/leaderboard", "/manual/1"];
+
+// Only the marketing pages this build has: the stub serves `/` and nothing else.
+const paths = [...MARKETING_ROUTES.filter((route) => cloud.marketing[route] !== null), ...gamePaths];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await listPublishedPosts();

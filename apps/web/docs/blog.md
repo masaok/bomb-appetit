@@ -19,7 +19,7 @@ The Bomb Appétit blog lives at `/blog`. This is the living document for the nex
 | `POST /api/blog/revalidate` | Expires the cached blog pages. Needs `Authorization: Bearer $CRON_SECRET`.                                                                       | `app/api/blog/revalidate/route.ts`              |
 | `GET /api/blog/meta`        | Post count, latest date and category count, for dashboards.                                                                                      | `app/api/blog/meta/route.ts`                    |
 
-The header nav (`NAV_LINKS` in `components/marketing/links.ts`) and the footer link to `/blog`.
+The header nav (`NAV_LINKS` in `components/site/links.ts`) and the footer link to `/blog`.
 
 ## Where posts live, and why
 
@@ -55,7 +55,7 @@ Follow `.claude/skills/add-blog-post/SKILL.md`. A new category is an entry in `l
 
 ## Keeping posts fresh
 
-A post is due a second look when a game change touches what it describes (the homepage, how-to-play page, FAQ, missions data and changelog are the sources of product facts), or a year after it was last checked. `updatedAt` moves only when the substance changes, because the recently updated list, the feed and the sitemap all show it.
+A post is due a second look when a game change touches what it describes (the marketing pages in the private package's `src/marketing/`, synced to `.cloud/src/marketing/`, plus the missions data are the sources of product facts), or a year after it was last checked. `updatedAt` moves only when the substance changes, because the recently updated list, the feed and the sitemap all show it.
 
 ## Planning files
 

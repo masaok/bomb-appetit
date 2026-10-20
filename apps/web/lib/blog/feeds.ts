@@ -1,4 +1,4 @@
-import { GITHUB_URL } from "@/components/marketing/links";
+import { GITHUB_URL } from "@/components/site/links";
 import { SITE_NAME, SITE_URL, authors, blog, categories } from "./config";
 import { BLOG_PATH, FEED_PATH, categoryPath, postImagePath, postMarkdownPath, postPath } from "./routes";
 import type { Post, PostSummary } from "./schema";

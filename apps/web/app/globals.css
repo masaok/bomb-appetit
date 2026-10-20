@@ -3,7 +3,11 @@
    would skip them without this. */
 @source "../.cloud/src";
 
+/* Light by default, whatever the visitor's OS prefers. The header toggle sets .dark. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
+  color-scheme: light;
   --page: #fff6e9;
   --card: #ffffff;
   --ink: #221a38;
@@ -39,17 +43,16 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --page: #191329;
-    --card: #261d40;
-    --ink: #fff6e9;
-    --muted: #b9b0d0;
-    --line: #6f5fa8;
-    --shadow: #0b0814;
-    --tomato-text: #ff7a6b;
-    --mint-text: #5fd3a6;
-  }
+.dark {
+  color-scheme: dark;
+  --page: #191329;
+  --card: #261d40;
+  --ink: #fff6e9;
+  --muted: #b9b0d0;
+  --line: #6f5fa8;
+  --shadow: #0b0814;
+  --tomato-text: #ff7a6b;
+  --mint-text: #5fd3a6;
 }
 
 html {

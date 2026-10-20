@@ -21,6 +21,7 @@ A pnpm workspace. `packages/engine` is the game as pure TypeScript. `apps/web` i
 - Every module follows the pattern in `docs/modules.md` and is registered in `packages/engine/src/modules/registry.ts`, `apps/web/components/modules/faces.tsx` and `manuals.tsx`. The two web registries are mapped types, so a missing module fails typecheck.
 - Never copy text, tables, symbols or audio from another game. Rules come from the rule generators.
 - Anti-cheat code, licensed assets and secrets never go in this repository. Code against `apps/web/lib/cloud-contract.ts`; the stub is `apps/web/lib/cloud-stub.tsx`.
+- Marketing pages and their copy never go in this repository. They live in `bomb-appetit-cloud` under `src/marketing/`; the route files in `apps/web/app/(marketing)/` only mount them through `CloudModule.marketing`. Those pages import `components/mascot.tsx`, `module-icons.tsx`, `logo.tsx`, `site/links.ts` and `site/page-intro.tsx`; keep their imports to `react` and `next`, or the cloud repo's typecheck fails.
 - Experts must never receive the bomb seed, module state or edgework. `viewRoom` in `apps/web/lib/server/rooms.ts` is the one place that decides what a viewer gets.
 - Server-only modules import `server-only`. Do not remove it to make a client import compile.
 - After changing a rule generator or module logic, run `pnpm rules:freeze` and bump `ENGINE_VERSION`.

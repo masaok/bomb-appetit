@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Fredoka, Geist_Mono, Nunito } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next";
 import { AudioManifest } from "@/components/hud/AudioManifest";
+import { THEME_SCRIPT } from "@/components/site/theme-toggle";
 import { cloud } from "@/lib/cloud";
 import "./globals.css";
 
@@ -44,13 +46,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${fredoka.variable} ${nunito.variable} ${geistMono.variable} h-full antialiased`}
+      // The theme script adds `dark` before React hydrates
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="min-h-full flex flex-col font-sans">
         {children}
         {cloud.assetManifest.sfx ? <AudioManifest sfx={cloud.assetManifest.sfx} /> : null}
         {/* Collects only on Vercel deployments; a local or self-hosted run sends nothing. */}
         {process.env.VERCEL ? <Analytics /> : null}
       </body>
+      {/* The measurement id comes from the cloud package; the stub has none. */}
+      {cloud.gaId && process.env.NODE_ENV === "production" ? <GoogleAnalytics gaId={cloud.gaId} /> : null}
     </html>
   );
 }

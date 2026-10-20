@@ -2,12 +2,15 @@ import Link from "next/link";
 import { signInAvailable } from "@/auth";
 import { Logo } from "@/components/logo";
 import { SignInMenu } from "@/components/site/SignInMenu";
+import { ThemeToggle } from "@/components/site/theme-toggle";
+import { routeServed } from "@/lib/marketing";
 import { NAV_LINKS } from "./links";
 
 /**
  * Shared site header. On small screens the nav drops to its own wrapping row
  * under the logo, so it works without JavaScript. Sign-in is offered only when the
- * deploy has GitHub credentials and a database.
+ * deploy has GitHub credentials and a database. Links to marketing pages this build
+ * does not have are left out.
  */
 export function SiteHeader() {
   return (
@@ -17,13 +20,14 @@ export function SiteHeader() {
         aria-label="Main"
         className="order-last flex w-full flex-wrap items-center justify-center gap-x-5 gap-y-2 font-bold lg:order-none lg:w-auto lg:gap-x-6"
       >
-        {NAV_LINKS.map((link) => (
+        {NAV_LINKS.filter((link) => routeServed(link.href)).map((link) => (
           <Link key={link.href} href={link.href} className="hover:text-tomato-text">
             {link.label}
           </Link>
         ))}
       </nav>
       <div className="flex items-center gap-3">
+        <ThemeToggle />
         {signInAvailable() && <SignInMenu />}
         <Link
           href="/play"

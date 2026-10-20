@@ -1,6 +1,15 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
+import { routeServed } from "@/lib/marketing";
 import { GITHUB_URL } from "./links";
+
+const FOOTER_LINKS = [
+  { href: "/press", label: "Press kit" },
+  { href: "/changelog", label: "Changelog" },
+] as const;
+
+/** Pages every build serves, so they are never filtered by the marketing routes. */
+const SITE_LINKS = [{ href: "/blog", label: "Blog" }] as const;
 
 export function SiteFooter() {
   return (
@@ -12,15 +21,16 @@ export function SiteFooter() {
           aria-label="Footer"
           className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm font-bold"
         >
-          <Link href="/press" className="hover:text-tomato-text">
-            Press kit
-          </Link>
-          <Link href="/changelog" className="hover:text-tomato-text">
-            Changelog
-          </Link>
-          <Link href="/blog" className="hover:text-tomato-text">
-            Blog
-          </Link>
+          {FOOTER_LINKS.filter((link) => routeServed(link.href)).map((link) => (
+            <Link key={link.href} href={link.href} className="hover:text-tomato-text">
+              {link.label}
+            </Link>
+          ))}
+          {SITE_LINKS.map((link) => (
+            <Link key={link.href} href={link.href} className="hover:text-tomato-text">
+              {link.label}
+            </Link>
+          ))}
           <a href={GITHUB_URL} className="hover:text-tomato-text">
             GitHub
           </a>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getDb } from "@/db/client";
 import { formatDuration } from "@/components/hud/format";
-import { PageIntro } from "@/components/marketing/page-intro";
+import { PageIntro } from "@/components/site/page-intro";
 import { missionById, MISSIONS } from "@/lib/missions";
 import { cachedBoardPage } from "@/lib/server/board-cache";
 import { PAGE_SIZE, standing, TEAM_FILTERS, type BoardRow, type TeamFilter } from "@/lib/server/leaderboard";

@@ -50,7 +50,7 @@ pull request. The Playwright suite runs nightly, because it needs a live databas
 
 ```text
 packages/engine   The game. Pure TypeScript, no dependencies, no clock, no DOM.
-apps/web          Next.js app: bomb, manual, rooms, API, marketing site.
+apps/web          Next.js app: bomb, manual, rooms, API.
 docs/modules.md   How to add a module.
 ```
 
@@ -89,15 +89,18 @@ solved, and whether a needy module is awake.
 
 ## The private part
 
-Three things live in a private repository and are pulled in at build time as
-`@bombappetit/cloud`: the anti-cheat plausibility checks, licensed assets, and the
-admin pages. The engine is public, so anyone can write a bot that submits a valid log.
-The checks that tell a bot from a person only work while unpublished.
+Four things live in a private repository and are pulled in at build time as
+`@bombappetit/cloud`: the anti-cheat plausibility checks, licensed assets, the admin
+pages, and the marketing site (the homepage, FAQ, how to play, press kit and changelog).
+The engine is public, so anyone can write a bot that submits a valid log. The checks
+that tell a bot from a person only work while unpublished.
 
 The interface is one file, `apps/web/lib/cloud-contract.ts`. Without access to the
 private repository, `apps/web/lib/cloud-stub.tsx` implements it: every valid replay is
-accepted and the CC0 sounds play. `scripts/sync-cloud.mjs` chooses between the two
-before each dev and build run. A production build refuses to start on the stub.
+accepted, the CC0 sounds play, `/` is a plain start page with links to play and to this
+repository, the other marketing routes are 404s, and no Google Analytics tag loads.
+`scripts/sync-cloud.mjs` chooses between the two before each dev and build run. A
+production build refuses to start on the stub.
 
 ## Licenses
 

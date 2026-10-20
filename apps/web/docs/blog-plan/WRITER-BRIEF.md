@@ -6,7 +6,7 @@ You write posts for the blog at https://bombappetit.com, a free co-op bomb defus
 
 1. `docs/blog-keywords.md`: the table row and the `### <slug>` section-plan block for each post you own. The block gives the question the post answers, its headings (use them exactly, in order, as `## ` headings), the concrete element, the slugs it links to, and the subtopics it links to instead of explaining.
 2. The product facts, the only source for any claim about the game. Read them before you write a sentence about it:
-   - `app/(marketing)/page.tsx` (homepage), `app/(marketing)/how-to-play/page.tsx`, `components/marketing/faq-list.tsx`, `app/(marketing)/press/page.tsx`, `data/changelog.ts`
+   - The marketing pages, which live in the private package and are synced to `.cloud/src/marketing/` (`Home.tsx`, `HowToPlay.tsx`, `FaqList.tsx`, `Press.tsx`, `changelog.ts`)
    - `data/missions/section-1.json` to `section-4.json` (every mission: title, time limit, module count, needy count, case size)
    - `app/manual/[ruleSeed]/page.tsx` (how the manual is organized, the glossary) and `components/modules/*/Manual.tsx` for what a module's page asks
    - `../../README.md`, `../../CONTRIBUTING.md`, `../../docs/modules.md` (how the project is built, run and verified)
