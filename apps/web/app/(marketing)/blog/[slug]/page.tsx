@@ -120,7 +120,7 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
           <div className="space-y-6 lg:sticky lg:top-6">
             <details
               open
-              className="group sticker rounded-2xl bg-card p-4 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none"
+              className="group max-lg:rounded-2xl max-lg:border-2 max-lg:border-line max-lg:bg-card max-lg:p-4 max-lg:shadow-[4px_4px_0_var(--shadow)]"
             >
               <summary className="cursor-pointer list-none font-display text-lg font-semibold lg:hidden">
                 Contents

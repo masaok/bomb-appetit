@@ -1,4 +1,4 @@
-// Saves the staged post files in content/blog through savePost, one at a time.
+// Saves the private package's posts (.cloud/content/blog, synced first) through savePost, one at a time.
 // Idempotent: unchanged posts are left alone, and a post edited in the
 // database since its last seed is skipped unless --force.
 //

@@ -89,9 +89,11 @@ solved, and whether a needy module is awake.
 
 ## The private part
 
-Four things live in a private repository and are pulled in at build time as
+Five things live in a private repository and are pulled in at build time as
 `@bombappetit/cloud`: the anti-cheat plausibility checks, licensed assets, the admin
-pages, and the marketing site (the homepage, FAQ, how to play, press kit and changelog).
+pages, the marketing site (the homepage, FAQ, how to play, press kit and changelog), and
+the blog's posts and plan (`content/` and `docs/` there, synced into `apps/web/.cloud/`;
+the blog pages, the `posts` table and the content rules are in `apps/web/lib/blog`).
 The engine is public, so anyone can write a bot that submits a valid log. The checks
 that tell a bot from a person only work while unpublished.
 
